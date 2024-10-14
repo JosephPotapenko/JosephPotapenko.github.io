@@ -11,12 +11,12 @@
     <title>Web Dev Starter</title>
 
     <!-- Favicons -->
-    <link rel="icon" type="image/png" href="/favicons/favicon-48x48.png" sizes="48x48" />
-    <link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg" />
-    <link rel="shortcut icon" href="/favicons/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" href="/favicons2/favicon-48x48.png" sizes="48x48" />
+    <link rel="icon" type="image/svg+xml" href="/favicons2/favicon.svg" />
+    <link rel="shortcut icon" href="/favicons2/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons2/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="Web Dev Starter" />
-    <link rel="manifest" href="/favicons/site.webmanifest" />    
+    <link rel="manifest" href="/favicons2/site.webmanifest" />    
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css">
@@ -31,6 +31,14 @@
 <body>
 
     <h1>Page 2</h1>
+    <button id="btnHome">Take Me Back!</button>
+    
+    <script>
+        document.getElementById("btnHome").addEventListener("click", function() {
+        window.location.href = "https://fuzzy-bassoon-ww9rg6xg67jc97w7-5500.app.github.dev/";
+    });
+    </script>
+
 
 </body>
 </html>
