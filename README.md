@@ -1,6 +1,6 @@
 # Web-Dev-Starter
-Boiler plate for static websites.
+A starter to my profile
 ## What is this?
-* Starting point for static websites
+* This is a description of me and my skills. 
 ## How do I use this?
-* Clone this repo
+* Reference to learn more about me. 
