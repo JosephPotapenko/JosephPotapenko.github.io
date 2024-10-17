@@ -22,17 +22,58 @@
 
 <!-- Body -->
 <body>
+  <br>
   <h1 style="text-align: center; ">This Be Me</h1>
-  <img src="14.jpg" alt="My Gorgeous Face" width=1000 height=1080 class="center2" border="4">
-  <br><br>
+  <section class="bio-box">
+    <h2>About Me</h2>
+    <p>Dedicated Computer Science student at Eastern Washington University with a foundation in software development and a diverse set of skills in Python, Java, C, SQL, and Assembly. Seeking to leverage my knowledge and experience in algorithms, data structures, networking, cybersecurity, and design patterns to contribute to computer-related technologies.</p>
+    
+    <h3>Skills</h3>
+    <ul>
+      <li>3+ years of Customer Retention and Experience Services</li>
+      <li>2+ years of Teaching and Tutoring Experience</li>
+      <li>Bilingual: Fluent in Russian, Intermediate in Ukrainian</li>
+      <li>Event Organization (2 years of volunteer at a local nonprofit)</li>
+      <li>3 years of experience in Programming (Python, Java, C, SQL, Assembly)</li>
+      <li>3 years of Computer-Related Skills (Algorithms, Software Development with Agile, Data Structures, Networking, Cybersecurity, Design Patterns, Hardware Interfacing, Github, Linux, Ubuntu and Virtual Machines, Command Line Experience)</li>
+    </ul>
+  </section>
+  <br>
 
   <button id="btnHome" class="center">Take Me Back!</button>
   <script>
     document.getElementById("btnHome").addEventListener("click", function() {
       window.location.href = "https://fuzzy-bassoon-ww9rg6xg67jc97w7-5500.app.github.dev/";
     });
+
   </script>
-  <br>
+    <button id="btnGit" style="padding: 2px 2px;">
+      <img src="github logo.png" alt="GitHub Icon" style="width: 50px; height: 50px;">
+    </button>
+    <script>
+      document.getElementById("btnGit").addEventListener("click", function() {
+        window.location.href = "https://github.com/JosephPotapenko";
+      });
+    </script>
+  
+  <button id="btnLink" style="padding: 2px 2px;">
+      <img src="linkedin.png" alt="GitHub Icon" style="width: 50px; height: 50px;">
+    </button>
+    <script>
+      document.getElementById("btnLink").addEventListener("click", function() {
+        window.location.href = "https://www.linkedin.com/in/joseph-potapenko-1788a7316/";
+      });
+    </script>
+  
+  <button id="btnMozaic" style="padding: 2px 2px;">
+    <img src="mymozaic.png" alt="GitHub Icon" style="width: 50px; height: 50px;">
+  </button>
+  <script>
+    document.getElementById("btnMozaic").addEventListener("click", function() {
+      window.location.href = "https://www.mymozaic.com/josephpotapenko";
+    });
+  </script>
+  
 
 </body>
 </html>

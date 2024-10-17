@@ -1,47 +1,56 @@
 h1 {
-    color: rgb(228, 228, 228);
-    font-family: Arial, sans-serif;
-    margin: 1;
-    padding: 1;
-    text-shadow: 
-       -2px -2px 0 rgb(23, 39, 39),  
-        2px -2px 0 rgb(23, 39, 39),
-       -2px  2px 0 rgb(23, 39, 39),
-        2px  2px 0 rgb(23, 39, 39);
+  color: rgb(228, 228, 228);
+  font-family: Arial, sans-serif;
+  margin: 1;
+  padding: 1;
+  text-shadow: 
+   -2px -2px 0 rgb(23, 39, 39), 
+    2px -2px 0 rgb(23, 39, 39),
+   -2px 2px 0 rgb(23, 39, 39), 
+    2px 2px 0 rgb(23, 39, 39);
 }
-  
-  body {
-    background-image: url("back.png");
-    background-size: 100% 100vh;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-color: rgb(0, 0, 0);
-  }
-  
-  button {
-    font-family: Arial, sans-serif;
-    font-size: 16px;
-    background-color: rgb(23, 39, 39);
-    color: white;
-    padding: 10px 15px;
-    border-color: darkslategray;
-    border-radius: 7px;
-    cursor: pointer;
-  }
-  
-  .center {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 30%;
-    height: 30%;
-  }
-  
-  .center2 {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 65%;
-    height: 65%;
-  }
-  
+
+body {
+  background-image: url("back.png");
+  background-size: 100% 100vh;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: rgb(0, 0, 0);
+}
+
+button {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  background-color: rgb(23, 39, 39);
+  color: white;
+  padding: 10px 15px;
+  border-color: darkslategray;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 30%;
+  height: 30%;
+}
+
+.center2 {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 65%;
+  height: 65%;
+}
+
+.bio-box {
+  font-family: Arial, sans-serif;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 800px;
+  border-radius: 10px;
+}
