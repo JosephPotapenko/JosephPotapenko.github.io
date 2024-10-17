@@ -1,47 +1,56 @@
-<!-- TO ACHIEVE THIS TYPE IN "!" AND PRESS "TAB" -->
 <!DOCTYPE html>
-<!-- html below is a tag pair. "lang" is a language setting and is set to English. Html has 2 children: head and body -->
 <html lang="en">
-<!-- head below is a tag pair. It contains metadata about the document and links to external resources. -->
+
 <head>
-    <!-- meta below is a tag pair. It provides metadata about the HTML document. chrset = "UTF-8" is pulling all latin charachters-->
-    <meta charset="UTF-8">
-    <!-- Tag pair. Provides metadata about the HTML document. name = "viewport" is setting the viewport to the device's width and initial scale to 1.0 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Dev Starter</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Dev Starter</title>
 
-    <!-- Favicons -->
-    <link rel="icon" type="image/png" href="/favicons2/favicon-48x48.png" sizes="48x48" />
-    <link rel="icon" type="image/svg+xml" href="/favicons2/favicon.svg" />
-    <link rel="shortcut icon" href="/favicons2/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicons2/apple-touch-icon.png" />
-    <link rel="manifest" href="/favicons2/site.webmanifest" />
+  <link rel="icon" type="image/png" href="/favicons2/favicon-48x48.png" sizes="48x48" />
+  <link rel="icon" type="image/svg+xml" href="/favicons2/favicon.svg" />
+  <link rel="shortcut icon" href="/favicons2/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicons2/apple-touch-icon.png" />
+  <link rel="manifest" href="/favicons2/site.webmanifest" />
 
-    <!-- Stylesheet -->
-    <link rel="stylesheet" href="style.css">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
 
-    <!-- JavaScript -->
-     <!-- script:src and then press tab for shortcut-->
-    <script src="script.js" defer> </script>
-
+  <!-- JavaScript -->
+  <script src="script.js" defer> </script>
 </head>
 
-<!-- body below is a tag pair. It contains the content of the document. -->
-<body>
-    <br>
-    <br>
-    <h1 style="text-align: center;"border = 3>Joseph Potapenko</h1>
-    <br>
-    <br>
-    <img src="me.JPG" alt="My Gorgeous Face" width = 700 height = 760 class = "center" border = "3">
-    <br>
-    <br>
-    <button id="btnPage2" class = "center">Check Out my Deets</button>
-    <script>
-        document.getElementById("btnPage2").addEventListener("click", function() {
-            window.location.href = "https://fuzzy-bassoon-ww9rg6xg67jc97w7-5500.app.github.dev/page2.html";
-        });
-    </script>
-</body>
-</html>
+<!-- Body -->
 
+<body>
+  <h1 style="text-align: center;" border=3>Joseph Potapenko</h1>
+
+  <img src="me.JPG" alt="My Gorgeous Face" width=700 height=760 class="center" border="3">
+
+  <br><br>
+  <button id="btnPage2" class="center" >Check Out my Deets</button>
+  <script>
+    document.getElementById("btnPage2").addEventListener("click", function() {
+      window.location.href = "https://fuzzy-bassoon-ww9rg6xg67jc97w7-5500.app.github.dev/page2.html";
+    });
+  </script>
+
+  <button id="btnGit" style="padding: 2px 2px;">
+    <img src="github logo.png" alt="GitHub Icon" style="width: 50px; height: 50px;">
+  </button>
+  <script>
+    document.getElementById("btnGit").addEventListener("click", function() {
+      window.location.href = "https://github.com/JosephPotapenko";
+    });
+  </script>
+
+<button id="btnLink" style="padding: 2px 2px;">
+    <img src="linkedin.png" alt="GitHub Icon" style="width: 50px; height: 50px;">
+  </button>
+  <script>
+    document.getElementById("btnLink").addEventListener("click", function() {
+      window.location.href = "https://www.linkedin.com/in/joseph-potapenko-1788a7316/";
+    });
+  </script>
+</body>
+
+</html>

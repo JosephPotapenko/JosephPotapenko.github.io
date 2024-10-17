@@ -1,40 +1,47 @@
-h1{
+h1 {
     color: rgb(228, 228, 228);
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+    margin: 1;
+    padding: 1;
+    text-shadow: 
+       -2px -2px 0 rgb(23, 39, 39),  
+        2px -2px 0 rgb(23, 39, 39),
+       -2px  2px 0 rgb(23, 39, 39),
+        2px  2px 0 rgb(23, 39, 39);
 }
-
-body {
-    background-image: url('269.jpg');
-    background-size:100% 100vh;
+  
+  body {
+    background-image: url("back.png");
+    background-size: 100% 100vh;
     background-repeat: no-repeat;
     background-position: center;
     background-color: rgb(0, 0, 0);
-}
-
-button{
+  }
+  
+  button {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
     background-color: rgb(23, 39, 39);
     color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
+    padding: 10px 15px;
+    border-color: darkslategray;
+    border-radius: 7px;
     cursor: pointer;
-}
-
-.center {
+  }
+  
+  .center {
     display: block;
     margin-left: auto;
     margin-right: auto;
     width: 30%;
-    height: 30%
+    height: 30%;
   }
-
+  
   .center2 {
     display: block;
     margin-left: auto;
     margin-right: auto;
     width: 65%;
-    height: 65%
+    height: 65%;
   }
   
