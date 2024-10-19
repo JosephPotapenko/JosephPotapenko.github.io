@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Dev Starter</title>
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" href="/favicons2/favicon-48x48.png" sizes="48x48" />
+  <link rel="icon" type="image/svg+xml" href="/favicons2/favicon.svg" />
+  <link rel="shortcut icon" href="/favicons2/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicons2/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="Web Dev Starter" />
+  <link rel="manifest" href="/favicons2/site.webmanifest" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  <!-- JavaScript -->
+  <script src="script.js" defer> </script>
+
+
+</head>
+
+<!-- Body -->
+<body style="background-color: #121919;">
+  <br>
+  <h1 style="text-align: center; ">These Be My Beets</h1>
+  <section class="bio-box">
+    <video controls> <source src="videos/The Palace of a King (Soundtrack Demo).mp4" type="video/mp4"> </video> 
+    <br>
+    <video controls> <source src="videos/In Fields of Gold (Demo Track).mp4" type="video/mp4"> </video>
+    <br>
+    <video controls> <source rc="videos/Solitude in Tranquility (Full Track Demo).mp4" type="video/mp4"></video>
+    <br>
+    <video controls> <source src="videos/Blaring Sands (Demo Track).mp4" type="video/mp4"></video>
+    <br>
+    <video controls> <source src="videos/Caverns Below (Demo Soundtrack).mp4" type="video/mp4"></video>
+    <br>
+    <video controls> <source src="videos/Midnight Palace (Demo Soundtrack).mp4" type="video/mp4"></video>
+    <br>
+    <video controls> <source src="videos/Victory at Last (Demo Soundtrack).mp4" type="video/mp4"></video>
+    <br>
+    <video controls> <source src="videos/Ancient Echoes (Demo Soundtrack).mp4" type="video/mp4"></video>
+    <br>
+    <video controls> <source src="videos/A Night in the Garden (Demo Soundtrack).mp4" type="video/mp4"></video>
+  <br>
+  <button id="btnHome" class="center">Take Me Back!</button>
+  <script>
+    document.getElementById("btnHome").addEventListener("click", function() {
+      window.location.href = "index.html";
+    });
+    
+
+  </script>
+    <button id="btnGit" style="padding: 2px 2px;">
+      <img src="github logo.png" alt="GitHub Icon" style="width: 50px; height: 50px;">
+    </button>
+    <script>
+      document.getElementById("btnGit").addEventListener("click", function() {
+        window.location.href = "https://github.com/JosephPotapenko";
+      });
+    </script>
+  
+  <button id="btnLink" style="padding: 2px 2px;">
+      <img src="linkedin.png" alt="GitHub Icon" style="width: 50px; height: 50px;">
+    </button>
+    <script>
+      document.getElementById("btnLink").addEventListener("click", function() {
+        window.location.href = "https://www.linkedin.com/in/joseph-potapenko-1788a7316/";
+      });
+    </script>
+  
+  <button id="btnMozaic" style="padding: 2px 2px;">
+    <img src="mymozaic.png" alt="GitHub Icon" style="width: 50px; height: 50px;">
+  </button>
+  <script>
+    document.getElementById("btnMozaic").addEventListener("click", function() {
+      window.location.href = "https://www.mymozaic.com/josephpotapenko";
+    });
+  </script>
+  
+
+</body>
+</html>
+
+
+
