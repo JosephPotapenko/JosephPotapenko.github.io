@@ -3,6 +3,7 @@ h1 {
   font-family: Arial, sans-serif;
   margin: 1;
   padding: 1;
+  font-size: 3rem;
   text-shadow: 
    -2px -2px 0 rgb(23, 39, 39), 
     2px -2px 0 rgb(23, 39, 39),
@@ -12,15 +13,14 @@ h1 {
 
 body {
   background-image: url("back.png");
-  background-size: 100% auto;
-  background-repeat: repeat-y;
+  background-size: 110% auto;
   background-position: center top;
   background-color: rgb(0, 0, 0);
   background-attachment: fixed;
 }
 button {
   font-family: Arial, sans-serif;
-  font-size: 16px;
+  font-size: 1.5rem;
   background-color: rgb(23, 39, 39);
   color: white;
   padding: 10px 15px;
@@ -33,16 +33,19 @@ button {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 30%;
-  height: 30%;
+  width: 22%;
+  height: 5%;
+  border-radius: 70%;
+  object-fit: cover; /* Ensures the image covers the container */
 }
 
 .center2 {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 65%;
-  height: 65%;
+  width: 30%;
+  height: 30%;
+
 }
 
 .bio-box {
