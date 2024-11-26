@@ -4,8 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Page</title>
+  <title>potapenko.dev</title>
 
+  <!-- Favicons -->
   <link rel="icon" type="image/png" href="/favicons2/favicon-48x48.png" sizes="48x48" />
   <link rel="icon" type="image/svg+xml" href="/favicons2/favicon.svg" />
   <link rel="shortcut icon" href="/favicons2/favicon.ico" />
@@ -22,75 +23,53 @@
 <!-- Body -->
 
 <body>
+  <div class="title">
+    <div>
+      <a href="/" class = "titlelink">Home</a>
+      <a href="/page2.html" class = "titlelink">About Me</a>
+      <a href="/page4.html" class = "titlelink">Game Project</a>
+    </div>
+
+  </div>
+
+
+  
+  </title>
   <br>
   <br>
-  <br>
-  <h1 style="text-align: center;" border=3>Joseph Potapenko</h1>
+  <h1 style="text-align: center;" border=1>Joseph Potapenko</h1>
 
   <img src="me.JPG" alt="My Gorgeous Face" width=200 height=200 class="center" border="8">
 
-  <br><br>
-  <button id="btnPage2" class="center2">Check Out my Deets</button>
-  <script>
-    document.getElementById("btnPage2").addEventListener("click", function() {
-      window.location.href = "page2.html";
-    });
-  </script>
-
-  <br>
-
-  <button id="btnP3" class="center2">Music </button>
-  <script>
-    document.getElementById("btnP3").addEventListener("click", function() {
-      window.location.href = "page3.html";
-    });
-  </script>
-
-  <br>
-
-  <button id="btnP4" class="center2">Making a Game 🤷‍♂️</button>
-  <script>
-    document.getElementById("btnP4").addEventListener("click", function() {
-      window.location.href = "page4.html";
-    });
-  </script>
-  <br>
-
-  <button id="btnGit" style="padding: 2px 2px;">
-    <img src="github logo.png" alt="GitHub Icon" style="width: 50px; height: 50px;">
+<div class="footer">
+  <button class="icon-button" id="btnGit">
+    <img src="github logo.png" alt="GitHub Icon">
+  </button>
+  <button class="icon-button" id="btnLink">
+    <img src="linkedin.png" alt="LinkedIn Icon">
+  </button>
+  <button class="icon-button" id="btnMozaic">
+    <img src="mymozaic.png" alt="MyMozaic Icon">
+  </button>
+  <button class="icon-button" id="btnCodePen">
+    <img src="codepen-min.png" alt="CodePen Icon">
   </button>
   <script>
     document.getElementById("btnGit").addEventListener("click", function() {
       window.location.href = "https://github.com/JosephPotapenko";
     });
-  </script>
-
-  <button id="btnLink" style="padding: 2px 2px;">
-    <img src="linkedin.png" alt="GitHub Icon" style="width: 50px; height: 50px;">
-  </button>
-  <script>
     document.getElementById("btnLink").addEventListener("click", function() {
       window.location.href = "https://www.linkedin.com/in/joseph-potapenko-1788a7316/";
     });
-  </script>
-
-  <button id="btnMozaic" style="padding: 2px 2px;">
-    <img src="mymozaic.png" alt="GitHub Icon" style="width: 50px; height: 50px;">
-  </button>
-  <script>
     document.getElementById("btnMozaic").addEventListener("click", function() {
       window.location.href = "https://www.mymozaic.com/josephpotapenko";
     });
-  </script>
-
-  <button id="btnCodePen" style="padding: 1px 1px;">
-    <img src="codepen-min.png" alt="GitHub Icon" style="width: 50px; height: 50px;">
-  </button>
-  <script>
     document.getElementById("btnCodePen").addEventListener("click", function() {
       window.location.href = "https://codepen.io/JosephPotapenko";
     });
   </script>
+</div>
+
 </body>
 
 </html>
