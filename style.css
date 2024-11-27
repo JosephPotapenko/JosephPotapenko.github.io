@@ -1,11 +1,10 @@
-
 /* title */
 .title {
   height: 4.2em;
   display: flex;
   justify-content: left;
   align-items: center;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family:  Calibri;
   width: 100%;
   background-color: rgb(17, 17, 17);
   position: fixed;
@@ -18,16 +17,19 @@
 
 .titlelink {
   text-decoration: none;
-  font-weight: 400;
+  font-weight: lighter;
   color: azure;
-  font-size: 1.5em;
+  font-size: 1.45em;
   margin-left: 1em;
+  transition: box-shadow 0.3s ease-in-out;
 }
 
-.titlehover {
+.titlelink:hover {
   color: white;
   text-shadow: 0 0 1px #009dc4, 0 0 2px #009dc4, 0 0 2px #009dc4,
-  0 0 2px #009dc4, 0 0 3px #009dc4, 0 0 3px #009dc4, 0 0 2px #009dc4;
+  0 0 2px #2c00be, 0 0 3px #003bc486, 0 0 3px #009dc4, 0 0 2px #009dc4;
+  font-weight: 400;
+
 }
 
 .footer {
@@ -42,9 +44,65 @@
   right: 0;
 }
 
+.menu-container {
+  position: absolute;
+  right: 1em;
+  top: 5%;
+  transform: translateY(-50%);
+}
 
+.menu-button {
+  background: url('menu.png') no-repeat center center;
+  background-size: contain;
+  width: 40px;
+  height: 40px;
+  border: none;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease-in-out;
+  border-radius: 10%; /* Makes the corners of the image rounded */
+}
 
+.menu-button:hover {
+  box-shadow: 0 0 10px #00aeffa9;
+}
 
+.menu-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #333;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  transition: opacity 0.3s ease-in-out;
+  opacity: 0;
+}
+
+.menu-content a {
+  color: white;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.menu-content a:hover {
+  background-color: #575757;
+}
+
+.menu-container:hover .menu-content,
+.menu-container .menu-content:hover {
+  display: block;
+  opacity: 1;
+}
+
+.menu-container:hover .menu-content {
+  animation: stayVisible 5s forwards;
+}
+
+@keyframes stayVisible {
+  0% { opacity: 1; }
+  100% { opacity: 1; }
+}
 
 
 h1 {
@@ -61,7 +119,7 @@ h1 {
 }
 
 body {
-  background-image: url("back.png");
+  background-image: url("back.jpg");
   background-size: 110% auto;
   background-position: center top;
   background-color: rgb(0, 0, 0);
