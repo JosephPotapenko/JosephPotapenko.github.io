@@ -197,12 +197,12 @@ video{
 
 /* Glowing Border */
 @keyframes borderColorChange {
-  0% { box-shadow: 0 0 10px rgba(6, 6, 255, 0.157); }
-  20% { box-shadow: 0 0 20px rgba(6, 6, 255, 0.253); }
-  40% { box-shadow: 0 0 50px rgba(6, 6, 255, 0.308); }
-  60% { box-shadow: 0 0 40px rgba(6, 6, 255, 0.253); }
-  80% { box-shadow: 0 0 20px rgba(6, 6, 255, 0.164); }
-  100% { box-shadow: 0 0 5px rgba(6, 6, 255, 0.061); }
+  0% { box-shadow: 0 0 10px rgba(6, 0, 255, 0.157); }
+  20% { box-shadow: 0 0 20px rgba(6, 25, 255, 0.253); }
+  40% { box-shadow: 0 0 50px rgba(6, 75, 255, 0.308); }
+  60% { box-shadow: 0 0 40px rgba(6, 150, 255, 0.253); }
+  80% { box-shadow: 0 0 20px rgba(6, 75, 255, 0.164); }
+  100% { box-shadow: 0 0 5px rgba(6, 25, 255, 0.061); }
 }
 .colorful-border {
   animation: borderColorChange 5s infinite;
