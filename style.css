@@ -14,7 +14,6 @@
   /* shadow */
   box-shadow: 0 0 10em #0c002f70, 0 0 10em #07003170;
 }
-
 .titlelink {
   text-decoration: none;
   font-weight: lighter;
@@ -23,15 +22,16 @@
   margin-left: 1em;
   transition: box-shadow 0.3s ease-in-out;
 }
-
 .titlelink:hover {
   color: white;
   text-shadow: 0 0 1px #009dc4, 0 0 2px #009dc4, 0 0 2px #009dc4,
   0 0 2px #2c00be, 0 0 3px #003bc486, 0 0 3px #009dc4, 0 0 2px #009dc4;
   font-weight: 400;
-
 }
 
+
+
+/* Footer */
 .footer {
   height: 4.2em;
   display: flex;
@@ -44,13 +44,15 @@
   right: 0;
 }
 
+
+
+/* Dropdown Menu */
 .menu-container {
   position: absolute;
   right: 1em;
   top: 5%;
   transform: translateY(-50%);
 }
-
 .menu-button {
   background: url('menu.png') no-repeat center center;
   background-size: contain;
@@ -61,11 +63,9 @@
   transition: box-shadow 0.3s ease-in-out;
   border-radius: 10%; /* Makes the corners of the image rounded */
 }
-
 .menu-button:hover {
   box-shadow: 0 0 10px #00aeffa9;
 }
-
 .menu-content {
   display: none;
   position: absolute;
@@ -77,34 +77,27 @@
   transition: opacity 0.3s ease-in-out;
   opacity: 0;
 }
-
 .menu-content a {
   color: white;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
 }
-
 .menu-content a:hover {
   background-color: #575757;
 }
-
 .menu-container:hover .menu-content,
 .menu-container .menu-content:hover {
   display: block;
   opacity: 1;
 }
-
 .menu-container:hover .menu-content {
   animation: stayVisible 5s forwards;
 }
 
-@keyframes stayVisible {
-  0% { opacity: 1; }
-  100% { opacity: 1; }
-}
 
 
+/* General Formatting */
 h1 {
   color: rgb(228, 228, 228);
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -117,16 +110,16 @@ h1 {
    -2px 2px 0 rgb(23, 39, 39), 
     2px 2px 0 rgb(23, 39, 39);
 }
-
 body {
   background-image: url("back.jpg");
   background-size: 110% auto;
   background-position: center top;
   background-color: rgb(0, 0, 0);
-  background-attachment: fixed;
-  
+  background-attachment: fixed; 
 }
 
+
+/* Profile Pic Format */
 .center {
   display: block;
   margin-left: auto;
@@ -137,15 +130,18 @@ body {
   object-fit: cover; /* Ensures the image covers the container */
 }
 
+
+
 .center2 {
   display: block;
   margin-left: auto;
   margin-right: auto;
   width: 30%;
   height: 30%;
-
 }
 
+
+/* Bio-Box for page2 */
 .bio-box {
   font-family: Arial, sans-serif;
   background-color: rgba(0, 0, 0, 0.7);
@@ -155,6 +151,8 @@ body {
   max-width: 800px;
   border-radius: 10px;
 }
+
+/* Video Formatting */
 video{
   display: block;
   margin-left: auto;
@@ -167,6 +165,9 @@ video{
   text-indent: 50px;
 }
 
+
+
+/* Button Formatting */
 .icon-button {
   padding: 0px;
   margin: 4px;
@@ -178,8 +179,23 @@ video{
   width: 50px;
   height: 50px;
 }
+.icon-button:hover {
+  box-shadow: 0 0 20px #3cceffd7;
+  transform: translateY(-5px);
+}
+.icon-button a {
+  color: white;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+.icon-button a:hover {
+  background-color: #575757;
+}
 
 
+
+/* Glowing Border */
 @keyframes borderColorChange {
   0% { box-shadow: 0 0 10px rgba(6, 6, 255, 0.157); }
   20% { box-shadow: 0 0 20px rgba(6, 6, 255, 0.253); }
@@ -188,7 +204,6 @@ video{
   80% { box-shadow: 0 0 20px rgba(6, 6, 255, 0.164); }
   100% { box-shadow: 0 0 5px rgba(6, 6, 255, 0.061); }
 }
-
 .colorful-border {
   animation: borderColorChange 5s infinite;
   border: none;
@@ -196,16 +211,56 @@ video{
 
 
 
-
+/* Profile Image and Bio */
 .subtitle-text {
   font-size: 32px;
   text-shadow: 1px 1px 2px grey;
 }
-
 .bio-textbox {
   font-family: 'Calibri';
   width: 38%;
   text-align: left;
   font-weight: lighter;
   font-size: 20px;
+}
+
+
+
+/* Image Cards */
+.image-cards-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+}
+.image-card {
+  position: relative;
+  border: 2px solid white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 4px 0 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s, box-shadow 0.3s;
+  width: fit-content;
+}
+.image-card:hover {
+  box-shadow: 0 4px 16px #00a2ffef, 4px 0 16px rgba(34, 208, 231, 0.732);
+  transform: scale(1.05);
+}
+.image-card img {
+  width: 200px;
+  height:100px;
+}
+.text-box {
+  position: absolute;
+  bottom: 0;
+  background: rgba(5, 5, 5, 0.595);
+  width: 180px;
+  height:84px;
+  font-family: "Calibri";
+  font-size: 1.2em;
+  color: rgba(255, 255, 255, 0.753);
+  padding: 10px;
+  text-align: left;
+  transition: color 0.3s;
+}
+.image-card:hover .text-box {
+  color: rgba(255, 255, 255, 1);
 }

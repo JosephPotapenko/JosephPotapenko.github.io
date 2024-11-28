@@ -24,6 +24,25 @@
 <!-- Body -->
 
 <body style="background-color: #121919;">
+  <div class="title">
+    <div>
+      <a href="/" class = "titlelink">Home</a>
+      <a href="/page2.html" class = "titlelink">About Me</a>
+      <a href="/page4.html" class = "titlelink">Game Project</a>
+    </div>
+  </div>
+
+  <div class="menu-container">
+    <button class="menu-button"></button>
+    <div class="menu-content">
+      <a href="#contact">Contact Me</a>
+      <a href="#socials">My Socials</a>
+      <a href="#option2">Option 2</a>
+      <a href="#option3">Option 3</a>
+    </div>
+  </div>
+  </title>
+
   <br>
   <h1 style="text-align: center; ">Melodies </h1>
   <section class="bio-box">
@@ -100,48 +119,37 @@
       </details>
     </h2>
     <br>
-    <button id="btnHome" class="center2">Take Me Back!</button>
-    <script>
-      document.getElementById("btnHome").addEventListener("click", function() {
-        window.location.href = "index.html";
-      });
-    </script>
-    <br>
-    <button id="btnGit" style="padding: 2px 2px;">
-      <img src="github logo.png" alt="GitHub Icon" style="width: 50px; height: 50px;">
-    </button>
-    <script>
-      document.getElementById("btnGit").addEventListener("click", function() {
-        window.location.href = "https://github.com/JosephPotapenko";
-      });
-    </script>
 
-    <button id="btnLink" style="padding: 2px 2px;">
-      <img src="linkedin.png" alt="GitHub Icon" style="width: 50px; height: 50px;">
-    </button>
-    <script>
-      document.getElementById("btnLink").addEventListener("click", function() {
-        window.location.href = "https://www.linkedin.com/in/joseph-potapenko-1788a7316/";
-      });
-    </script>
 
-    <button id="btnMozaic" style="padding: 2px 2px;">
-      <img src="mymozaic.png" alt="GitHub Icon" style="width: 50px; height: 50px;">
-    </button>
-    <script>
-      document.getElementById("btnMozaic").addEventListener("click", function() {
-        window.location.href = "https://www.mymozaic.com/josephpotapenko";
-      });
-    </script>
 
-    <button id="btnCodePen" style="padding: 1px 1px;">
-      <img src="codepen-min.png" alt="GitHub Icon" style="width: 50px; height: 50px;">
-    </button>
-    <script>
-      document.getElementById("btnCodePen").addEventListener("click", function() {
-        window.location.href = "https://codepen.io/JosephPotapenko";
-      });
-    </script>
+<div class="footer">
+  <button class="icon-button" id="btnGit">
+    <img src="github logo.png" alt="GitHub Icon">
+  </button>
+  <button class="icon-button" id="btnLink">
+    <img src="linkedin.png" alt="LinkedIn Icon">
+  </button>
+  <button class="icon-button" id="btnMozaic">
+    <img src="mymozaic.png" alt="MyMozaic Icon">
+  </button>
+  <button class="icon-button" id="btnCodePen">
+    <img src="codepen-min.png" alt="CodePen Icon">
+  </button>
+  <script>
+    document.getElementById("btnGit").addEventListener("click", function() {
+      window.location.href = "https://github.com/JosephPotapenko";
+    });
+    document.getElementById("btnLink").addEventListener("click", function() {
+      window.location.href = "https://www.linkedin.com/in/joseph-potapenko-1788a7316/";
+    });
+    document.getElementById("btnMozaic").addEventListener("click", function() {
+      window.location.href = "https://www.mymozaic.com/josephpotapenko";
+    });
+    document.getElementById("btnCodePen").addEventListener("click", function() {
+      window.location.href = "https://codepen.io/JosephPotapenko";
+    });
+  </script>
+</div>
 
 </body>
 
