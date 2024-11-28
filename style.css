@@ -50,7 +50,7 @@
 .menu-container {
   position: absolute;
   right: 1em;
-  top: 5%;
+  top: 4%;
   transform: translateY(-50%);
 }
 .menu-button {
@@ -122,15 +122,15 @@ body {
 
 /* Profile Pic Format */
 .center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+  position: absolute;
+  top: 22%; /* Places it in the first 1/4 of the screen length wise */
+  left: 22%;
+  transform: translateX(-50%); /* Centers the image width wise */
   width: 22%;
-  height: 5%;
+  height: auto;
   border-radius: 70%;
   object-fit: cover; /* Ensures the image covers the container */
 }
-
 
 
 .center2 {
@@ -146,6 +146,8 @@ body {
 .bio-box {
   font-family: Arial, sans-serif;
   background-color: rgba(0, 0, 0, 0.7);
+  left:30%;
+  top:50%;
   color: white;
   padding: 20px;
   margin: 20px auto;
@@ -212,15 +214,21 @@ video{
 
 
 
-/* Profile Image and Bio */
+/* Profile Bio */
 .subtitle-text {
   font-size: 32px;
+  position: absolute;
+  left: 35%;
+  top: 29%;
   text-shadow: 1px 1px 2px grey;
 }
 .bio-textbox {
   font-family: 'Calibri';
-  width: 38%;
-  text-align: left;
+  width: 20%;
+  position: absolute;
+  left: 45%;
+  top: 36%;
+  transform: translateX(-50%);
   font-weight: lighter;
   font-size: 20px;
 }
@@ -231,8 +239,13 @@ video{
 .image-cards-container {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 20px;
+  position: absolute;
+  left: 74%;
+  top: 19%;
+  transform: translateX(-50%);
+
 }
 .image-card {
   position: relative;
@@ -246,22 +259,27 @@ video{
   transform: scale(1.05);
 }
 .image-card img {
-  width: 200px;
-  height:100px;
+  width: 300px;
+  height:150px;
 }
 .text-box {
   position: absolute;
   bottom: 0;
-  background: rgba(5, 5, 5, 0.595);
-  width: 180px;
-  height:84px;
+  background: rgba(5, 5, 5, 0.71);
+  width: 280px;
+  height:40px;
   font-family: "Calibri";
-  font-size: 1.2em;
-  color: rgba(255, 255, 255, 0.753);
+  font-size: 1.3em;
+  color: rgba(255, 255, 255, 0.594);
   padding: 10px;
   text-align: left;
   transition: color 0.3s;
 }
 .image-card:hover .text-box {
   color: rgba(255, 255, 255, 1);
+}
+
+audio {
+  filter: invert(1); /* Inverse colors */
+  border-radius: 25px;
 }
