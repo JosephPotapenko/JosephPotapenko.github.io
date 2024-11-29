@@ -349,6 +349,15 @@ audio {
 .image-card:hover .text-box {
   color: rgba(255, 255, 255, 1);
 }
+.resume{
+  border-radius:20px; 
+  width:900px; 
+  height: auto; 
+  position: absolute; 
+  top:15%; 
+  bottom:10%; 
+  left:50%; 
+}
 
 
 
@@ -397,4 +406,14 @@ audio {
     left: 50%;
     top: 80%;
   }
+  .resume{
+    border-radius:20px; 
+    width:9300px; 
+    height: auto; 
+    position: absolute; 
+    top:15%; 
+    bottom:10%; 
+    left:50%; 
+  }
+  
 }
