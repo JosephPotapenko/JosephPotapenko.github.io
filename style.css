@@ -1,4 +1,4 @@
-/* title */
+/* title bar*/
 .title {
   height: 4.2em;
   display: flex;
@@ -11,7 +11,6 @@
   top: 0;
   left: 0;
   right: 0;
-  /* shadow */
   box-shadow: 0 0 100px rgba(6, 60, 255, 0.308);
 }
 .titlelink {
@@ -32,7 +31,7 @@
 
 
 
-/* Footer */
+/* footer styling*/
 .footer {
   height: 4.2em;
   display: flex;
@@ -46,7 +45,9 @@
 }
 
 
-/* Dropdown Menu */
+
+
+/* dropdown menu */
 .menu-container {
   position: absolute;
   right: 1em;
@@ -54,7 +55,7 @@
   transform: translateY(-50%);
 }
 .menu-button {
-  background: url('menu.png') no-repeat center center;
+  background: url('images/menu.png') no-repeat center center;
   background-size: contain;
   width: 40px;
   height: 40px;
@@ -100,7 +101,8 @@
 
 
 
-/* General Formatting */
+
+/* general formatting */
 h1 {
   color: rgb(228, 228, 228);
   font-family:  Calibri;
@@ -114,27 +116,12 @@ h1 {
     2px 2px 0 rgb(23, 39, 39);
 }
 body {
-  background-image: url("back.jpg");
+  background-image: url("images/back.jpg");
   background-size: 110% auto;
   background-position: center top;
   background-color: rgb(0, 0, 0);
   background-attachment: fixed; 
 }
-
-
-/* Profile Pic Format */
-.center {
-  position: absolute;
-  top: 22%; /* Places it in the first 1/4 of the screen length wise */
-  left: 22%;
-  transform: translateX(-50%); /* Centers the image width wise */
-  width: 22%;
-  height: auto;
-  border-radius: 70%;
-  object-fit: cover; /* Ensures the image covers the container */
-}
-
-
 .center2 {
   display: block;
   margin-left: auto;
@@ -144,7 +131,24 @@ body {
 }
 
 
-/* Bio-Box for page2 */
+
+
+/* profile pic format */
+.center {
+  position: absolute;
+  top: 22%; 
+  left: 22%;
+  transform: translateX(-50%);
+  width: 22%;
+  height: auto;
+  border-radius: 70%;
+  object-fit: cover;
+}
+
+
+
+
+/* bio-box for page2 */
 .bio-box {
   font-family: Arial, sans-serif;
   background-color: rgba(0, 0, 0, 0.7);
@@ -157,7 +161,9 @@ body {
   border-radius: 10px;
 }
 
-/* Video Formatting */
+
+
+/* video formatting */
 video{
   display: block;
   margin-left: auto;
@@ -172,7 +178,19 @@ video{
 
 
 
-/* Button Formatting */
+/* audio formatting */
+audio {
+  filter: invert(1); /* Inverse colors */
+  border-radius: 25px;
+}
+.audio-style {
+  margin-left: 40px;
+  box-shadow: 0 0 10px rgba(255, 81, 0, 0.507);
+}
+
+
+
+/* button formatting for bottom left*/
 .icon-button {
   padding: 0px;
   margin: 4px;
@@ -200,7 +218,7 @@ video{
 
 
 
-/* Glowing Border */
+/* glowing border for face icon, icon cards, and bottom of */
 @keyframes borderColorChange {
   0% { box-shadow: 0 0 10px rgba(6, 6, 255, 0.15); }
   20% { box-shadow: 0 0 25px rgba(6, 7, 255, 0.17); }
@@ -220,7 +238,7 @@ video{
 
 
 
-/* Profile Bio */
+/* profile bio for main page */
 .subtitle-text {
   font-size: 32px;
   position: absolute;
@@ -238,7 +256,10 @@ video{
   font-weight: lighter;
   font-size: 20px;
 }
-/* Rainbow Button */
+
+
+
+/* rainbow button for resume*/
 @keyframes rainbowBorder {
   0% { border-color: rgba(255, 0, 0, 0.4); }
   14% { border-color: rgba(255, 166, 0, 0.4); }
@@ -266,6 +287,7 @@ video{
   border-radius: 18px;
   background: transparent;
   cursor: pointer;
+  font-family: Calibri;
   animation: rainbowText 5s linear infinite, rainbowBorder 5s linear infinite;
   text-decoration: none;
   transition: background 0.3s ease-in-out, transform 0.3s ease-in-out, color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
@@ -285,7 +307,7 @@ video{
 
 
 
-/* Image Cards */
+/* image cards for resources*/
 .image-cards-container {
   display: flex;
   flex-direction: column;
@@ -295,7 +317,6 @@ video{
   left: 74%;
   top: 19%;
   transform: translateX(-50%);
-
 }
 .image-card {
   position: relative;
@@ -329,14 +350,8 @@ video{
   color: rgba(255, 255, 255, 1);
 }
 
-audio {
-  filter: invert(1); /* Inverse colors */
-  border-radius: 25px;
-}
-.audio-style {
-  margin-left: 40px;
-  box-shadow: 0 0 10px rgba(255, 81, 0, 0.507);
-}
+
+
 /* Phone Friendly Styles */
 @media (max-width: 600px) {
   .title {
@@ -344,20 +359,20 @@ audio {
   }
   .image-cards-container {
     position: static;
-    margin-top: 20px;
+    margin-top: 90px;
   }
   .center {
     width: 80%;
-    left: 50%;
+    right: 50%;
     transform: translateX(-50%);
   }
   .bio-box {
     width: 90%;
-    left: 50%;
+    right: 50%;
     transform: translateX(-50%);
   }
   .rainbow-button {
-    left: 50%;
+    right: 50%;
     top: auto;
     transform: translateX(-50%);
     margin-top: 20px;
