@@ -375,26 +375,26 @@ audio {
     left: 50%;
     top: 27%;
     font-size: 1.5em;
-    width: 70%;
+    width: 60%;
     transform: translateX(-50%);
   }
   .bio-box {
     position: absolute;
     left: 50%;
     top: 30%;
-    width: 70%;
+    width: 100%;
     transform: translateX(-50%);
   }
   .rainbow-button {
     position: absolute;
     left: 50%;
-    top: 50%;
+    top: 70%;
     transform: translateX(-50%);
     margin-top: 80px;
   }
   .image-cards-container {
     position: absolute;
     left: 50%;
-    top: 70%;
+    top: 80%;
   }
 }
