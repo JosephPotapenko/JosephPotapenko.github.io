@@ -337,3 +337,29 @@ audio {
   margin-left: 40px;
   box-shadow: 0 0 10px rgba(255, 81, 0, 0.507);
 }
+/* Phone Friendly Styles */
+@media (max-width: 600px) {
+  .title {
+    font-size: 1em;
+  }
+  .image-cards-container {
+    position: static;
+    margin-top: 20px;
+  }
+  .center {
+    width: 80%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .bio-box {
+    width: 90%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .rainbow-button {
+    left: 50%;
+    top: auto;
+    transform: translateX(-50%);
+    margin-top: 20px;
+  }
+}
