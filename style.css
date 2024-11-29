@@ -357,38 +357,44 @@ audio {
   .title {
     font-size: .75em;
   }
-  .image-cards-container {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-  }
   .menu-button{
+    margin-top: 2%;
     width: 30px;
     height: 30px;
   }
   .center {
     position: absolute;
     left: 50%;
-    top: 15%;
+    top: 10%;
+    width: 150;
+    height: auto;
     transform: translateX(-50%);
   }
   .subtitle-text{
     position: absolute;
     left: 50%;
-    top: 25%;
+    top: 27%;
+    font-size: 1.5em;
+    width: 70%;
     transform: translateX(-50%);
   }
   .bio-box {
     position: absolute;
     left: 50%;
     top: 30%;
+    width: 70%;
     transform: translateX(-50%);
   }
   .rainbow-button {
     position: absolute;
     left: 50%;
-    top: 40%;
+    top: 50%;
     transform: translateX(-50%);
     margin-top: 80px;
+  }
+  .image-cards-container {
+    position: absolute;
+    left: 50%;
+    top: 70%;
   }
 }
