@@ -355,26 +355,40 @@ audio {
 /* Phone Friendly Styles */
 @media (max-width: 600px) {
   .title {
-    font-size: 1em;
+    font-size: .75em;
   }
   .image-cards-container {
-    position: static;
-    margin-top: 90px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+  }
+  .menu-button{
+    width: 30px;
+    height: 30px;
   }
   .center {
-    width: 80%;
-    right: 50%;
+    position: absolute;
+    left: 50%;
+    top: 15%;
+    transform: translateX(-50%);
+  }
+  .subtitle-text{
+    position: absolute;
+    left: 50%;
+    top: 25%;
     transform: translateX(-50%);
   }
   .bio-box {
-    width: 90%;
-    right: 50%;
+    position: absolute;
+    left: 50%;
+    top: 30%;
     transform: translateX(-50%);
   }
   .rainbow-button {
-    right: 50%;
-    top: auto;
+    position: absolute;
+    left: 50%;
+    top: 40%;
     transform: translateX(-50%);
-    margin-top: 20px;
+    margin-top: 80px;
   }
 }
