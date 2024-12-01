@@ -447,3 +447,90 @@ body::after {
   display: block;
   height: 200px; /* Adjust this value to add more space */
 }
+
+
+
+/* Phone Friendly Styles */
+@media (max-width: 1000px) {
+  .title {
+    font-size: .85em;
+  }
+  .menu-container{
+    top:3.75%
+  }
+  .menu-button {
+    margin-top: 1%;
+    width: 30px;
+    height: 30px;
+  }
+  .center {
+    position: absolute;
+    left: 50%;
+    top: 10%;
+    width: 200px;
+    height: auto;
+    transform: translateX(-50%);
+  }
+  .subtitle-text {
+    position: absolute;
+    left: 50%;
+    top: 38%;
+    font-size: 1.5em;
+    width: 80%;
+    transform: translateX(-50%);
+    text-align: center;
+    text-align: black 2px 2px 3px 3px;
+  }
+  .bio-textbox {
+    position: absolute;
+    left: 50%;
+    top: 47%;
+    width: 350px;
+    margin: 0 auto;
+    display: block;
+    text-align:center;
+    text-shadow: black 2px 2px 3px 3px;
+    transform: translateX(-50%);
+  }
+  .rainbow-button {
+    position: absolute;
+    left: 50%;
+    top: 58%;
+    transform: translateX(-50%);
+    margin-top: 20px;
+  }
+  .image-cards-container {
+    position: absolute;
+    left: 50%;
+    top: 72%;
+  }
+  .resume {
+    border-radius: 20px;
+    width: 375px;
+    height: auto;
+    position: absolute;
+    top: 15%;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .menu-content{
+    min-width: 60px;
+    font-size: .9em;
+    text-align: center;
+  }
+  body {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    height: 100vh;
+    padding-bottom:200px;
+    background-color: black; /* Change background color to black */
+  }
+}
+
+body::after {
+  content: "";
+  display: block;
+  height: 200px; /* Adjust this value to add more space */
+}
