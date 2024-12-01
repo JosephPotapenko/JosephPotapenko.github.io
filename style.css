@@ -368,7 +368,7 @@ audio {
     font-size: .85em;
   }
   .menu-container{
-    top:3.5%
+    top:3.75%
   }
   .menu-button {
     margin-top: 1%;
@@ -426,7 +426,7 @@ audio {
     transform: translateX(-50%);
   }
   .menu-content{
-    min-width: 80px;
+    min-width: 70px;
   }
 }
   
