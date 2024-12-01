@@ -405,7 +405,7 @@ audio {
     text-align:center;
     text-shadow: black 2px 2px 3px 3px;
     transform: translateX(-50%);
-    font-weight: 200;
+    font-weight: 400;
   }
   .rainbow-button {
     position: absolute;
@@ -484,7 +484,7 @@ audio {
     text-align: center;
     text-shadow: black 2px 2px 3px 3px;
     transform: translateX(-50%);
-    font-weight: 200;
+    font-weight: 400;
   }
   .rainbow-button {
     position: absolute;
