@@ -389,7 +389,7 @@ audio {
     transform: translateX(-50%);
     text-align: center;
   }
-  .bio-box {
+  .bio-textbox {
     position: absolute;
     left: 50%;
     top: 42%;
