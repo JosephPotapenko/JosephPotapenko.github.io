@@ -450,7 +450,7 @@ audio {
   }
   .menu-button {
     margin-top: 10%;
-    width: 80px;
+    width: 35px;
     height: 35px;
   }
   .center {
@@ -505,7 +505,7 @@ audio {
     transform: translateX(-50%);
   }
   .menu-content {
-    min-width: 80px;
+    min-width: 150px;
     font-size: 1em;
     text-align: center;
   }
