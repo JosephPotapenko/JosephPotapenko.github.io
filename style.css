@@ -434,8 +434,6 @@ audio {
   body{
     image-fit: cover; 
     height: 1000px;
-    width: auto;
-
     background-repeat: no-repeat;
   }
 }
