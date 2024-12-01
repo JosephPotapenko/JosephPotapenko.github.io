@@ -7,7 +7,7 @@
   font-family: Calibri;
   width: 100%;
   background-color: rgb(17, 17, 17);
-  position: fixed;
+  position: absolute; /* Changed from fixed to absolute */
   top: 0;
   left: 0;
   right: 0;
