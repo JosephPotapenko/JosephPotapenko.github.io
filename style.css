@@ -422,7 +422,7 @@ audio {
     width: 375px;
     height: auto;
     position: absolute;
-    top: 15%;
+    top: 10%;
     bottom: 10%;
     left: 50%;
     transform: translateX(-50%);
@@ -446,10 +446,10 @@ audio {
     font-size: 1em;
   }
   .menu-container {
-    top: 2%;
+    top: 5%;
   }
   .menu-button {
-    margin-top: 2%;
+    margin-top: 7%;
     width: 35px;
     height: 35px;
   }
@@ -520,7 +520,7 @@ audio {
   body::after {
     content: "";
     display: block;
-    height: 400px; /* Adjust this value to add more space */
+    height: 500px; /* Adjust this value to add more space */
   }
 }
 
