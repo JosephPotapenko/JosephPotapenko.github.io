@@ -163,6 +163,7 @@ body {
 
 
 
+
 /* video formatting */
 video{
   display: block;
@@ -436,6 +437,12 @@ audio {
     background-repeat: no-repeat;
     background-attachment: scroll;
     height: 100vh;
+  }
+  .bio-box {
+    left: 50%;
+    top: 60%;
+    width: 90%;
+    transform: translateX(-50%);
   }
   
 }
