@@ -446,11 +446,11 @@ audio {
     font-size: 1em;
   }
   .menu-container {
-    top: 8%;
+    top: 9%;
   }
   .menu-button {
     margin-top: 10%;
-    width: 35px;
+    width: 80px;
     height: 35px;
   }
   .center {
