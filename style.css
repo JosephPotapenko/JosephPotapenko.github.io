@@ -521,6 +521,9 @@ audio {
     padding-bottom: 300px;
     background-color: black;
   }
+  .bio-box{
+    max-width: 600px;;
+  }
   body::after {
     content: "";
     display: block;
