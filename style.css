@@ -438,12 +438,7 @@ audio {
     background-attachment: scroll;
     height: 100vh;
   }
-  .bio-box {
-    position: absolute;
-    left: 50%;
-    width: 90%;
-    transform: translateX(-50%);
-  }
+
   
 }
   
