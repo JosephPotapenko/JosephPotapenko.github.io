@@ -422,5 +422,8 @@ audio {
     left: 50%;
     transform: translateX(-50%);
   }
+  .menu-content{
+    min-width: 80px;
+  }
 }
   
