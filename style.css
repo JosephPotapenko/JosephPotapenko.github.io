@@ -368,7 +368,7 @@ audio {
     font-size: .85em;
   }
   .menu-button {
-    margin-top: .5%;
+    margin-top: 5px;
     width: 30px;
     height: 30px;
   }
