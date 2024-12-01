@@ -367,6 +367,7 @@ audio {
 @media (max-width: 500px) {
   .title {
     font-size: .85em;
+    font-weight: bolder;
   }
   .menu-container{
     top:3.75%
@@ -444,6 +445,7 @@ audio {
 @media (max-width: 900px) and (orientation: landscape) {
   .title {
     font-size: 1em;
+    font-weight: bolder;
   }
   .menu-container {
     top: 9%;
