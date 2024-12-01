@@ -426,7 +426,7 @@ audio {
     transform: translateX(-50%);
   }
   .menu-content{
-    min-width: 70px;
+    min-width: 60px;
   }
 }
   
