@@ -393,7 +393,7 @@ audio {
     position: absolute;
     left: 55%;
     top: 47%;
-    width: 350px;
+    width: 370px;
     margin: 0 auto;
     display: block;
     transform: translateX(-50%);
@@ -401,14 +401,14 @@ audio {
   .rainbow-button {
     position: absolute;
     left: 50%;
-    top: 62%;
+    top: 58%;
     transform: translateX(-50%);
     margin-top: 20px;
   }
   .image-cards-container {
     position: absolute;
     left: 50%;
-    top: 75%;
+    top: 72%;
   }
   .resume {
     border-radius: 20px;
