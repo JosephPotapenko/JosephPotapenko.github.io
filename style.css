@@ -431,8 +431,8 @@ audio {
     font-size: .9em;
     text-align: center;
   }
-  body{
-    image-fit: cover; 
+  body {
+    background-size: cover;
     background-repeat: no-repeat;
   }
 }
