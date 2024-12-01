@@ -334,10 +334,12 @@ audio {
   height:150px;
 }
 .text-box {
+  margin: 0 auto;
+  display:block;
   position: absolute;
   bottom: 0;
   background: rgba(5, 5, 5, 0.71);
-  width: 280px;
+  width: 100%;
   height:40px;
   font-family: "Calibri";
   font-size: 1.3em;
