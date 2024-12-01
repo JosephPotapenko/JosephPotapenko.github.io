@@ -1,5 +1,5 @@
 # JosephPotapenko.GitHub.io
-A starter to my profile
+Welcome to my profile! My name is Joe, and I am a programmer with knowledge in cyber security. Feel free to briwse my work and explore my websight!
 ## What is this?
 * This is a description of me and my skills. 
 ## How do I use this?
