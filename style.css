@@ -489,13 +489,13 @@ audio {
   .rainbow-button {
     position: absolute;
     left: 30%;
-    top: 125%;
+    top: 130%;
     transform: translateX(-50%);
     margin-top: 15px;
   }
   .image-cards-container {
     position: absolute;
-    left: 80%;
+    left: 75%;
     top: 20%;
   }
   .resume {
