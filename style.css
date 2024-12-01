@@ -431,5 +431,8 @@ audio {
     font-size: .9em;
     text-align: center;
   }
+  body{
+    background-repeat: no-repeat;
+  }
 }
   
