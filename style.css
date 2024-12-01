@@ -392,8 +392,8 @@ audio {
   .bio-textbox {
     position: absolute;
     left: 50%;
-    top: 42%;
-    width: 350px;
+    top: 45%;
+    width: 300px;
     margin: 0 auto;
     display: block;
     transform: translateX(-50%);
@@ -401,7 +401,7 @@ audio {
   .rainbow-button {
     position: absolute;
     left: 50%;
-    top: 65%;
+    top: 62%;
     transform: translateX(-50%);
     margin-top: 20px;
   }
