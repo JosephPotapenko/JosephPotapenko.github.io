@@ -396,6 +396,7 @@ audio {
     width: 350px;
     margin: 0 auto;
     display: block;
+    text-align:center;
     transform: translateX(-50%);
   }
   .rainbow-button {
