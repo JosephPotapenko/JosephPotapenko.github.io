@@ -401,18 +401,18 @@ audio {
   .rainbow-button {
     position: absolute;
     left: 50%;
-    top: 70%;
+    top: 60%;
     transform: translateX(-50%);
-    margin-top: 80px;
+    margin-top: 20px;
   }
   .image-cards-container {
     position: absolute;
     left: 50%;
-    top: 80%;
+    top: 70%;
   }
   .resume {
     border-radius: 20px;
-    width: 300px;
+    width: 200px;
     height: auto;
     position: absolute;
     top: 15%;
@@ -422,4 +422,3 @@ audio {
   }
 }
   
-}
