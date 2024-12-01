@@ -438,13 +438,13 @@ audio {
     background-attachment: scroll;
     height: 100vh;
     background-color: black;
-    padding-bottom:250px;
+    padding-bottom:200px;
   }
 }
 
 body::after {
   content: "";
   display: block;
-  height: 250px; /* Adjust this value to add more space */
+  height: 200px; /* Adjust this value to add more space */
 }
   
