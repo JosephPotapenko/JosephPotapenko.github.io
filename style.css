@@ -440,6 +440,7 @@ audio {
     padding-bottom:200px;
     background-color: black; /* Change background color to black */
   }
+}
 @media (max-width: 900px) and (orientation: landscape) {
   .title {
     font-size: 1em;
@@ -517,7 +518,7 @@ audio {
     background-color: black;
   }
 }
-}
+
 
 body::after {
   content: "";
