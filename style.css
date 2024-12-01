@@ -443,7 +443,7 @@ audio {
     left: 50%;
     top: 10%;
     width: 90%;
-    padding-bottom: 10%;
+    padding-bottom: 100px;
     transform: translateX(-50%);
   }
   
