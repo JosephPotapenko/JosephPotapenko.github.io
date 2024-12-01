@@ -449,7 +449,7 @@ audio {
     top: 2%;
   }
   .menu-button {
-    margin-top: 0.5%;
+    margin-top: 2%;
     width: 35px;
     height: 35px;
   }
@@ -514,13 +514,13 @@ audio {
     background-repeat: no-repeat;
     background-attachment: scroll;
     height: 100vh;
-    padding-bottom: 250px;
+    padding-bottom: 300px;
     background-color: black;
   }
   body::after {
     content: "";
     display: block;
-    height: 200px; /* Adjust this value to add more space */
+    height: 400px; /* Adjust this value to add more space */
   }
 }
 
