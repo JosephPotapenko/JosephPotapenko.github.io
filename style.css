@@ -367,8 +367,8 @@ audio {
   .title {
     font-size: .85em;
   }
-  .menu-button {
-    margin-top: 2px;
+  .menu-container {
+    margin-top: 3%;
     width: 30px;
     height: 30px;
   }
