@@ -433,7 +433,6 @@ audio {
   }
   body{
     image-fit: cover; 
-    height: 1000px;
     background-repeat: no-repeat;
   }
 }
