@@ -391,7 +391,7 @@ audio {
     width: 80%;
     transform: translateX(-50%);
     text-align: center;
-    drop-shadow: 2px 2px 3px 3px;
+    text-align: black 2px 2px 3px 3px;
   }
   .bio-textbox {
     position: absolute;
