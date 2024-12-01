@@ -427,6 +427,8 @@ audio {
   }
   .menu-content{
     min-width: 60px;
+    font-size: .9em;
+    text-align: center;
   }
 }
   
