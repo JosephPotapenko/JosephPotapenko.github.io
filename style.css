@@ -362,13 +362,12 @@ audio {
 }
 
 
-
 /* Phone Friendly Styles */
 @media (max-width: 600px) {
   .title {
     font-size: .75em;
   }
-  .menu-button{
+  .menu-button {
     margin-top: 1%;
     width: 30px;
     height: 30px;
@@ -377,23 +376,24 @@ audio {
     position: absolute;
     left: 50%;
     top: 10%;
-    width: 150;
+    width: 200px;
     height: auto;
     transform: translateX(-50%);
   }
-  .subtitle-text{
+  .subtitle-text {
     position: absolute;
     left: 50%;
-    top: 27%;
+    top: 25%;
     font-size: 1.5em;
-    width: 60%;
+    width: 80%;
     transform: translateX(-50%);
+    text-align: center;
   }
   .bio-box {
     position: absolute;
     left: 50%;
-    top: 30%;
-    width: 100%;
+    top: 35%;
+    width: 90%;
     margin: 0 auto;
     display: block;
     transform: translateX(-50%);
@@ -410,14 +410,16 @@ audio {
     left: 50%;
     top: 80%;
   }
-  .resume{
-    border-radius:20px; 
-    width:9300px; 
-    height: auto; 
-    position: absolute; 
-    top:15%; 
-    bottom:10%; 
-    left:50%; 
+  .resume {
+    border-radius: 20px;
+    width: 300px;
+    height: auto;
+    position: absolute;
+    top: 15%;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
   }
+}
   
 }
