@@ -466,7 +466,7 @@ body::after {
   .center {
     position: absolute;
     left: 50%;
-    top: 10%;
+    top: 25%;
     width: 200px;
     height: auto;
     transform: translateX(-50%);
@@ -474,7 +474,7 @@ body::after {
   .subtitle-text {
     position: absolute;
     left: 50%;
-    top: 38%;
+    top: 60%;
     font-size: 1.5em;
     width: 80%;
     transform: translateX(-50%);
@@ -484,7 +484,7 @@ body::after {
   .bio-textbox {
     position: absolute;
     left: 50%;
-    top: 47%;
+    top: 70%;
     width: 350px;
     margin: 0 auto;
     display: block;
@@ -494,7 +494,7 @@ body::after {
   }
   .rainbow-button {
     position: absolute;
-    left: 50%;
+    left: 100%;
     top: 58%;
     transform: translateX(-50%);
     margin-top: 20px;
@@ -502,11 +502,11 @@ body::after {
   .image-cards-container {
     position: absolute;
     left: 50%;
-    top: 72%;
+    top: 115%;
   }
   .resume {
     border-radius: 20px;
-    width: 375px;
+    width: 700px;
     height: auto;
     position: absolute;
     top: 15%;
