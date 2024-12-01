@@ -458,7 +458,7 @@ audio {
   }
   .center {
     position: absolute;
-    left: 50%;
+    left: 20%;
     top: 25%;
     width: 150px;
     height: auto;
@@ -466,7 +466,7 @@ audio {
   }
   .subtitle-text {
     position: absolute;
-    left: 50%;
+    left: 20%;
     top: 80%;
     font-size: 1.2em;
     width: 70%;
@@ -476,7 +476,7 @@ audio {
   }
   .bio-textbox {
     position: absolute;
-    left: 50%;
+    left: 20%;
     top: 95%;
     width: 300px;
     margin: 0 auto;
@@ -488,15 +488,15 @@ audio {
   }
   .rainbow-button {
     position: absolute;
-    left: 50%;
+    left: 20%;
     top: 125%;
     transform: translateX(-50%);
     margin-top: 15px;
   }
   .image-cards-container {
     position: absolute;
-    left: 50%;
-    top: 155%;
+    left: 60%;
+    top: 20%;
   }
   .resume {
     border-radius: 20px;
