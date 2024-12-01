@@ -437,6 +437,7 @@ audio {
     background-repeat: no-repeat;
     background-attachment: scroll;
     height: 100vh;
+    background-color: black;
     padding-bottom: 300px;
   }
 }
