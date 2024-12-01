@@ -393,6 +393,7 @@ audio {
     position: absolute;
     left: 50%;
     top: 42%;
+    width: 350px;
     margin: 0 auto;
     display: block;
     transform: translateX(-50%);
