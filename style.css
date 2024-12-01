@@ -439,6 +439,7 @@ audio {
     height: 100vh;
   }
   .bio-box {
+    position: absolute;
     left: 50%;
     top: 60%;
     width: 90%;
