@@ -464,7 +464,7 @@ audio {
   .subtitle-text {
     position: absolute;
     left: 50%;
-    top: 90%;
+    top: 75%;
     font-size: 1.2em;
     width: 70%;
     transform: translateX(-50%);
@@ -474,7 +474,7 @@ audio {
   .bio-textbox {
     position: absolute;
     left: 50%;
-    top: 120%;
+    top: 95%;
     width: 300px;
     margin: 0 auto;
     display: block;
@@ -485,14 +485,14 @@ audio {
   .rainbow-button {
     position: absolute;
     left: 50%;
-    top: 150%;
+    top: 125%;
     transform: translateX(-50%);
     margin-top: 15px;
   }
   .image-cards-container {
     position: absolute;
     left: 50%;
-    top: 175%;
+    top: 155%;
   }
   .resume {
     border-radius: 20px;
