@@ -514,7 +514,7 @@ audio {
     background-repeat: no-repeat;
     background-attachment: scroll;
     height: 100vh;
-    padding-bottom: 150px;
+    padding-bottom: 250px;
     background-color: black;
   }
 }
