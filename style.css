@@ -438,6 +438,7 @@ audio {
     background-attachment: scroll;
     height: 100vh;
     padding-bottom:200px;
+    background-color: black; /* Change background color to black */
   }
 }
 
@@ -446,4 +447,3 @@ body::after {
   display: block;
   height: 200px; /* Adjust this value to add more space */
 }
-  
