@@ -441,13 +441,7 @@ audio {
 .image-cards-container-horizontal::-webkit-scrollbar {
   height: 20px;
 }
-.image-cards-container-horizontal::-webkit-scrollbar-thumb {
-  background: #00a2ff;
-  border-radius: 20px;
-}
-.image-cards-container-horizontal::-webkit-scrollbar-thumb:hover {
-  background: #007acc;
-}
+
 .image-card {
   position: relative;
   border: 2px solid white;
