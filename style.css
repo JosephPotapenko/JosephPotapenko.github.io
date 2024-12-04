@@ -437,6 +437,7 @@ audio {
   padding-top: 10px;
   padding-left: 10px;
   padding-right: 10px;
+  padding-bottom: 13px;
 }
 .image-cards-container-horizontal::-webkit-scrollbar {
   height: 5px;
