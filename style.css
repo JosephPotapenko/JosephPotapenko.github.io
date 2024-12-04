@@ -439,14 +439,14 @@ audio {
   padding-right: 10px;
 }
 .image-cards-container-horizontal::-webkit-scrollbar {
-  height: 1px;
+  height: 5px;
 }
 .image-cards-container-horizontal::-webkit-scrollbar-thumb {
-  background: #00000049;
+  background: #55555578;
   border-radius: 1px;
 }
 .image-cards-container-horizontal::-webkit-scrollbar-thumb:hover {
-  background: #0000002f;
+  background:  #55555578;
 }
 .image-card {
   position: relative;
