@@ -8,4 +8,4 @@ Welcome to my profile! My name is Joe, and I am a programmer with knowledge in c
 * [Google Font](https://fonts.google.com/)
 * [Real Favicon Generator](https://realfavicongenerator.net/)
 * [CSS Learning Resource](https://github.com/features/copilot)
-
+* [HTML and CSS Resource](https://www.codedex.io/courses)
