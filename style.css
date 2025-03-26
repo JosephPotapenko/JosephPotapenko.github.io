@@ -301,6 +301,29 @@ audio {
   box-shadow: 0 0 20px rgba(0, 123, 255, 0.3); /* Blue hue glow */
 }
 
+/* cool button */
+.cool-button {
+  font-size: 20px;
+  padding: 10px 20px;
+  border: 2px solid;
+  border-radius: 18px;
+  background: transparent;
+  cursor: pointer;
+  font-family: Calibri;
+  animation: rainbowText 5s linear infinite, rainbowBorder 5s linear infinite;
+  text-decoration: none;
+  transition: background 0.3s ease-in-out, transform 0.3s ease-in-out, color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  color: rgba(255, 255, 255, 0.718); /* Transparent white text */
+  display: inline-block; /* Allows it to exist anywhere on the page */
+}
+.cool-button:hover {
+  background: linear-gradient(45deg, #1118537c, #29687c86);
+  transform: scale(1.1);
+  color: white; /* White text on hover */
+  animation: rainbowText 5s linear infinite, rainbowBorder 5s linear infinite; /* Continue animation on hover */
+  box-shadow: 0 0 20px rgba(0, 123, 255, 0.3); /* Blue hue glow */
+}
+
 
 /* image cards for resources*/
 .image-text-title{
