@@ -543,7 +543,7 @@ audio {
 /* Phone Friendly Style Vertical */
 @media (max-width: 500px) {
   .title {
-    font-size: 30px;
+    font-size: 10px;
     font-weight: bolder;
   }
   .menu-container{
@@ -612,7 +612,7 @@ audio {
     text-align: center;
   }
   body {
-    font-size: medium;
+    font-size: 10px;
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: scroll;
@@ -623,7 +623,6 @@ audio {
 }
 @media (max-width: 900px) and (orientation: landscape) {
   .title {
-    font-size: 45px;
     font-weight: bolder;
   }
   .menu-container {
