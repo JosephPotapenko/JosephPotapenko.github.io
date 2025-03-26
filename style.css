@@ -543,7 +543,7 @@ audio {
 /* Phone Friendly Style Vertical */
 @media (max-width: 500px) {
   .title {
-    font-size: 10px;
+    font-size: 15px;
     font-weight: bolder;
   }
   .menu-container{
