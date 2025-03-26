@@ -612,6 +612,7 @@ audio {
     text-align: center;
   }
   body {
+    font-size: medium;
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: scroll;
@@ -691,6 +692,7 @@ audio {
     text-align: center;
   }
   body {
+    
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: scroll;
