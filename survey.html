@@ -600,6 +600,10 @@
       // Remove file extension
       let baseName = filename.replace(/\.[^/.]+$/, "");
       
+      // Remove very long descriptive prefixes (common in AI-generated filenames)
+      baseName = baseName.replace(/^32_by_32_pixel_art_of_[^-]*-removebg-preview/, ""); // Remove AI-generated prefixes
+      baseName = baseName.replace(/^\d{10,}[-_]?/, ""); // Remove timestamp prefixes
+      
       // Remove common prefixes/patterns that might interfere with matching
       baseName = baseName.replace(/^\d+[-_]/, ""); // Remove leading numbers with dash/underscore
       baseName = baseName.replace(/^asset_\d+\s*\(\d+\)[-_]?/, ""); // Remove asset_(number)(number) patterns
@@ -612,6 +616,23 @@
       // Clean up remaining patterns and normalize
       baseName = baseName.replace(/[-_]+/g, "_"); // Normalize separators to underscores
       baseName = baseName.replace(/^_+|_+$/g, ""); // Remove leading/trailing underscores
+      
+      // If the result is empty or still very long/complex, try to extract meaningful parts
+      if (!baseName || baseName.length > 50) {
+        // Try to extract from the end of the original filename (often the actual item name)
+        const parts = filename.replace(/\.[^/.]+$/, "").split(/[-_]/);
+        if (parts.length > 1) {
+          // Take the last few meaningful parts
+          const meaningfulParts = parts.slice(-2).filter(part => 
+            part.length > 2 && 
+            !part.match(/^\d+$/) && 
+            !part.match(/^(removebg|preview|cleaned|centered)$/)
+          );
+          if (meaningfulParts.length > 0) {
+            baseName = meaningfulParts.join("_");
+          }
+        }
+      }
       
       return baseName;
     }
@@ -647,22 +668,154 @@
         }
       }
       
-      // Try partial matches (for complex filenames)
+      // Enhanced partial matching with better logic
+      let bestMatch = null;
+      let bestScore = 0;
+      
       for (const [key, description] of Object.entries(descriptionsDatabase)) {
-        const normalizedKey = key.toLowerCase().replace(/[^a-z0-9]/g, "");
-        const normalizedBase = baseName.toLowerCase().replace(/[^a-z0-9]/g, "");
-        
-        if (normalizedKey === normalizedBase || 
-            normalizedBase.includes(normalizedKey) || 
-            normalizedKey.includes(normalizedBase)) {
-          return {
+        const score = calculateMatchScore(baseName, key);
+        if (score > bestScore && score >= 0.6) { // Require at least 60% similarity
+          bestScore = score;
+          bestMatch = {
             name: key.replace(/_/g, " "),
             description: description
           };
         }
       }
       
+      // If we still don't have a match, try fallback patterns for common item types
+      if (!bestMatch) {
+        bestMatch = tryFallbackMatching(baseName, filename);
+      }
+      
+      return bestMatch;
+    }
+    
+    // Fallback matching for common game item patterns
+    function tryFallbackMatching(baseName, originalFilename) {
+      const lowerBase = baseName.toLowerCase();
+      const lowerOriginal = originalFilename.toLowerCase();
+      
+      // Armor patterns
+      if (lowerBase.includes('armor') || lowerBase.includes('leather') || lowerOriginal.includes('armor')) {
+        if (descriptionsDatabase['Leather_armor']) {
+          return {
+            name: "Leather armor",
+            description: descriptionsDatabase['Leather_armor']
+          };
+        }
+      }
+      
+      // Helmet patterns
+      if (lowerBase.includes('helm') || lowerBase.includes('helmet')) {
+        if (lowerBase.includes('gold') && descriptionsDatabase['Golden_helm']) {
+          return {
+            name: "Golden helm",
+            description: descriptionsDatabase['Golden_helm']
+          };
+        }
+      }
+      
+      // Shield patterns
+      if (lowerBase.includes('shield')) {
+        if (lowerBase.includes('gold') && descriptionsDatabase['Gold_rimmed_shield']) {
+          return {
+            name: "Gold rimmed shield",
+            description: descriptionsDatabase['Gold_rimmed_shield']
+          };
+        } else if (lowerBase.includes('king') && descriptionsDatabase['Kings_shield']) {
+          return {
+            name: "King's shield", 
+            description: descriptionsDatabase['Kings_shield']
+          };
+        }
+      }
+      
+      // Weapon patterns
+      if (lowerBase.includes('sword') || lowerBase.includes('blade')) {
+        if (lowerBase.includes('broken') && descriptionsDatabase['Broken_Blade']) {
+          return {
+            name: "Broken Blade",
+            description: descriptionsDatabase['Broken_Blade']
+          };
+        } else if (descriptionsDatabase['Long_Sword']) {
+          return {
+            name: "Long Sword",
+            description: descriptionsDatabase['Long_Sword']
+          };
+        }
+      }
+      
+      // Bow patterns
+      if (lowerBase.includes('bow')) {
+        if (descriptionsDatabase['Regular_Bow']) {
+          return {
+            name: "Regular Bow",
+            description: descriptionsDatabase['Regular_Bow']
+          };
+        }
+      }
+      
       return null;
+    }
+    
+    // Calculate similarity score between filename and database key
+    function calculateMatchScore(baseName, key) {
+      const normalizedBase = baseName.toLowerCase().replace(/[^a-z0-9]/g, "");
+      const normalizedKey = key.toLowerCase().replace(/[^a-z0-9]/g, "");
+      
+      // Exact match gets highest score
+      if (normalizedBase === normalizedKey) {
+        return 1.0;
+      }
+      
+      // Also check with spaces converted to underscores and vice versa
+      const baseWithUnderscore = baseName.toLowerCase().replace(/\s+/g, "_");
+      const keyWithSpace = key.toLowerCase().replace(/_/g, " ");
+      
+      if (baseWithUnderscore === key.toLowerCase() || baseName.toLowerCase() === keyWithSpace) {
+        return 1.0;
+      }
+      
+      // Split into words for word-based matching
+      const baseWords = baseName.toLowerCase().split(/[_\s-]+/).filter(w => w.length > 2);
+      const keyWords = key.toLowerCase().split(/[_\s-]+/).filter(w => w.length > 2);
+      
+      if (baseWords.length === 0 || keyWords.length === 0) {
+        return 0;
+      }
+      
+      // Count matching words with more sophisticated matching
+      let matchingWords = 0;
+      for (const baseWord of baseWords) {
+        for (const keyWord of keyWords) {
+          if (baseWord === keyWord || 
+              (baseWord.length >= 4 && keyWord.length >= 4 && 
+               (baseWord.includes(keyWord) || keyWord.includes(baseWord)))) {
+            matchingWords++;
+            break;
+          }
+        }
+      }
+      
+      // Calculate score based on word matches
+      const wordScore = matchingWords / Math.max(baseWords.length, keyWords.length);
+      
+      // Bonus for partial word matches if we have strong word overlap
+      let partialScore = 0;
+      if (wordScore >= 0.5) {
+        for (const baseWord of baseWords) {
+          for (const keyWord of keyWords) {
+            if (baseWord !== keyWord && baseWord.length >= 3 && keyWord.length >= 3) {
+              if (baseWord.startsWith(keyWord) || keyWord.startsWith(baseWord)) {
+                partialScore += 0.1;
+              }
+            }
+          }
+        }
+      }
+      
+      return Math.min(1.0, wordScore + partialScore);
     }
 
     // Image database - organized by folder structure
@@ -750,6 +903,305 @@
                 ]
               }
             }
+          },
+          "clothing": {
+            images: [
+              "Green cloak.png",
+              "outlined-image (10).png",
+              "outlined-image (7).png",
+              "outlined-image (8).png",
+              "outlined-image (9).png",
+              "Red cloak.png"
+            ]
+          },
+          "Collectibles": {
+            images: [],
+            subfolders: {
+              "assorted": {
+                images: [
+                  "1740104286089-removebg-preview-cleaned.png",
+                  "1740104886409-removebg-preview.png",
+                  "1740105313697-removebg-preview.png",
+                  "1740107414582-removebg-preview.png",
+                  "Ancient_Bracelet.png",
+                  "Ancient_Fish_Hook.png",
+                  "Ancient_Flying_Toy.png",
+                  "Ancient_Necklace.png",
+                  "Broken_Blade.png",
+                  "Broken_Bracelet.png",
+                  "Crescent earrings.png",
+                  "Golden_Tag.png",
+                  "Scroll.png",
+                  "Shattered_Blade.png",
+                  "Spoon.png",
+                  "asset_10 (1)-cleaned.png",
+                  "asset_10 (3)-cleaned.png",
+                  "asset_10 (5)-cleaned.png",
+                  "asset_4 (22).png",
+                  "asset_5 (14).png",
+                  "asset_5 (19)-cleaned.png",
+                  "asset_5 (21)-cleaned.png",
+                  "asset_6 (17)-cleaned.png",
+                  "asset_6 (32).png",
+                  "asset_6 (36).png",
+                  "asset_7 (10)-cleaned.png",
+                  "asset_7 (11)-cleaned.png",
+                  "asset_7 (2)-cleaned.png",
+                  "asset_8 (7)-cleaned.png",
+                  "asset_9 (10).png",
+                  "clay pitcher.png",
+                  "peacock clay model.png",
+                  "rotated_image (4).png"
+                ]
+              },
+              "Assyrian": {
+                images: [
+                  "1740104313426-removebg-preview-cleaned.png",
+                  "1740104709778-removebg-preview.png",
+                  "1740104773338-removebg-preview.png",
+                  "1740104865757-removebg-preview.png",
+                  "1740105607503-removebg-preview.png",
+                  "1740106298405-removebg-preview.png",
+                  "1740640648263-removebg-preview.png",
+                  "Assyrian_Art.png",
+                  "Assyrian_Pot.png",
+                  "Assyrian_stone_Marker.png",
+                  "Assyrin_Fish_God_Statue.png",
+                  "Asyrian decorative piece.png",
+                  "Female_Face_Sculpture_from_Persia.png",
+                  "Golden_Chain_of_Assyrian_King.png",
+                  "Greek stone eagle model.png",
+                  "Man_s_Clay_sculpture_of_Babel.png",
+                  "Philistine shield.png",
+                  "Philistine_Portable_Time_Dial.png",
+                  "Philistine_Pot.png",
+                  "Philistine_Tent_Spoke.png",
+                  "Plain_Assyrian_Bracelet.png",
+                  "Stone_Assyrian_Fish_God_Carving.png",
+                  "asset_1 (44)-cleaned.png",
+                  "asset_1 (62).png",
+                  "asset_3 (32).png",
+                  "asset_6 (14)-cleaned.png",
+                  "asset_6 (31).png",
+                  "asset_7 (10).png",
+                  "asset_7 (20).png",
+                  "asset_9 (17).png",
+                  "asset_9 (9).png",
+                  "cut_0_centered.png"
+                ]
+              },
+              "Canaanitish": {
+                images: [
+                  "1740044417630-removebg-preview.png",
+                  "1740044479573-removebg-preview.png",
+                  "1740044491281-removebg-preview.png",
+                  "1740044525251-removebg-preview.png",
+                  "1740044551480-removebg-preview.png",
+                  "1740044579475-removebg-preview.png",
+                  "1740044889351-removebg-preview.png",
+                  "1740104630988-removebg-preview.png",
+                  "1740104735077-removebg-preview.png",
+                  "1740104823874-removebg-preview.png",
+                  "1740105103587-removebg-preview.png",
+                  "1740105247510-removebg-preview.png",
+                  "1740105267129-removebg-preview.png",
+                  "1740105726617-removebg-preview.png",
+                  "1740105763601-removebg-preview.png",
+                  "1740105858778-removebg-preview.png",
+                  "1740106176368-removebg-preview.png",
+                  "1740106580772-removebg-preview.png",
+                  "1740106691475-removebg-preview.png",
+                  "1740644541419-removebg-preview.png",
+                  "Assyrian_Coin.png",
+                  "Canaanite 1.png",
+                  "Canaanite 3.png",
+                  "Canaanite urn.png",
+                  "Clay_Elephant_Sculpture.png",
+                  "Decorative_Assyrian_Challace.png",
+                  "Gilded_horn-removebg-preview.png",
+                  "Gold Jewish Decorative plate.png",
+                  "Head_of_Baal.png",
+                  "Wooden Shield.png",
+                  "asset_1 (58).png",
+                  "asset_2 (52).png",
+                  "asset_2 (56).png",
+                  "asset_4 (15).png",
+                  "asset_4 (19).png",
+                  "asset_4 (29)-cleaned.png",
+                  "asset_4 (30)-cleaned.png",
+                  "asset_5 (12)-cleaned.png",
+                  "asset_5 (16).png",
+                  "asset_5-cleaned (3).png",
+                  "asset_6 (15)-cleaned.png",
+                  "asset_6 (34).png",
+                  "asset_6 (35).png",
+                  "asset_7 (12).png",
+                  "asset_7 (9)-cleaned.png",
+                  "asset_9 (5)-cleaned.png",
+                  "asset_9 (8)-cleaned.png",
+                  "asset_9-cleaned.png",
+                  "canaanite 2.png"
+                ]
+              },
+              "Egyptian": {
+                images: [
+                  "1740044341262-removebg-preview.png",
+                  "1740044371540-removebg-preview.png",
+                  "1740102913876-removebg-preview.png",
+                  "1740102952498-removebg-preview.png",
+                  "1740103172722-removebg-preview.png",
+                  "1740103313584-removebg-preview.png",
+                  "1740104269696-removebg-preview.png",
+                  "1740104329697-removebg-preview-cleaned.png",
+                  "1740104364648-removebg-preview-cleaned.png",
+                  "1740105378325-removebg-preview.png",
+                  "1740105503367-removebg-preview.png",
+                  "1740105529196-removebg-preview.png",
+                  "1740105557383-removebg-preview.png",
+                  "1740106644251-removebg-preview.png",
+                  "1740106731199-removebg-preview.png",
+                  "1740106772235-removebg-preview.png",
+                  "1740107204745-removebg-preview.png",
+                  "Ancient_Egyptian_Earrings.png",
+                  "Egyptian compass.png",
+                  "Egyptian measuring wheel.png",
+                  "Egyptian queen's head peice.png",
+                  "Egyptian septant.png",
+                  "Egyptian_Brooch.png",
+                  "Egyptian_Compass.png",
+                  "Egyptian_Embalming_Jar.png",
+                  "Egyptian_Embalming_Oil.png",
+                  "Egyptian_Pendant.png",
+                  "Egyptian_Scalpal.png",
+                  "Egyptian_Sceptre.png",
+                  "The_fiery_Pheonix.png",
+                  "asset_1 (10).png",
+                  "asset_1 (8).png",
+                  "asset_1-cleaned (2).png",
+                  "asset_10-cleaned (3).png",
+                  "asset_11-cleaned.png",
+                  "asset_2 (1)-cleaned.png",
+                  "asset_2 (10).png",
+                  "asset_2-cleaned (3).png",
+                  "asset_2-cleaned.png",
+                  "asset_3 (2).PNG",
+                  "asset_3 (33).png",
+                  "asset_3 (9).png",
+                  "asset_4 (1)-cleaned.png",
+                  "asset_4 (35).png",
+                  "asset_4 (6).png",
+                  "asset_4 (7).png",
+                  "asset_4-cleaned (4).png",
+                  "asset_4-cleaned.png",
+                  "asset_5 (20)-cleaned.png",
+                  "asset_5 (28).png",
+                  "asset_5 (29).png",
+                  "asset_5 (7).png",
+                  "asset_5 (8).png",
+                  "asset_5-cleaned (4).png",
+                  "asset_6 (1)-cleaned.png",
+                  "asset_6 (18).png",
+                  "asset_6-cleaned.png",
+                  "asset_7 (5).png",
+                  "asset_7 (6).png",
+                  "asset_7-cleaned.png",
+                  "asset_8 (18).png",
+                  "asset_8 (7).png",
+                  "asset_9 (1)-cleaned.png",
+                  "asset_9 (4).png",
+                  "asset_9 (5).png",
+                  "asset_9 (9)-cleaned.png",
+                  "pharoahs embalming pot.png"
+                ]
+              },
+              "Israeli": {
+                images: [
+                  "1740044671773-removebg-preview.png",
+                  "1740044679791-removebg-preview.png",
+                  "1740044756212-removebg-preview.png",
+                  "1740104384247-removebg-preview-cleaned.png",
+                  "1740104931855-removebg-preview.png",
+                  "1740105818033-removebg-preview.png",
+                  "1740105890209-removebg-preview.png",
+                  "Ancient_Hebrew_Dradle.png",
+                  "Ancient_Hebrew_RIng.png",
+                  "Clay_tablet_scroll.png",
+                  "Decorative_Hebrew_Cup.png",
+                  "Decorative_Hebrew_Pot.png",
+                  "Hebrew jar.png",
+                  "Hebrew_Archive_Container.png",
+                  "Hebrew_Challace.png",
+                  "Hebrew_Mortar_and_Pestel.png",
+                  "Hebrew_Oil_Lamp.png",
+                  "Hebrew_Plate.png",
+                  "Hebrew_Pot.png",
+                  "Hebrew_Smoking_Pot.png",
+                  "Hebrew_Urn.png",
+                  "Hebrew_Vase.png",
+                  "Hebrew_Water_Bason.png",
+                  "Hebrew_Water_Pitcher.png",
+                  "Hebrew_Water_Pot.png",
+                  "Israeli pitcher.png",
+                  "Israeli_Stone_Marker_.png",
+                  "Israeli_pot.png",
+                  "Maze map.png",
+                  "asset_1 (50)-cleaned.png",
+                  "asset_10 (5).png",
+                  "asset_2 (37).png",
+                  "asset_3 (23)-cleaned.png",
+                  "asset_4 (28)-cleaned.png",
+                  "asset_4 (36).png",
+                  "asset_4-cleaned (3).png",
+                  "asset_5 (13)-cleaned.png",
+                  "asset_7 (21).png",
+                  "asset_8 (11).png",
+                  "asset_9-cleaned (2).png"
+                ]
+              },
+              "tablets": {
+                images: [],
+                subfolders: {
+                  "Old man collection": {
+                    images: [
+                      "Tablet_1.png",
+                      "Tablet_12.png",
+                      "Tablet_13.png",
+                      "Tablet_16.png",
+                      "Tablet_19.png",
+                      "Tablet_2.png",
+                      "Tablet_3.png",
+                      "Tablet_5.png",
+                      "Tablet_6.png",
+                      "Tablet_8.png",
+                      "tablet_10.png",
+                      "tablet_11.png",
+                      "tablet_14.png",
+                      "tablet_15.png",
+                      "tablet_20.png",
+                      "tablet_4.png",
+                      "tablet_7.png",
+                      "tablet_9.png",
+                      "tablets_17___18.png"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "Equipables": {
+            images: [
+              "asset_14-cleaned_centered.png",
+              "Fishing rod (2).png",
+              "rotated_image (10).png",
+              "rotated_image (11).png",
+              "rotated_image (14).png",
+              "rotated_image (15).png",
+              "rotated_image (16).png",
+              "rotated_image (17).png",
+              "rotated_image (18).png",
+              "rotated_image (19).png",
+              "rotated_image (20).png"
+            ]
           },
           "clothing": {
             images: [
@@ -1395,18 +1847,309 @@
               "Crop stages": {
                 images: [],
                 subfolders: {
+                  "barley": {
+                    images: [
+                      "barley_stage_1.png",
+                      "barley_stage_2.png",
+                      "barley_stage_3.png",
+                      "barley_stage_4.png",
+                      "barley_stage_5.png",
+                      "barley_stage_6.png",
+                      "barley_stage_7.png"
+                    ]
+                  },
                   "broccoli": {
                     images: [
                       "asset_1.png",
                       "asset_2.png",
                       "asset_3.png"
                     ]
+                  },
+                  "carrots": {
+                    images: [
+                      "carrot_stage_1.png",
+                      "carrot_stage_2.png",
+                      "carrot_stage_3.png",
+                      "carrot_stage_4.png",
+                      "carrot_stage_5.png"
+                    ]
+                  },
+                  "chickpeas": {
+                    images: [
+                      "chickpea_stage_1.png",
+                      "chickpea_stage_2.png",
+                      "chickpea_stage_3.png",
+                      "chickpea_stage_4.png",
+                      "chickpea_stage_5.png"
+                    ]
+                  },
+                  "cumin": {
+                    images: [
+                      "cumin_stage_1.png",
+                      "cumin_stage_2.png",
+                      "cumin_stage_3.png",
+                      "cumin_stage_4.png",
+                      "cumin_stage_5.png"
+                    ]
+                  },
+                  "figs": {
+                    images: [
+                      "fig_stage_1.png",
+                      "fig_stage_2.png",
+                      "fig_stage_3.png",
+                      "fig_stage_4.png",
+                      "fig_stage_5.png",
+                      "fig_stage_6.png"
+                    ]
+                  },
+                  "flax": {
+                    images: [
+                      "flax_stage_1.png",
+                      "flax_stage_2.png",
+                      "flax_stage_3.png",
+                      "flax_stage_4.png",
+                      "flax_stage_5.png"
+                    ]
+                  },
+                  "grapes": {
+                    images: [
+                      "grape_stage_1.png",
+                      "grape_stage_2.png",
+                      "grape_stage_3.png",
+                      "grape_stage_4.png",
+                      "grape_stage_5.png",
+                      "grape_stage_6.png"
+                    ]
+                  },
+                  "lentils": {
+                    images: [
+                      "lentil_stage_1.png",
+                      "lentil_stage_2.png",
+                      "lentil_stage_3.png",
+                      "lentil_stage_4.png",
+                      "lentil_stage_5.png"
+                    ]
+                  },
+                  "olives": {
+                    images: [
+                      "olive_stage_1.png",
+                      "olive_stage_2.png",
+                      "olive_stage_3.png",
+                      "olive_stage_4.png",
+                      "olive_stage_5.png",
+                      "olive_stage_6.png"
+                    ]
+                  },
+                  "pomegranates": {
+                    images: [
+                      "pomegranate_stage_1.png",
+                      "pomegranate_stage_2.png",
+                      "pomegranate_stage_3.png",
+                      "pomegranate_stage_4.png",
+                      "pomegranate_stage_5.png",
+                      "pomegranate_stage_6.png"
+                    ]
+                  },
+                  "wheat": {
+                    images: [
+                      "wheat_stage_1.png",
+                      "wheat_stage_2.png",
+                      "wheat_stage_3.png",
+                      "wheat_stage_4.png",
+                      "wheat_stage_5.png",
+                      "wheat_stage_6.png",
+                      "wheat_stage_7.png"
+                    ]
+                  }
+                }
+              },
+              "Flower stages": {
+                images: [],
+                subfolders: {
+                  "almond_blossoms": {
+                    images: [
+                      "almond_blossom_stage_1.png",
+                      "almond_blossom_stage_2.png",
+                      "almond_blossom_stage_3.png",
+                      "almond_blossom_stage_4.png"
+                    ]
+                  },
+                  "lilies": {
+                    images: [
+                      "lily_stage_1.png",
+                      "lily_stage_2.png",
+                      "lily_stage_3.png",
+                      "lily_stage_4.png",
+                      "lily_stage_5.png"
+                    ]
+                  },
+                  "roses": {
+                    images: [
+                      "rose_stage_1.png",
+                      "rose_stage_2.png",
+                      "rose_stage_3.png",
+                      "rose_stage_4.png",
+                      "rose_stage_5.png"
+                    ]
+                  },
+                  "wildflowers": {
+                    images: [
+                      "wildflower_stage_1.png",
+                      "wildflower_stage_2.png",
+                      "wildflower_stage_3.png",
+                      "wildflower_stage_4.png"
+                    ]
                   }
                 }
               }
             }
           },
-          "possible decor": { images: [] },
+          "possible decor": {
+            images: [
+              "1740106205344-removebg-preview.png",
+              "1740107100394-removebg-preview.png",
+              "1740107114336-removebg-preview.png",
+              "1740107142381-removebg-preview.png",
+              "Decorative Plant 1.png",
+              "Decorative Plant 2.png",
+              "Decorative Plant 3.png",
+              "Decorative Plant 4.png",
+              "Decorative Plant 5.png",
+              "Decorative Plant 6.png",
+              "Decorative Plant 7.png",
+              "Pile_of_rope.png",
+              "Smooth_Stones.png",
+              "barrel of grapes.png"
+            ]
+          },
+          "ingredients": {
+            images: [
+              "Raw_Beef.png",
+              "dried_fig.png"
+            ],
+            subfolders: {
+              "addatives": {
+                images: [
+                  "Jar_of_Honey.png",
+                  "Olive_Oil.png",
+                  "Seed_Oil_Flask.png"
+                ]
+              },
+              "grains": {
+                images: [
+                  "Barley.png",
+                  "Crushed_Meal.png"
+                ]
+              },
+              "herbs": {
+                images: [
+                  "Sage.png",
+                  "fern leaf.png"
+                ]
+              }
+            }
+          },
+          "meals": {
+            images: [
+              "Apricots.png",
+              "Baked_Potatoes__2_.png",
+              "Baked_potatoes.png",
+              "Bean_Stew.png",
+              "Beat_Soup.png",
+              "Beef broth.png",
+              "Beef_and_Veggies.png",
+              "Beef_and_beans.png",
+              "Beef_stew.png",
+              "Beet_Salad.png",
+              "Boiled_Greens.png",
+              "Bone_Broth.png",
+              "Bread.png",
+              "Chicken Breast.png",
+              "Chicken_Broth.png",
+              "Chicken_stew.png",
+              "Cooked_Goat.png",
+              "Fried_Meat.png",
+              "Fried_Potatoes.png",
+              "Fried_Vegetables.png",
+              "Grits_and_Beef.png",
+              "Honey_Wafers.png",
+              "Lamb_stew.png",
+              "Mashed_Potatoes.png",
+              "Matza.png",
+              "Meal_and_herbs.png",
+              "Oatmeal.png",
+              "Pita_in_stew.png",
+              "Porridge.png",
+              "Red_Pottage.png",
+              "Salad.png",
+              "Shew_Bread.png",
+              "Tomatoe soup.png",
+              "Vegetable_Mix.png",
+              "Veggie_stew_.png",
+              "Wafers.png",
+              "Wafers_and_Apricot_Jam.png",
+              "chicken_tika_masala.png",
+              "grits.png",
+              "meat_and_cheese_dish.png",
+              "red bean stew.png",
+              "vegetable broth.png"
+            ]
+          },
+          "rings": {
+            images: [],
+            subfolders: {
+              "Rings": {
+                images: [
+                  "amnethyst ring.png",
+                  "asset_1 (19).png",
+                  "asset_1 (31).png",
+                  "asset_1 (49).png",
+                  "asset_1 (50).png",
+                  "asset_10 (6).png",
+                  "asset_2 (17).png",
+                  "asset_2 (18).png",
+                  "asset_2 (19).png",
+                  "asset_2 (24).png",
+                  "asset_2 (26).png",
+                  "asset_2 (28).png",
+                  "asset_2 (43).png",
+                  "asset_3 (21).png",
+                  "asset_3 (23).png",
+                  "asset_3 (25).png",
+                  "asset_3 (34).png",
+                  "asset_3 (37).png",
+                  "asset_4 (13).png",
+                  "asset_4 (28).png",
+                  "asset_4 (29).png",
+                  "asset_4 (30).png",
+                  "asset_4 (31).png",
+                  "asset_4 (32).png",
+                  "asset_5 (20).png",
+                  "asset_5 (24).png",
+                  "asset_5 (25).png",
+                  "asset_5 (26).png",
+                  "asset_6 (23).png",
+                  "asset_6 (27).png",
+                  "asset_6 (28).png",
+                  "asset_6 (29).png",
+                  "asset_6 (30).png",
+                  "asset_7 (15).png",
+                  "asset_7 (19).png",
+                  "asset_9 (16).png",
+                  "common ring.png",
+                  "crown ring.png",
+                  "diamond ring.png",
+                  "flower ring.png",
+                  "onyx ring.png",
+                  "peridot ring.png",
+                  "ruby ring.png",
+                  "spiral signet ring.png",
+                  "star ring.png",
+                  "whirling signet ring.png"
+                ]
+              }
+            }
+          },
           "Regular items": {
             images: [
               "red clay.png"
