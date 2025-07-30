@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Survey</title>
+  <!-- include your existing header content here (favicons, link css, script) -->
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Inline additions */
+    .survey-container { margin: 2em; }
+    .folder-branch { margin-left: 1em; }
+    .img-entry { position: relative; margin: 1em 0; display: flex; align-items: flex-start; }
+    .img-entry img { background: rgba(128,128,128,0.5); border: 4px solid; border-image: conic-gradient(red,orange,yellow,green,blue,indigo,violet) 1; max-width: 200px; max-height: 150px; }
+    .img-meta { margin-left: 1em; display: flex; flex-direction: column; }
+    .img-meta label { margin: 0.25em 0; color: white; font-family: Calibri; }
+    .img-meta input[type="text"], .img-meta textarea {
+      background: rgba(0,0,0,0.7); color: white; border: none; border-radius: 5px;
+      padding: 0.25em; font-family: Calibri; font-size: 1em;
+    }
+    .img-meta input[type="text"] { width: 20ch; }
+    .img-meta textarea { width: 20ch; height: auto; }
+    .dropdown-desc { position: relative; }
+    .dropdown-desc > select { background: rgba(0,0,0,0.7); color: white; border: none; border-radius: 5px; padding: 0.25em; font-family: Calibri; }
+    #submit-btn {
+      position: fixed; bottom: 1em; right: 1em;
+      padding: 1em 1.5em; background: rgba(0,123,255,0.8); color: white; border: none; border-radius: 8px;
+      font-family: Calibri; cursor: pointer; z-index: 999;
+    }
+  </style>
+</head>
+<body>
+  <!-- your existing header -->
+  <header class="title colorful-border">…</header>
+  <main>
+    <div class="survey-container">
+      <div id="survey"></div>
+    </div>
+    <button id="submit-btn">Submit</button>
+  </main>
+  <footer class="footer">…</footer>
+  
+  <script>
+  // Walk filesystem via fetch; here you supply a JSON manifest of folders/images
+  // Example format: { name: "root", files: [...], folders: [...] }
+  async function loadManifest() {
+    const resp = await fetch('manifest.json');
+    return resp.json();
+  }
+
+  function sanitizeName(name) {
+    const parts = name.split(/[\s_-]+/);
+    if (parts.length > 4) return null;
+    return name;
+  }
+
+  function renderNode(node, container, depth=1, counterObj={n:1}) {
+    const h = document.createElement('h'+depth);
+    h.textContent = node.name;
+    container.appendChild(h);
+    const ul = document.createElement('ul');
+    container.appendChild(ul);
+    node.files.forEach(f => {
+      const li = document.createElement('li');
+      const span = document.createElement('span');
+      const goodName = sanitizeName(f) || ('file'+(counterObj.n++));
+      span.textContent = goodName;
+      li.appendChild(span);
+      ul.appendChild(li);
+      if (/\.(png|jpe?g|gif|bmp|webp)$/i.test(f)) {
+        const div = document.createElement('div');
+        div.className = 'img-entry';
+        const img = document.createElement('img');
+        img.src = node.path + '/' + f;
+        div.appendChild(img);
+        const meta = document.createElement('div');
+        meta.className = 'img-meta';
+        const cb1 = document.createElement('label');
+        cb1.innerHTML = '<input type="checkbox" name="looks_ok"> Looks good?';
+        const cb2 = document.createElement('label');
+        cb2.innerHTML = '<input type="checkbox" name="not_sure"> I\'m not sure';
+        const nameIn = document.createElement('input');
+        nameIn.setAttribute('maxlength', '20');
+        nameIn.setAttribute('placeholder', 'New name (20 chars)');
+        const dd = document.createElement('div');
+        dd.className = 'dropdown-desc';
+        const sel = document.createElement('select');
+        ['','Nice shot','Could crop','Adjust color','Blur'].forEach(opt => {
+          const o = document.createElement('option');
+          o.value=o.text=opt;
+          sel.appendChild(o);
+        });
+        dd.appendChild(sel);
+        meta.append(cb1, cb2, nameIn, dd);
+        div.appendChild(meta);
+        li.appendChild(div);
+      }
+    });
+    node.folders.forEach(sub => {
+      const subDiv = document.createElement('div');
+      subDiv.className = 'folder-branch';
+      ul.appendChild(subDiv);
+      renderNode(sub, subDiv, Math.min(depth+1,6), counterObj);
+    });
+  }
+
+  async function init() {
+    const manifest = await loadManifest();
+    const root = document.getElementById('survey');
+    renderNode(manifest, root);
+  }
+
+  function collectData() {
+    const data = [];
+    document.querySelectorAll('.img-entry').forEach(div => {
+      const img = div.querySelector('img');
+      const path = img.src;
+      const folder = div.closest('li').querySelector('span').textContent;
+      const looks_ok = div.querySelector('input[name="looks_ok"]').checked;
+      const not_sure = div.querySelector('input[name="not_sure"]').checked;
+      const newName = div.querySelector('input[type="text"]').value;
+      const desc = div.querySelector('select').value;
+      data.push({ path, folder, looks_ok, not_sure, newName, desc });
+    });
+    return { timestamp: new Date().toISOString(), data };
+  }
+
+  async function sendSubmission() {
+    const payload = collectData();
+    // Here you’d POST to backend server that emails to schuellersherry7@gmail.com
+    await fetch('/submit', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ to: 'schuellersherry7@gmail.com', payload })
+    }).catch(console.error);
+  }
+
+  document.getElementById('submit-btn').addEventListener('click', () => {
+    sendSubmission();
+    alert('Submitted.');
+  });
+
+  window.addEventListener('beforeunload', (e) => {
+    navigator.sendBeacon('/submit', JSON.stringify({
+      to: 'schuellersherry7@gmail.com', payload: collectData()
+    }));
+  });
+
+  init();
+  </script>
+</body>
+</html>

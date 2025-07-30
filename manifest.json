@@ -1,0 +1,13 @@
+{
+  "name": "MyRootFolder",
+  "path": "images",
+  "files": ["img1.png", "some long name image.png", "_another-file.jpg"],
+  "folders": [
+    {
+      "name": "SubFolder1",
+      "path": "images/SubFolder1",
+      "files": ["a.jpg"],
+      "folders": []
+    }
+  ]
+}
