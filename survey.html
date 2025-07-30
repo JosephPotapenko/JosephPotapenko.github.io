@@ -317,7 +317,6 @@
   </main>
 
   <button class="submit-button" onclick="submitSurvey()">Submit Survey</button>
-  <button class="clear-button" onclick="clearAllFields()" style="background: #dc3545; margin-top: 10px;">Clear All Fields</button>
 
   <footer class="footer">
     <button class="icon-button" id="btnGit" aria-label="Go to GitHub">
@@ -1802,302 +1801,59 @@
         return;
       }
       
-      // Generate enhanced email with images and action buttons
-      generateEnhancedEmail(changedItems);
-    }
-    
-    async function generateEnhancedEmail(changedItems) {
-      // First, submit changes to API for processing
-      const changesForAPI = changedItems
-        .filter(item => (item.nameChanged || item.descriptionChanged || 
-                        (!item.wasAutoPopulated && (item.nameRecommendation || item.descriptionRecommendation))))
-        .map(item => ({
-          filename: item.originalFilename.replace(/\.[^/.]+$/, ""), // Remove extension
-          originalName: item.nameRecommendation || 'N/A',
-          originalDescription: item.descriptionRecommendation || 'N/A',
-          newName: item.nameRecommendation,
-          newDescription: item.descriptionRecommendation,
-          imagePath: getImagePath(item.originalFilename),
-          changeType: item.wasAutoPopulated ? 'modification' : 'new_entry'
-        }));
+      // Create text content for email - only changed items
+      let emailContent = "Game Pixel Art Survey Results\n\n";
+      emailContent += `Submitted: ${new Date().toLocaleString()}\n`;
+      emailContent += `Items with feedback: ${changedItems.length}\n\n`;
       
-      let apiResponse = null;
-      if (changesForAPI.length > 0) {
-        try {
-          const formData = new FormData();
-          formData.append('action', 'submit_changes');
-          formData.append('changes', JSON.stringify(changesForAPI));
-          
-          const response = await fetch('survey-api.php', {
-            method: 'POST',
-            body: formData
-          });
-          apiResponse = await response.json();
-        } catch (error) {
-          console.error('Error submitting to API:', error);
+      changedItems.forEach((item, index) => {
+        emailContent += `${item.displayName}:\n`;
+        emailContent += `Original Filename: ${item.originalFilename}\n`;
+        if (item.rating !== 'no_rating') {
+          emailContent += `Rating: ${item.rating}\n`;
         }
-      }
+        if (item.nameRecommendation) {
+          emailContent += `Name Recommendation: ${item.nameRecommendation}\n`;
+        }
+        if (item.descriptionRecommendation) {
+          emailContent += `Description Recommendation: ${item.descriptionRecommendation}\n`;
+        }
+        emailContent += '\n---\n\n';
+      });
       
-      // Create enhanced HTML email content
-      let emailContent = createEnhancedEmailHTML(changedItems, changesForAPI, apiResponse);
-      
-      // Create text fallback
-      let textContent = createTextEmailFallback(changedItems);
-      
-      // Try to open email client with HTML content
-      const subject = encodeURIComponent('Game Pixel Art Survey Results - Enhanced Review');
-      const body = encodeURIComponent(textContent);
+      // Create and send email directly
+      const subject = encodeURIComponent('Game Pixel Art Survey Results');
+      const body = encodeURIComponent(emailContent);
       const mailtoLink = `mailto:jopotapka@gmail.com?subject=${subject}&body=${body}`;
       
-      // Store data for recovery
+      // Store data for recovery in case email fails - only changed items
       localStorage.setItem('latestSurveyData', JSON.stringify({
         timestamp: new Date().toISOString(),
         data: changedItems,
-        emailContent: textContent,
-        htmlContent: emailContent,
-        apiResponse: apiResponse
+        emailContent: emailContent
       }));
       
-      // Show enhanced email preview
-      showEnhancedEmailPreview(emailContent, mailtoLink);
-    }
-    
-    function createEnhancedEmailHTML(changedItems, changesForAPI, apiResponse) {
-      const baseURL = window.location.origin + window.location.pathname.replace('/survey.html', '');
-      
-      let html = `
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <meta charset="UTF-8">
-          <title>Game Pixel Art Survey Results</title>
-          <style>
-            body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
-            .header { background: #333; color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
-            .item-card { border: 1px solid #ddd; border-radius: 8px; margin: 20px 0; padding: 15px; background: #f9f9f9; }
-            .item-header { display: flex; align-items: center; margin-bottom: 15px; }
-            .item-image { width: 64px; height: 64px; object-fit: contain; border: 1px solid #ccc; margin-right: 15px; }
-            .item-info { flex-grow: 1; }
-            .change-buttons { margin-top: 15px; }
-            .approve-btn { background: #28a745; color: white; padding: 8px 16px; border: none; border-radius: 4px; margin-right: 10px; cursor: pointer; }
-            .deny-btn { background: #dc3545; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; }
-            .rating-badge { background: #007bff; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; }
-            .change-type { background: #ffc107; color: #000; padding: 4px 8px; border-radius: 4px; font-size: 12px; margin-left: 10px; }
-            .field-change { background: #e9ecef; padding: 10px; border-radius: 4px; margin: 5px 0; }
-          </style>
-        </head>
-        <body>
-          <div class="header">
-            <h1>🎮 Game Pixel Art Survey Results</h1>
-            <p><strong>Submitted:</strong> ${new Date().toLocaleString()}</p>
-            <p><strong>Total Items with Feedback:</strong> ${changedItems.length}</p>
-            <p><strong>Items with Name/Description Changes:</strong> ${changesForAPI.length}</p>
-          </div>
-      `;
-      
-      changedItems.forEach((item, index) => {
-        const imagePath = getImagePath(item.originalFilename);
-        const fullImageURL = baseURL + '/' + imagePath;
-        const hasChanges = changesForAPI.find(change => change.filename === item.originalFilename.replace(/\.[^/.]+$/, ""));
+      // Try to open email client
+      try {
+        window.location.href = mailtoLink;
         
-        html += `
-          <div class="item-card">
-            <div class="item-header">
-              <img src="${fullImageURL}" alt="${item.displayName}" class="item-image" />
-              <div class="item-info">
-                <h3>${item.displayName}</h3>
-                <p><strong>File:</strong> ${item.originalFilename}</p>
-                ${item.rating !== 'no_rating' ? `<span class="rating-badge">${item.rating.replace('_', ' ').toUpperCase()}</span>` : ''}
-                ${hasChanges ? `<span class="change-type">${hasChanges.changeType.replace('_', ' ').toUpperCase()}</span>` : ''}
-              </div>
-            </div>
-        `;
+        // Clear work in progress data since we're submitting
+        localStorage.removeItem('surveyWorkInProgress');
+        localStorage.removeItem('hasPromptedSubmission');
         
-        if (item.nameRecommendation) {
-          html += `
-            <div class="field-change">
-              <strong>📝 Name Recommendation:</strong><br>
-              "${item.nameRecommendation}"
-            </div>
-          `;
+        alert('Email client opened with survey results. Please send the email to complete submission.');
+      } catch (error) {
+        // Fallback: copy to clipboard if possible
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(emailContent).then(() => {
+            alert(`Email client failed to open. Survey results copied to clipboard.\n\nPlease paste into an email and send to: jopotapka@gmail.com`);
+          }).catch(() => {
+            showManualEmailInstructions(emailContent);
+          });
+        } else {
+          showManualEmailInstructions(emailContent);
         }
-        
-        if (item.descriptionRecommendation) {
-          html += `
-            <div class="field-change">
-              <strong>📖 Description Recommendation:</strong><br>
-              "${item.descriptionRecommendation}"
-            </div>
-          `;
-        }
-        
-        if (hasChanges && apiResponse && apiResponse.success) {
-          const changeId = apiResponse.processedChanges ? apiResponse.processedChanges[changesForAPI.indexOf(hasChanges)] : null;
-          if (changeId) {
-            html += `
-              <div class="change-buttons">
-                <button class="approve-btn" onclick="processChange('approve', '${changeId}')">
-                  ✅ Approve & Apply Changes
-                </button>
-                <button class="deny-btn" onclick="processChange('deny', '${changeId}')">
-                  ❌ Deny (Never Ask Again)
-                </button>
-              </div>
-            `;
-          }
-        }
-        
-        html += '</div>';
-      });
-      
-      html += `
-          <script>
-            async function processChange(action, changeId) {
-              const formData = new FormData();
-              formData.append('action', action + '_change');
-              formData.append('changeId', changeId);
-              
-              try {
-                const response = await fetch('${baseURL}/survey-api.php', {
-                  method: 'POST',
-                  body: formData
-                });
-                const result = await response.json();
-                
-                if (result.success) {
-                  alert(action === 'approve' ? 'Change approved and applied!' : 'Change denied.');
-                  location.reload();
-                } else {
-                  alert('Error: ' + result.message);
-                }
-              } catch (error) {
-                alert('Network error: ' + error.message);
-              }
-            }
-          </script>
-        </body>
-        </html>
-      `;
-      
-      return html;
-    }
-    
-    function createTextEmailFallback(changedItems) {
-      let textContent = "Game Pixel Art Survey Results\n\n";
-      textContent += `Submitted: ${new Date().toLocaleString()}\n`;
-      textContent += `Items with feedback: ${changedItems.length}\n\n`;
-      textContent += "NOTE: This is a text fallback. For full functionality with images and action buttons, please view the HTML version.\n\n";
-      
-      changedItems.forEach((item, index) => {
-        textContent += `${item.displayName}:\n`;
-        textContent += `Original Filename: ${item.originalFilename}\n`;
-        if (item.rating !== 'no_rating') {
-          textContent += `Rating: ${item.rating}\n`;
-        }
-        if (item.nameRecommendation) {
-          textContent += `Name Recommendation: ${item.nameRecommendation}\n`;
-        }
-        if (item.descriptionRecommendation) {
-          textContent += `Description Recommendation: ${item.descriptionRecommendation}\n`;
-        }
-        textContent += '\n---\n\n';
-      });
-      
-      return textContent;
-    }
-    
-    function getImagePath(filename) {
-      // Search through imageDatabase to find the correct path
-      function searchInFolder(folderData, currentPath = '') {
-        // Check images in current folder
-        if (folderData.images && folderData.images.includes(filename)) {
-          return currentPath ? `${currentPath}/${filename}` : filename;
-        }
-        
-        // Check subfolders
-        if (folderData.subfolders) {
-          for (const [folderName, subfolderData] of Object.entries(folderData.subfolders)) {
-            const subPath = currentPath ? `${currentPath}/${folderName}` : folderName;
-            const result = searchInFolder(subfolderData, subPath);
-            if (result) return result;
-          }
-        }
-        
-        return null;
       }
-      
-      for (const [rootFolderName, rootFolderData] of Object.entries(imageDatabase)) {
-        const result = searchInFolder(rootFolderData, rootFolderName);
-        if (result) return result;
-      }
-      
-      return filename; // Fallback
-    }
-    
-    function showEnhancedEmailPreview(htmlContent, fallbackMailtoLink) {
-      // Create a modal with the enhanced email preview
-      const modal = document.createElement('div');
-      modal.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.9);
-        z-index: 10000;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow-y: auto;
-      `;
-      
-      const content = document.createElement('div');
-      content.style.cssText = `
-        background: white;
-        border-radius: 10px;
-        max-width: 90%;
-        max-height: 90%;
-        overflow-y: auto;
-        position: relative;
-      `;
-      
-      content.innerHTML = `
-        <div style="position: sticky; top: 0; background: #333; color: white; padding: 15px; border-radius: 10px 10px 0 0; display: flex; justify-content: space-between; align-items: center;">
-          <h2>📧 Enhanced Email Preview</h2>
-          <div>
-            <button onclick="copyHTML()" style="background: #007bff; color: white; border: none; padding: 8px 16px; border-radius: 4px; margin-right: 10px; cursor: pointer;">Copy HTML</button>
-            <button onclick="window.open('${fallbackMailtoLink}')" style="background: #28a745; color: white; border: none; padding: 8px 16px; border-radius: 4px; margin-right: 10px; cursor: pointer;">Open Email Client</button>
-            <button onclick="this.closest('.modal').remove()" style="background: #dc3545; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Close</button>
-          </div>
-        </div>
-        <div style="padding: 0;">
-          ${htmlContent}
-        </div>
-      `;
-      
-      modal.className = 'modal';
-      modal.appendChild(content);
-      document.body.appendChild(modal);
-      
-      // Add copy function to window
-      window.copyHTML = function() {
-        navigator.clipboard.writeText(htmlContent).then(() => {
-          alert('HTML email content copied to clipboard! You can paste this into an HTML email composer.');
-        }).catch(() => {
-          // Create a text area for manual copying
-          const textarea = document.createElement('textarea');
-          textarea.value = htmlContent;
-          document.body.appendChild(textarea);
-          textarea.select();
-          document.execCommand('copy');
-          document.body.removeChild(textarea);
-          alert('HTML content selected and copied!');
-        });
-      };
-      
-      // Clear work in progress data since we're submitting
-      localStorage.removeItem('surveyWorkInProgress');
-      localStorage.removeItem('hasPromptedSubmission');
     }
     
     function showManualEmailInstructions(emailContent) {
