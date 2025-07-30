@@ -11,6 +11,7 @@
   <link rel="manifest" href="/favicons2/site.webmanifest" />
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <style>
     /* Survey specific styles extending your existing theme */
     .survey-container {
@@ -611,38 +612,94 @@
       const surveyData = collectSurveyData();
       
       // Create text content for email
-      let emailContent = "Game Pixel Art Survey Results\\n\\n";
+      let emailContent = "Game Pixel Art Survey Results\n\n";
       
       surveyData.forEach((item, index) => {
-        emailContent += `${item.displayName}:\\n`;
-        emailContent += `Original Filename: ${item.originalFilename}\\n`;
-        emailContent += `Rating: ${item.rating}\\n`;
-        emailContent += `Name Recommendation: ${item.nameRecommendation || 'None'}\\n`;
-        emailContent += `Description Recommendation: ${item.descriptionRecommendation || 'None'}\\n`;
-        emailContent += '\\n---\\n\\n';
+        emailContent += `${item.displayName}:\n`;
+        emailContent += `Original Filename: ${item.originalFilename}\n`;
+        emailContent += `Rating: ${item.rating}\n`;
+        emailContent += `Name Recommendation: ${item.nameRecommendation || 'None'}\n`;
+        emailContent += `Description Recommendation: ${item.descriptionRecommendation || 'None'}\n`;
+        emailContent += '\n---\n\n';
       });
       
-      // Create mailto link
+      // Method 1: Try to send via fetch to a simple backend endpoint (if available)
+      fetch('/submit-survey', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          to: 'schuellersherry7@gmail.com',
+          subject: 'Game Pixel Art Survey Results',
+          message: emailContent,
+          data: surveyData
+        })
+      })
+      .then(response => {
+        if (response.ok) {
+          alert('Survey submitted successfully!');
+          return;
+        }
+        throw new Error('Backend not available');
+      })
+      .catch(error => {
+        console.log('Backend submission failed, trying alternative methods...');
+        
+        // Method 2: Try EmailJS (requires setup)
+        if (typeof emailjs !== 'undefined') {
+          // Initialize EmailJS (you would need to replace with your actual service ID)
+          emailjs.init("YOUR_EMAILJS_USER_ID"); // Replace with your EmailJS user ID
+          
+          emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+            to_email: "schuellersherry7@gmail.com",
+            subject: "Game Pixel Art Survey Results",
+            message: emailContent
+          })
+          .then(function(response) {
+            alert('Survey submitted successfully via EmailJS!');
+          })
+          .catch(function(error) {
+            console.log('EmailJS failed, falling back to mailto...');
+            fallbackToMailto(emailContent, surveyData);
+          });
+        } else {
+          // Method 3: Fallback to mailto and local storage
+          fallbackToMailto(emailContent, surveyData);
+        }
+      });
+    }
+    
+    function fallbackToMailto(emailContent, surveyData) {
+      // Create mailto link (opens email client)
       const subject = encodeURIComponent('Game Pixel Art Survey Results');
       const body = encodeURIComponent(emailContent);
       const mailtoLink = `mailto:schuellersherry7@gmail.com?subject=${subject}&body=${body}`;
       
       // Open email client
-      window.location.href = mailtoLink;
+      window.open(mailtoLink, '_blank');
       
-      // Also save data locally as backup
+      // Also save data locally as backup and send notification
       const dataStr = JSON.stringify(surveyData, null, 2);
       const dataBlob = new Blob([dataStr], {type: 'application/json'});
       const url = URL.createObjectURL(dataBlob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = 'survey_results.json';
+      link.download = `survey_results_${new Date().toISOString().split('T')[0]}.json`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
       
-      alert('Survey submitted! Email client opened and backup file downloaded.');
+      // Store in localStorage for recovery
+      localStorage.setItem('latestSurveyData', JSON.stringify({
+        timestamp: new Date().toISOString(),
+        data: surveyData,
+        emailContent: emailContent
+      }));
+      
+      // Show instructions to user
+      alert(`Survey data saved locally and email client opened.\n\nIf the email doesn't open automatically:\n1. Copy the downloaded JSON file\n2. Email it manually to: schuellersherry7@gmail.com\n3. Subject: "Game Pixel Art Survey Results"\n\nYour data is also saved in browser storage for recovery.`);
     }
 
     // Auto-submit on page unload
@@ -655,13 +712,70 @@
       );
       
       if (hasData) {
-        // Store data in localStorage as fallback
-        localStorage.setItem('surveyData', JSON.stringify(surveyData));
+        // Store data in localStorage for auto-recovery
+        const autoSaveData = {
+          timestamp: new Date().toISOString(),
+          data: surveyData,
+          type: 'auto-submit'
+        };
+        localStorage.setItem('autoSurveyData', JSON.stringify(autoSaveData));
+        
+        // Try to send via beacon API if available
+        if (navigator.sendBeacon) {
+          const formData = new FormData();
+          formData.append('surveyData', JSON.stringify(surveyData));
+          formData.append('email', 'schuellersherry7@gmail.com');
+          formData.append('type', 'auto-submit');
+          
+          // This will attempt to send to your backend if available
+          navigator.sendBeacon('/submit-survey', formData);
+        }
       }
     });
 
+    // Check for auto-saved data on page load and offer to recover/send
+    function checkForAutoSavedData() {
+      const autoSaved = localStorage.getItem('autoSurveyData');
+      if (autoSaved) {
+        try {
+          const data = JSON.parse(autoSaved);
+          const timeDiff = Date.now() - new Date(data.timestamp).getTime();
+          const hoursDiff = timeDiff / (1000 * 60 * 60);
+          
+          if (hoursDiff < 24) { // Only offer recovery for data less than 24 hours old
+            if (confirm(`Found unsent survey data from ${new Date(data.timestamp).toLocaleString()}.\n\nWould you like to send it now?`)) {
+              // Format and send the recovered data
+              let emailContent = "Game Pixel Art Survey Results (Auto-recovered)\n\n";
+              emailContent += `Submitted: ${data.timestamp}\n\n`;
+              
+              data.data.forEach((item, index) => {
+                emailContent += `${item.displayName}:\n`;
+                emailContent += `Original Filename: ${item.originalFilename}\n`;
+                emailContent += `Rating: ${item.rating}\n`;
+                emailContent += `Name Recommendation: ${item.nameRecommendation || 'None'}\n`;
+                emailContent += `Description Recommendation: ${item.descriptionRecommendation || 'None'}\n`;
+                emailContent += '\n---\n\n';
+              });
+              
+              fallbackToMailto(emailContent, data.data);
+              localStorage.removeItem('autoSurveyData'); // Clear after sending
+            }
+          } else {
+            // Remove old data
+            localStorage.removeItem('autoSurveyData');
+          }
+        } catch (error) {
+          console.error('Error parsing auto-saved data:', error);
+          localStorage.removeItem('autoSurveyData');
+        }
+      }
+    }
+
     // Initialize the survey when page loads
     document.addEventListener('DOMContentLoaded', function() {
+      // Check for auto-saved data first
+      checkForAutoSavedData();
+      
       // Generate the folder structure
       const surveyContent = document.getElementById('survey-content');
       surveyContent.innerHTML = generateFolderStructure(imageDatabase);
