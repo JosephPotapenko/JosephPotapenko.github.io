@@ -3,27 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <title>Game Pixel Art Survey</title>
+  <link rel="stylesheet" href="style.css">
   <style>
-    body {
-      background-color: #000000aa;
-      color: #fff;
-      font-family: sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-
-    header, footer {
-      text-align: center;
-      padding: 1rem;
-      background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
-      color: black;
-      font-weight: bold;
-    }
-
-    .container {
-      padding: 1rem 2rem;
-    }
-
+    /* Dropdown and form UI styling */
     details.folder {
       margin-bottom: 2rem;
       border: 3px solid;
@@ -91,98 +73,92 @@
     }
   </style>
 </head>
+
 <body>
+  <div class="animation-background"></div>
+  <div class="container">
+    <h1>Game Pixel Art Survey</h1>
+    <p>Select the assets you want, suggest names and descriptions.</p>
 
-<header>
-  Game Pixel Art Survey
-</header>
+    <div id="surveyContainer"></div>
 
-<div class="container" id="surveyContainer">
-  <!-- JavaScript will populate this -->
-</div>
+    <button id="submitBtn">Submit</button>
+  </div>
 
-<button id="submitBtn">Submit</button>
+  <footer>
+    <p>made by <a href="https://wheatskins.com">wheatskins</a> | <a href="/about">about</a> | <a href="/contact">contact</a></p>
+  </footer>
 
-<footer>
-  &copy; 2025 WheatSkins. All rights reserved.
-</footer>
+  <script>
+    const sourceFolder = 'source/Game pixel art';
 
-<script>
-  const sourceFolder = 'source/Game pixel art';
+    async function fetchImages() {
+      const folders = ['Characters', 'Objects', 'Tiles']; // Replace with real folders
+      const container = document.getElementById('surveyContainer');
 
-  async function fetchImages() {
-    const folders = ['Characters', 'Objects', 'Tiles']; // Replace with actual folder names if dynamic
+      folders.forEach(folder => {
+        const section = document.createElement('details');
+        section.className = 'folder';
 
-    const container = document.getElementById('surveyContainer');
+        const summary = document.createElement('summary');
+        summary.textContent = folder;
+        section.appendChild(summary);
 
-    folders.forEach(folder => {
-      const section = document.createElement('details');
-      section.className = 'folder';
+        const imageWrapper = document.createElement('div');
+        imageWrapper.className = 'image-wrapper';
 
-      const summary = document.createElement('summary');
-      summary.textContent = folder;
-      section.appendChild(summary);
+        for (let i = 1; i <= 4; i++) {
+          const imgBlock = document.createElement('div');
+          imgBlock.className = 'image-block';
 
-      const imageWrapper = document.createElement('div');
-      imageWrapper.className = 'image-wrapper';
+          const img = document.createElement('img');
+          img.src = `${sourceFolder}/${folder}/image${i}.png`;
+          img.alt = `Image ${i}`;
 
-      // Replace this loop with actual image enumeration if dynamic
-      for (let i = 1; i <= 4; i++) {
-        const imgBlock = document.createElement('div');
-        imgBlock.className = 'image-block';
+          const checkbox = document.createElement('label');
+          checkbox.innerHTML = `<input type="checkbox" name="selected-${folder}-image${i}"> Use this`;
 
-        const img = document.createElement('img');
-        img.src = `${sourceFolder}/${folder}/image${i}.png`;
-        img.alt = `Image ${i}`;
+          const nameInput = document.createElement('input');
+          nameInput.type = 'text';
+          nameInput.placeholder = 'Suggested name';
 
-        const checkbox = document.createElement('label');
-        checkbox.innerHTML = `<input type="checkbox" name="selected-${folder}-image${i}"> Use this`;
+          const descInput = document.createElement('textarea');
+          descInput.placeholder = 'Suggested description';
 
-        const nameInput = document.createElement('input');
-        nameInput.type = 'text';
-        nameInput.placeholder = 'Suggested name';
+          imgBlock.appendChild(img);
+          imgBlock.appendChild(checkbox);
+          imgBlock.appendChild(nameInput);
+          imgBlock.appendChild(descInput);
+          imageWrapper.appendChild(imgBlock);
+        }
 
-        const descInput = document.createElement('textarea');
-        descInput.placeholder = 'Suggested description';
+        section.appendChild(imageWrapper);
+        container.appendChild(section);
+      });
+    }
 
-        imgBlock.appendChild(img);
-        imgBlock.appendChild(checkbox);
-        imgBlock.appendChild(nameInput);
-        imgBlock.appendChild(descInput);
+    document.getElementById('submitBtn').addEventListener('click', () => {
+      const inputs = document.querySelectorAll('input, textarea');
+      const data = {};
 
-        imageWrapper.appendChild(imgBlock);
-      }
+      inputs.forEach(input => {
+        if (input.type === 'checkbox') {
+          data[input.name] = input.checked;
+        } else {
+          data[input.placeholder] = input.value;
+        }
+      });
 
-      section.appendChild(imageWrapper);
-      container.appendChild(section);
+      console.log('Submitting data:', data);
+
+      fetch('/submit-survey', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+      }).then(() => alert('Submitted!')).catch(() => alert('Submission failed.'));
     });
-  }
 
-  document.getElementById('submitBtn').addEventListener('click', () => {
-    const inputs = document.querySelectorAll('input, textarea');
-    const data = {};
-
-    inputs.forEach(input => {
-      if (input.type === 'checkbox') {
-        data[input.name] = input.checked;
-      } else if (input.type === 'text') {
-        data[input.placeholder] = input.value;
-      } else if (input.tagName === 'TEXTAREA') {
-        data[input.placeholder] = input.value;
-      }
-    });
-
-    console.log('Submitting data:', data);
-
-    fetch('/submit-survey', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(data)
-    }).then(() => alert('Submitted!')).catch(() => alert('Failed to submit.'));
-  });
-
-  window.addEventListener('load', fetchImages);
-</script>
-
+    window.addEventListener('load', fetchImages);
+  </script>
 </body>
 </html>
