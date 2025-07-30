@@ -639,7 +639,7 @@
       // Create and send email directly
       const subject = encodeURIComponent('Game Pixel Art Survey Results');
       const body = encodeURIComponent(emailContent);
-      const mailtoLink = `mailto:schuellersherry7@gmail.com?subject=${subject}&body=${body}`;
+      const mailtoLink = `mailto:jopotapka@gmail.com?subject=${subject}&body=${body}`;
       
       // Store data for recovery in case email fails
       localStorage.setItem('latestSurveyData', JSON.stringify({
@@ -656,7 +656,7 @@
         // Fallback: copy to clipboard if possible
         if (navigator.clipboard) {
           navigator.clipboard.writeText(emailContent).then(() => {
-            alert(`Email client failed to open. Survey results copied to clipboard.\n\nPlease paste into an email and send to: schuellersherry7@gmail.com`);
+            alert(`Email client failed to open. Survey results copied to clipboard.\n\nPlease paste into an email and send to: jopotapka@gmail.com`);
           }).catch(() => {
             showManualEmailInstructions(emailContent);
           });
@@ -696,7 +696,7 @@
       
       content.innerHTML = `
         <h3>Please Email This Survey Data</h3>
-        <p><strong>To:</strong> schuellersherry7@gmail.com</p>
+        <p><strong>To:</strong> jopotapka@gmail.com</p>
         <p><strong>Subject:</strong> Game Pixel Art Survey Results</p>
         <textarea readonly style="width: 100%; height: 300px; background: #333; color: white; border: 1px solid #555; padding: 10px; border-radius: 5px;">${emailContent}</textarea>
         <br><br>
@@ -755,7 +755,7 @@
               // Send recovered data via email
               const subject = encodeURIComponent('Game Pixel Art Survey Results (Recovered)');
               const body = encodeURIComponent(emailContent);
-              const mailtoLink = `mailto:schuellersherry7@gmail.com?subject=${subject}&body=${body}`;
+              const mailtoLink = `mailto:jopotapka@gmail.com?subject=${subject}&body=${body}`;
               
               try {
                 window.location.href = mailtoLink;
