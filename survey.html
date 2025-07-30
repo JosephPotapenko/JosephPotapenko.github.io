@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Pixel Art Survey - potapenko.dev</title>
+  <link rel="icon" type="image/png" href="/favicons2/favicon-48x48.png" sizes="48x48" />
+  <link rel="icon" type="image/svg+xml" href="/favicons2/favicon.svg" />
+  <link rel="shortcut icon" href="/favicons2/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicons2/apple-touch-icon.png" />
+  <link rel="manifest" href="/favicons2/site.webmanifest" />
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+  <style>
+    /* Survey specific styles extending your existing theme */
+    .survey-container {
+      margin-top: 120px;
+      padding: 2rem;
+      min-height: calc(100vh - 200px);
+    }
+
+    .survey-title {
+      color: rgb(228, 228, 228);
+      font-family: Calibri;
+      margin: 1;
+      padding: 1;
+      font-size: 2.5rem;
+      text-shadow: 
+       -2px -2px 0 rgb(23, 39, 39), 
+        2px -2px 0 rgb(23, 39, 39),
+       -2px 2px 0 rgb(23, 39, 39), 
+        2px 2px 0 rgb(23, 39, 39);
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    /* Hierarchical folder structure */
+    .folder-section {
+      margin-bottom: 1rem;
+    }
+
+    .folder-header {
+      color: rgb(228, 228, 228);
+      font-family: Calibri;
+      margin: 0.5rem 0;
+      padding: 0.5rem;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .folder-header:hover {
+      background: rgba(0, 123, 255, 0.2);
+      transform: translateX(10px);
+    }
+
+    /* Bullet point system */
+    .bullet-point {
+      position: relative;
+      padding-left: 1.5rem;
+    }
+
+    .bullet-point::before {
+      content: "●";
+      color: #007bff;
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-size: 1.2em;
+    }
+
+    /* Hierarchical headings */
+    h1.folder-header {
+      font-size: 2rem;
+      padding-left: 0.5rem;
+    }
+
+    h2.folder-header {
+      font-size: 1.7rem;
+      padding-left: 2rem;
+    }
+
+    h3.folder-header {
+      font-size: 1.4rem;
+      padding-left: 4rem;
+    }
+
+    h4.folder-header {
+      font-size: 1.2rem;
+      padding-left: 6rem;
+    }
+
+    /* Image grid layout */
+    .images-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 2rem;
+      margin: 1rem 0;
+      padding-left: 2rem;
+    }
+
+    /* Image survey cards with light gray transparent background */
+    .image-survey-card {
+      background: rgba(128, 128, 128, 0.5); /* Light gray 50% transparent */
+      border-radius: 15px;
+      padding: 1rem;
+      border: 2px solid transparent;
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+    }
+
+    /* Rainbow border from your styles */
+    .image-survey-card {
+      animation: borderColorChange 5s infinite;
+      animation-fill-mode: forwards;
+      border: 2px solid;
+    }
+
+    .image-survey-card:hover {
+      transform: scale(1.02);
+    }
+
+    .image-container {
+      flex: 0 0 200px;
+    }
+
+    .image-survey-card img {
+      width: 200px;
+      height: 200px;
+      object-fit: contain;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .image-filename {
+      color: white;
+      font-family: Calibri;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      word-break: break-word;
+      text-align: center;
+    }
+
+    /* Survey controls on the right side */
+    .survey-controls {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      justify-content: flex-start;
+      padding-top: 1rem;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .checkbox-row input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #007bff;
+    }
+
+    .checkbox-row label {
+      color: white;
+      font-family: Calibri;
+      font-size: 0.9rem;
+    }
+
+    /* Text inputs with black transparent background and rounded edges */
+    .text-input {
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid #555;
+      border-radius: 8px;
+      padding: 0.5rem;
+      color: white;
+      font-family: Calibri;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      transition: border-color 0.3s ease;
+    }
+
+    .text-input:focus {
+      outline: none;
+      border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+    }
+
+    .text-input::placeholder {
+      color: #aaa;
+    }
+
+    /* Name textbox - one line, 20 characters */
+    .name-input {
+      height: 2rem;
+      width: 100%;
+      max-width: 250px;
+    }
+
+    /* Description textbox - same width, 40 words max */
+    .description-input {
+      height: 4rem;
+      width: 100%;
+      max-width: 250px;
+      resize: vertical;
+      max-height: 8rem;
+    }
+
+    /* Fixed submit button with rainbow styling */
+    .submit-button {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      font-size: 18px;
+      padding: 12px 24px;
+      border: 2px solid;
+      border-radius: 18px;
+      background: transparent;
+      cursor: pointer;
+      font-family: Calibri;
+      animation: rainbowText 5s linear infinite, rainbowBorder 5s linear infinite;
+      text-decoration: none;
+      transition: background 0.3s ease-in-out, transform 0.3s ease-in-out, color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      color: rgba(255, 255, 255, 0.718);
+      z-index: 1000;
+    }
+
+    .submit-button:hover {
+      background: linear-gradient(45deg, #1118537c, #29687c86);
+      transform: scale(1.1);
+      color: white;
+      box-shadow: 0 0 20px rgba(0, 123, 255, 0.3);
+    }
+
+    /* Collapsible content */
+    .collapsible-content {
+      display: none;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .collapsible-content.show {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+      .images-grid {
+        grid-template-columns: 1fr;
+        padding-left: 1rem;
+      }
+      
+      .survey-container {
+        padding: 1rem;
+        margin-top: 80px;
+      }
+      
+      .submit-button {
+        bottom: 1rem;
+        right: 1rem;
+        font-size: 16px;
+        padding: 10px 20px;
+      }
+
+      .image-survey-card {
+        flex-direction: column;
+      }
+
+      .image-container {
+        flex: none;
+        align-self: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="title colorful-border">
+    <div>
+      <a href="/" class="titlelink">Home</a>
+      <a href="/page2.html" class="titlelink">About Me</a>
+      <a href="/projects.html" class="titlelink">Projects</a>
+      <a href="/contactpage.html" class="titlelink">Contact Info</a>
+    </div>
+  </header>
+
+  <div class="menu-container">
+    <button class="menu-button" aria-label="Open menu"></button>
+    <div class="menu-content">
+      <a href="/contactpage.html">Contact Me</a>
+      <a href="/index.html">Home Page</a>
+      <a href="/page2.html">About Me</a>
+      <a href="/projects.html">Projects</a>
+      <a href="/resume.html">Resume</a>
+      <a href="/page3.html">Secret Project</a>
+    </div>
+  </div>
+
+  <main class="survey-container">
+    <h1 class="survey-title">Game Pixel Art Survey</h1>
+    
+    <div id="survey-content">
+      <!-- Content will be dynamically generated by JavaScript -->
+    </div>
+  </main>
+
+  <button class="submit-button" onclick="submitSurvey()">Submit Survey</button>
+
+  <footer class="footer">
+    <button class="icon-button" id="btnGit" aria-label="Go to GitHub">
+      <img src="images/github logo.png" alt="GitHub Icon">
+    </button>
+    <button class="icon-button" id="btnLink" aria-label="Go to LinkedIn">
+      <img src="images/linkedin.png" alt="LinkedIn Icon">
+    </button>
+    <button class="icon-button" id="btnMozaic" aria-label="Go to MyMozaic">
+      <img src="images/mymozaic.png" alt="MyMozaic Icon">
+    </button>
+    <button class="icon-button" id="btnCodePen" aria-label="Go to CodePen">
+      <img src="images/codepen-min.png" alt="CodePen Icon">
+    </button>
+    <script>
+      document.getElementById("btnGit").addEventListener("click", function() {
+        window.location.href = "https://github.com/JosephPotapenko";
+      });
+      document.getElementById("btnLink").addEventListener("click", function() {
+        window.location.href = "https://www.linkedin.com/in/joseph-potapenko-1788a7316/";
+      });
+      document.getElementById("btnMozaic").addEventListener("click", function() {
+        window.location.href = "https://www.mymozaic.com/josephpotapenko";
+      });
+      document.getElementById("btnCodePen").addEventListener("click", function() {
+        window.location.href = "https://codepen.io/JosephPotapenko";
+      });
+    </script>
+  </footer>
+
+  <script>
+    // Image database - organized by folder structure
+    const imageDatabase = {
+      "Game pixel art": {
+        images: ["Untitled-cleaned.png"],
+        subfolders: {
+          "Armor": {
+            images: [],
+            subfolders: {
+              "Body armor - armor": {
+                images: [
+                  "1740640300970-removebg-preview.png",
+                  "1740640679583-removebg-preview.png",
+                  "32_by_32_pixel_art_of_different_armor_pieces_in_leather__copper__bronze__iron__etc.__in_an_ancient_Israelite_style.png_12-removebg-preview.png",
+                  "32_by_32_pixel_art_of_different_armor_pieces_in_leather__copper__bronze__iron__etc.__in_an_ancient_Israelite_style.png_17-removebg-preview.png",
+                  "32_by_32_pixel_art_of_different_armor_pieces_in_leather__copper__bronze__iron__etc.__in_an_ancient_Israelite_style.png_3-removebg-preview.png",
+                  "32_by_32_pixel_art_of_different_armor_pieces_in_leather__copper__bronze__iron__etc.__in_an_ancient_Israelite_style.png_7-removebg-preview.png",
+                  "32_by_32_pixel_art_of_different_armor_pieces_in_leather__copper__bronze__iron__etc.__in_an_ancient_Israelite_style.png_8-removebg-preview.png",
+                  "Leather armor.png",
+                  "outlined-image (11).png",
+                  "outlined-image (2).png",
+                  "outlined-image (3).png",
+                  "outlined-image (6).png"
+                ]
+              },
+              "helmets - armor": {
+                images: []
+              },
+              "shields - armor": {
+                images: []
+              }
+            }
+          },
+          "clothing": {
+            images: [
+              "Green cloak.png",
+              "outlined-image (10).png",
+              "outlined-image (7).png",
+              "outlined-image (8).png",
+              "outlined-image (9).png",
+              "Red cloak.png"
+            ]
+          },
+          "Collectibles": {
+            images: [],
+            subfolders: {
+              "assorted": { images: [] },
+              "Assyrian": { images: [] },
+              "Canaanitish": { images: [] },
+              "Egyptian": { images: [] },
+              "Israeli": { images: [] },
+              "tablets": { images: [] }
+            }
+          },
+          "Equipables": {
+            images: [
+              "asset_14-cleaned_centered.png",
+              "Fishing rod (2).png",
+              "rotated_image (10).png",
+              "rotated_image (11).png",
+              "rotated_image (14).png",
+              "rotated_image (15).png",
+              "rotated_image (16).png",
+              "rotated_image (17).png",
+              "rotated_image (18).png",
+              "rotated_image (19).png",
+              "rotated_image (20).png"
+            ]
+          },
+          "food decor": { images: [] },
+          "Foods": { images: [] },
+          "footwear": { images: [] },
+          "furniture": { images: [] },
+          "gems or jewelry": { images: [] },
+          "healing items": { images: [] },
+          "mining items": { images: [] },
+          "outside decor": { images: [] },
+          "Plants": { images: [] },
+          "possible decor": { images: [] },
+          "Regular items": { images: [] },
+          "Scrolls": { images: [] },
+          "Story items": { images: [] },
+          "weapons": { images: [] }
+        }
+      }
+    };
+
+    let imageCounter = 1;
+
+    function simplifyImageName(filename) {
+      // Count words separated by spaces, underscores, or hyphens
+      const words = filename.replace(/\.[^/.]+$/, "") // Remove extension
+                            .split(/[\s_-]+/) // Split by spaces, underscores, hyphens
+                            .filter(word => word.length > 0);
+      
+      if (words.length > 4) {
+        return `Image ${imageCounter++}`;
+      }
+      return `Image ${imageCounter++}`;
+    }
+
+    function toggleSection(sectionId) {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        if (section.style.display === 'none' || section.style.display === '') {
+          section.style.display = 'block';
+          section.classList.add('show');
+        } else {
+          section.style.display = 'none';
+          section.classList.remove('show');
+        }
+      }
+    }
+
+    function createImageCard(imagePath, displayName, imageId) {
+      return `
+        <div class="image-survey-card">
+          <div class="image-container">
+            <img src="${imagePath}" alt="${displayName}" loading="lazy">
+            <div class="image-filename">${displayName}</div>
+          </div>
+          <div class="survey-controls">
+            <div class="checkbox-row">
+              <input type="checkbox" id="good_${imageId}" name="rating_${imageId}" value="good">
+              <label for="good_${imageId}">Looks good</label>
+            </div>
+            <div class="checkbox-row">
+              <input type="checkbox" id="unsure_${imageId}" name="rating_${imageId}" value="unsure">
+              <label for="unsure_${imageId}">I'm not sure</label>
+            </div>
+            <input type="text" class="text-input name-input" placeholder="Name recommendation (20 chars max)" maxlength="20" name="name_${imageId}" data-image-id="${imageId}">
+            <textarea class="text-input description-input" placeholder="Description recommendation (40 words max)" name="description_${imageId}" data-image-id="${imageId}"></textarea>
+          </div>
+        </div>
+      `;
+    }
+
+    function generateFolderStructure(data, basePath = '', level = 1) {
+      let html = '';
+      let globalImageId = 1;
+
+      function processFolder(folderData, currentPath, currentLevel, folderName = '') {
+        let folderHtml = '';
+        
+        if (folderName) {
+          const headingTag = `h${Math.min(currentLevel, 6)}`;
+          const sectionId = `section_${currentPath.replace(/[^a-zA-Z0-9]/g, '_')}`;
+          
+          folderHtml += `
+            <div class="folder-section">
+              <${headingTag} class="folder-header bullet-point" onclick="toggleSection('${sectionId}')">${folderName}</${headingTag}>
+              <div id="${sectionId}" class="collapsible-content">
+          `;
+        }
+
+        // Process images in current folder
+        if (folderData.images && folderData.images.length > 0) {
+          folderHtml += '<div class="images-grid">';
+          folderData.images.forEach(imageName => {
+            const imagePath = currentPath ? `${currentPath}/${imageName}` : imageName;
+            const displayName = simplifyImageName(imageName);
+            folderHtml += createImageCard(imagePath, displayName, globalImageId++);
+          });
+          folderHtml += '</div>';
+        }
+
+        // Process subfolders
+        if (folderData.subfolders) {
+          Object.entries(folderData.subfolders).forEach(([subfolderName, subfolderData]) => {
+            const subfolderPath = currentPath ? `${currentPath}/${subfolderName}` : subfolderName;
+            folderHtml += processFolder(subfolderData, subfolderPath, currentLevel + 1, subfolderName);
+          });
+        }
+
+        if (folderName) {
+          folderHtml += `
+              </div>
+            </div>
+          `;
+        }
+
+        return folderHtml;
+      }
+
+      // Start processing from root
+      Object.entries(data).forEach(([rootFolderName, rootFolderData]) => {
+        html += processFolder(rootFolderData, rootFolderName, level, rootFolderName);
+      });
+
+      return html;
+    }
+
+    function countWords(text) {
+      return text.trim().split(/\s+/).filter(word => word.length > 0).length;
+    }
+
+    function validateDescriptions() {
+      const descriptions = document.querySelectorAll('.description-input');
+      descriptions.forEach(textarea => {
+        textarea.addEventListener('input', function() {
+          const wordCount = countWords(this.value);
+          if (wordCount > 40) {
+            const words = this.value.trim().split(/\s+/);
+            this.value = words.slice(0, 40).join(' ');
+          }
+        });
+      });
+    }
+
+    function setupCheckboxExclusivity() {
+      const checkboxPairs = document.querySelectorAll('.image-survey-card');
+      checkboxPairs.forEach(card => {
+        const goodCheckbox = card.querySelector('input[value="good"]');
+        const unsureCheckbox = card.querySelector('input[value="unsure"]');
+        
+        if (goodCheckbox && unsureCheckbox) {
+          goodCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+              unsureCheckbox.checked = false;
+            }
+          });
+          
+          unsureCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+              goodCheckbox.checked = false;
+            }
+          });
+        }
+      });
+    }
+
+    function collectSurveyData() {
+      const data = [];
+      const cards = document.querySelectorAll('.image-survey-card');
+      
+      cards.forEach((card, index) => {
+        const img = card.querySelector('img');
+        const filename = img.src.split('/').pop();
+        const displayName = card.querySelector('.image-filename').textContent;
+        
+        const goodChecked = card.querySelector('input[value="good"]')?.checked || false;
+        const unsureChecked = card.querySelector('input[value="unsure"]')?.checked || false;
+        const nameRecommendation = card.querySelector('.name-input')?.value || '';
+        const descriptionRecommendation = card.querySelector('.description-input')?.value || '';
+        
+        let rating = 'no_rating';
+        if (goodChecked) rating = 'good';
+        else if (unsureChecked) rating = 'not_sure';
+        
+        data.push({
+          originalFilename: filename,
+          displayName: displayName,
+          rating: rating,
+          nameRecommendation: nameRecommendation,
+          descriptionRecommendation: descriptionRecommendation
+        });
+      });
+      
+      return data;
+    }
+
+    function submitSurvey() {
+      const surveyData = collectSurveyData();
+      
+      // Create text content for email
+      let emailContent = "Game Pixel Art Survey Results\\n\\n";
+      
+      surveyData.forEach((item, index) => {
+        emailContent += `${item.displayName}:\\n`;
+        emailContent += `Original Filename: ${item.originalFilename}\\n`;
+        emailContent += `Rating: ${item.rating}\\n`;
+        emailContent += `Name Recommendation: ${item.nameRecommendation || 'None'}\\n`;
+        emailContent += `Description Recommendation: ${item.descriptionRecommendation || 'None'}\\n`;
+        emailContent += '\\n---\\n\\n';
+      });
+      
+      // Create mailto link
+      const subject = encodeURIComponent('Game Pixel Art Survey Results');
+      const body = encodeURIComponent(emailContent);
+      const mailtoLink = `mailto:schuellersherry7@gmail.com?subject=${subject}&body=${body}`;
+      
+      // Open email client
+      window.location.href = mailtoLink;
+      
+      // Also save data locally as backup
+      const dataStr = JSON.stringify(surveyData, null, 2);
+      const dataBlob = new Blob([dataStr], {type: 'application/json'});
+      const url = URL.createObjectURL(dataBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'survey_results.json';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      
+      alert('Survey submitted! Email client opened and backup file downloaded.');
+    }
+
+    // Auto-submit on page unload
+    window.addEventListener('beforeunload', function(e) {
+      const surveyData = collectSurveyData();
+      const hasData = surveyData.some(item => 
+        item.rating !== 'no_rating' || 
+        item.nameRecommendation || 
+        item.descriptionRecommendation
+      );
+      
+      if (hasData) {
+        // Store data in localStorage as fallback
+        localStorage.setItem('surveyData', JSON.stringify(surveyData));
+      }
+    });
+
+    // Initialize the survey when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      // Generate the folder structure
+      const surveyContent = document.getElementById('survey-content');
+      surveyContent.innerHTML = generateFolderStructure(imageDatabase);
+      
+      // Setup form validation and interactions
+      validateDescriptions();
+      setupCheckboxExclusivity();
+      
+      // Show root level by default
+      const rootSections = document.querySelectorAll('[id^="section_Game_pixel_art"]');
+      rootSections.forEach(section => {
+        if (section.id === 'section_Game_pixel_art') {
+          section.style.display = 'block';
+          section.classList.add('show');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
