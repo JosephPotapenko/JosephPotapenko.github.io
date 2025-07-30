@@ -641,7 +641,7 @@
     function findMatchingDescription(filename) {
       const baseName = extractBaseName(filename);
       
-      // Direct match first
+      // Direct exact match first - this should be the primary method
       if (descriptionsDatabase[baseName]) {
         return {
           name: baseName.replace(/_/g, " "), // Convert underscores to spaces for display
@@ -649,17 +649,28 @@
         };
       }
       
-      // Try with different case variations
-      const variations = [
-        baseName,
+      // Try exact match with original filename (without extension)
+      const originalBase = filename.replace(/\.[^/.]+$/, "");
+      if (descriptionsDatabase[originalBase]) {
+        return {
+          name: originalBase.replace(/_/g, " "),
+          description: descriptionsDatabase[originalBase]
+        };
+      }
+      
+      // Try case variations only for exact matches
+      const exactVariations = [
         baseName.toLowerCase(),
         baseName.charAt(0).toUpperCase() + baseName.slice(1).toLowerCase(),
         baseName.replace(/_/g, " "),
         baseName.replace(/_/g, " ").toLowerCase(),
-        baseName.replace(/_/g, " ").charAt(0).toUpperCase() + baseName.replace(/_/g, " ").slice(1).toLowerCase()
+        baseName.replace(/_/g, " ").charAt(0).toUpperCase() + baseName.replace(/_/g, " ").slice(1).toLowerCase(),
+        originalBase,
+        originalBase.toLowerCase(),
+        originalBase.charAt(0).toUpperCase() + originalBase.slice(1).toLowerCase()
       ];
       
-      for (const variation of variations) {
+      for (const variation of exactVariations) {
         if (descriptionsDatabase[variation]) {
           return {
             name: variation.replace(/_/g, " "),
@@ -668,13 +679,13 @@
         }
       }
       
-      // Enhanced partial matching with better logic
+      // Only use partial matching if no exact match found and score is very high (98%+)
       let bestMatch = null;
       let bestScore = 0;
       
       for (const [key, description] of Object.entries(descriptionsDatabase)) {
-        const score = calculateMatchScore(baseName, key);
-        if (score > bestScore && score >= 0.6) { // Require at least 60% similarity
+        const score = calculateExactMatchScore(baseName, key);
+        if (score > bestScore && score >= 0.98) { // Very high threshold for partial matches
           bestScore = score;
           bestMatch = {
             name: key.replace(/_/g, " "),
@@ -683,12 +694,16 @@
         }
       }
       
-      // If we still don't have a match, try fallback patterns for common item types
-      if (!bestMatch) {
-        bestMatch = tryFallbackMatching(baseName, filename);
+      // Return partial match only if score is very high
+      if (bestMatch && bestScore >= 0.98) {
+        return bestMatch;
       }
       
-      return bestMatch;
+      // No match found - return empty instead of defaulting to anything
+      return {
+        name: '',
+        description: ''
+      };
     }
     
     // Fallback matching for common game item patterns
@@ -757,6 +772,49 @@
       }
       
       return null;
+    }
+    
+    // Calculate exact similarity score between filename and database key
+    function calculateExactMatchScore(baseName, key) {
+      const normalizedBase = baseName.toLowerCase().replace(/[^a-z0-9]/g, "");
+      const normalizedKey = key.toLowerCase().replace(/[^a-z0-9]/g, "");
+      
+      // Exact match gets highest score
+      if (normalizedBase === normalizedKey) {
+        return 1.0;
+      }
+      
+      // Also check with spaces converted to underscores and vice versa
+      const baseWithUnderscore = baseName.toLowerCase().replace(/\s+/g, "_");
+      const keyWithSpace = key.toLowerCase().replace(/_/g, " ");
+      
+      if (baseWithUnderscore === key.toLowerCase() || baseName.toLowerCase() === keyWithSpace) {
+        return 1.0;
+      }
+      
+      // For very precise matching, require exact word order and content
+      const baseWords = baseName.toLowerCase().split(/[_\s-]+/).filter(w => w.length > 0);
+      const keyWords = key.toLowerCase().split(/[_\s-]+/).filter(w => w.length > 0);
+      
+      if (baseWords.length === 0 || keyWords.length === 0) {
+        return 0;
+      }
+      
+      // Count exact matching words in exact order
+      let exactMatches = 0;
+      let maxLength = Math.max(baseWords.length, keyWords.length);
+      
+      for (let i = 0; i < Math.min(baseWords.length, keyWords.length); i++) {
+        if (baseWords[i] === keyWords[i]) {
+          exactMatches++;
+        }
+      }
+      
+      // Calculate score based on exact word matches in order
+      const orderScore = exactMatches / maxLength;
+      
+      // Only return high scores for very close matches
+      return orderScore;
     }
     
     // Calculate similarity score between filename and database key
@@ -901,290 +959,6 @@
                   "asset_1 (45)-cleaned.png",
                   "quality wooden shield.png"
                 ]
-              }
-            }
-          },
-          "clothing": {
-            images: [
-              "Green cloak.png",
-              "outlined-image (10).png",
-              "outlined-image (7).png",
-              "outlined-image (8).png",
-              "outlined-image (9).png",
-              "Red cloak.png"
-            ]
-          },
-          "Collectibles": {
-            images: [],
-            subfolders: {
-              "assorted": {
-                images: [
-                  "1740104286089-removebg-preview-cleaned.png",
-                  "1740104886409-removebg-preview.png",
-                  "1740105313697-removebg-preview.png",
-                  "1740107414582-removebg-preview.png",
-                  "Ancient_Bracelet.png",
-                  "Ancient_Fish_Hook.png",
-                  "Ancient_Flying_Toy.png",
-                  "Ancient_Necklace.png",
-                  "Broken_Blade.png",
-                  "Broken_Bracelet.png",
-                  "Crescent earrings.png",
-                  "Golden_Tag.png",
-                  "Scroll.png",
-                  "Shattered_Blade.png",
-                  "Spoon.png",
-                  "asset_10 (1)-cleaned.png",
-                  "asset_10 (3)-cleaned.png",
-                  "asset_10 (5)-cleaned.png",
-                  "asset_4 (22).png",
-                  "asset_5 (14).png",
-                  "asset_5 (19)-cleaned.png",
-                  "asset_5 (21)-cleaned.png",
-                  "asset_6 (17)-cleaned.png",
-                  "asset_6 (32).png",
-                  "asset_6 (36).png",
-                  "asset_7 (10)-cleaned.png",
-                  "asset_7 (11)-cleaned.png",
-                  "asset_7 (2)-cleaned.png",
-                  "asset_8 (7)-cleaned.png",
-                  "asset_9 (10).png",
-                  "clay pitcher.png",
-                  "peacock clay model.png",
-                  "rotated_image (4).png"
-                ]
-              },
-              "Assyrian": {
-                images: [
-                  "1740104313426-removebg-preview-cleaned.png",
-                  "1740104709778-removebg-preview.png",
-                  "1740104773338-removebg-preview.png",
-                  "1740104865757-removebg-preview.png",
-                  "1740105607503-removebg-preview.png",
-                  "1740106298405-removebg-preview.png",
-                  "1740640648263-removebg-preview.png",
-                  "Assyrian_Art.png",
-                  "Assyrian_Pot.png",
-                  "Assyrian_stone_Marker.png",
-                  "Assyrin_Fish_God_Statue.png",
-                  "Asyrian decorative piece.png",
-                  "Female_Face_Sculpture_from_Persia.png",
-                  "Golden_Chain_of_Assyrian_King.png",
-                  "Greek stone eagle model.png",
-                  "Man_s_Clay_sculpture_of_Babel.png",
-                  "Philistine shield.png",
-                  "Philistine_Portable_Time_Dial.png",
-                  "Philistine_Pot.png",
-                  "Philistine_Tent_Spoke.png",
-                  "Plain_Assyrian_Bracelet.png",
-                  "Stone_Assyrian_Fish_God_Carving.png",
-                  "asset_1 (44)-cleaned.png",
-                  "asset_1 (62).png",
-                  "asset_3 (32).png",
-                  "asset_6 (14)-cleaned.png",
-                  "asset_6 (31).png",
-                  "asset_7 (10).png",
-                  "asset_7 (20).png",
-                  "asset_9 (17).png",
-                  "asset_9 (9).png",
-                  "cut_0_centered.png"
-                ]
-              },
-              "Canaanitish": {
-                images: [
-                  "1740044417630-removebg-preview.png",
-                  "1740044479573-removebg-preview.png",
-                  "1740044491281-removebg-preview.png",
-                  "1740044525251-removebg-preview.png",
-                  "1740044551480-removebg-preview.png",
-                  "1740044579475-removebg-preview.png",
-                  "1740044889351-removebg-preview.png",
-                  "1740104630988-removebg-preview.png",
-                  "1740104735077-removebg-preview.png",
-                  "1740104823874-removebg-preview.png",
-                  "1740105103587-removebg-preview.png",
-                  "1740105247510-removebg-preview.png",
-                  "1740105267129-removebg-preview.png",
-                  "1740105726617-removebg-preview.png",
-                  "1740105763601-removebg-preview.png",
-                  "1740105858778-removebg-preview.png",
-                  "1740106176368-removebg-preview.png",
-                  "1740106580772-removebg-preview.png",
-                  "1740106691475-removebg-preview.png",
-                  "1740644541419-removebg-preview.png",
-                  "Assyrian_Coin.png",
-                  "Canaanite 1.png",
-                  "Canaanite 3.png",
-                  "Canaanite urn.png",
-                  "Clay_Elephant_Sculpture.png",
-                  "Decorative_Assyrian_Challace.png",
-                  "Gilded_horn-removebg-preview.png",
-                  "Gold Jewish Decorative plate.png",
-                  "Head_of_Baal.png",
-                  "Wooden Shield.png",
-                  "asset_1 (58).png",
-                  "asset_2 (52).png",
-                  "asset_2 (56).png",
-                  "asset_4 (15).png",
-                  "asset_4 (19).png",
-                  "asset_4 (29)-cleaned.png",
-                  "asset_4 (30)-cleaned.png",
-                  "asset_5 (12)-cleaned.png",
-                  "asset_5 (16).png",
-                  "asset_5-cleaned (3).png",
-                  "asset_6 (15)-cleaned.png",
-                  "asset_6 (34).png",
-                  "asset_6 (35).png",
-                  "asset_7 (12).png",
-                  "asset_7 (9)-cleaned.png",
-                  "asset_9 (5)-cleaned.png",
-                  "asset_9 (8)-cleaned.png",
-                  "asset_9-cleaned.png",
-                  "canaanite 2.png"
-                ]
-              },
-              "Egyptian": {
-                images: [
-                  "1740044341262-removebg-preview.png",
-                  "1740044371540-removebg-preview.png",
-                  "1740102913876-removebg-preview.png",
-                  "1740102952498-removebg-preview.png",
-                  "1740103172722-removebg-preview.png",
-                  "1740103313584-removebg-preview.png",
-                  "1740104269696-removebg-preview.png",
-                  "1740104329697-removebg-preview-cleaned.png",
-                  "1740104364648-removebg-preview-cleaned.png",
-                  "1740105378325-removebg-preview.png",
-                  "1740105503367-removebg-preview.png",
-                  "1740105529196-removebg-preview.png",
-                  "1740105557383-removebg-preview.png",
-                  "1740106644251-removebg-preview.png",
-                  "1740106731199-removebg-preview.png",
-                  "1740106772235-removebg-preview.png",
-                  "1740107204745-removebg-preview.png",
-                  "Ancient_Egyptian_Earrings.png",
-                  "Egyptian compass.png",
-                  "Egyptian measuring wheel.png",
-                  "Egyptian queen's head peice.png",
-                  "Egyptian septant.png",
-                  "Egyptian_Brooch.png",
-                  "Egyptian_Compass.png",
-                  "Egyptian_Embalming_Jar.png",
-                  "Egyptian_Embalming_Oil.png",
-                  "Egyptian_Pendant.png",
-                  "Egyptian_Scalpal.png",
-                  "Egyptian_Sceptre.png",
-                  "The_fiery_Pheonix.png",
-                  "asset_1 (10).png",
-                  "asset_1 (8).png",
-                  "asset_1-cleaned (2).png",
-                  "asset_10-cleaned (3).png",
-                  "asset_11-cleaned.png",
-                  "asset_2 (1)-cleaned.png",
-                  "asset_2 (10).png",
-                  "asset_2-cleaned (3).png",
-                  "asset_2-cleaned.png",
-                  "asset_3 (2).PNG",
-                  "asset_3 (33).png",
-                  "asset_3 (9).png",
-                  "asset_4 (1)-cleaned.png",
-                  "asset_4 (35).png",
-                  "asset_4 (6).png",
-                  "asset_4 (7).png",
-                  "asset_4-cleaned (4).png",
-                  "asset_4-cleaned.png",
-                  "asset_5 (20)-cleaned.png",
-                  "asset_5 (28).png",
-                  "asset_5 (29).png",
-                  "asset_5 (7).png",
-                  "asset_5 (8).png",
-                  "asset_5-cleaned (4).png",
-                  "asset_6 (1)-cleaned.png",
-                  "asset_6 (18).png",
-                  "asset_6-cleaned.png",
-                  "asset_7 (5).png",
-                  "asset_7 (6).png",
-                  "asset_7-cleaned.png",
-                  "asset_8 (18).png",
-                  "asset_8 (7).png",
-                  "asset_9 (1)-cleaned.png",
-                  "asset_9 (4).png",
-                  "asset_9 (5).png",
-                  "asset_9 (9)-cleaned.png",
-                  "pharoahs embalming pot.png"
-                ]
-              },
-              "Israeli": {
-                images: [
-                  "1740044671773-removebg-preview.png",
-                  "1740044679791-removebg-preview.png",
-                  "1740044756212-removebg-preview.png",
-                  "1740104384247-removebg-preview-cleaned.png",
-                  "1740104931855-removebg-preview.png",
-                  "1740105818033-removebg-preview.png",
-                  "1740105890209-removebg-preview.png",
-                  "Ancient_Hebrew_Dradle.png",
-                  "Ancient_Hebrew_RIng.png",
-                  "Clay_tablet_scroll.png",
-                  "Decorative_Hebrew_Cup.png",
-                  "Decorative_Hebrew_Pot.png",
-                  "Hebrew jar.png",
-                  "Hebrew_Archive_Container.png",
-                  "Hebrew_Challace.png",
-                  "Hebrew_Mortar_and_Pestel.png",
-                  "Hebrew_Oil_Lamp.png",
-                  "Hebrew_Plate.png",
-                  "Hebrew_Pot.png",
-                  "Hebrew_Smoking_Pot.png",
-                  "Hebrew_Urn.png",
-                  "Hebrew_Vase.png",
-                  "Hebrew_Water_Bason.png",
-                  "Hebrew_Water_Pitcher.png",
-                  "Hebrew_Water_Pot.png",
-                  "Israeli pitcher.png",
-                  "Israeli_Stone_Marker_.png",
-                  "Israeli_pot.png",
-                  "Maze map.png",
-                  "asset_1 (50)-cleaned.png",
-                  "asset_10 (5).png",
-                  "asset_2 (37).png",
-                  "asset_3 (23)-cleaned.png",
-                  "asset_4 (28)-cleaned.png",
-                  "asset_4 (36).png",
-                  "asset_4-cleaned (3).png",
-                  "asset_5 (13)-cleaned.png",
-                  "asset_7 (21).png",
-                  "asset_8 (11).png",
-                  "asset_9-cleaned (2).png"
-                ]
-              },
-              "tablets": {
-                images: [],
-                subfolders: {
-                  "Old man collection": {
-                    images: [
-                      "Tablet_1.png",
-                      "Tablet_12.png",
-                      "Tablet_13.png",
-                      "Tablet_16.png",
-                      "Tablet_19.png",
-                      "Tablet_2.png",
-                      "Tablet_3.png",
-                      "Tablet_5.png",
-                      "Tablet_6.png",
-                      "Tablet_8.png",
-                      "tablet_10.png",
-                      "tablet_11.png",
-                      "tablet_14.png",
-                      "tablet_15.png",
-                      "tablet_20.png",
-                      "tablet_4.png",
-                      "tablet_7.png",
-                      "tablet_9.png",
-                      "tablets_17___18.png"
-                    ]
-                  }
-                }
               }
             }
           },
