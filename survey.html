@@ -241,27 +241,32 @@
     }
 
     /* Clear button styling */
+   
+    /* Clear button styling */
     .clear-button {
       position: fixed;
       bottom: 2rem;
-      right: 12rem;
+      right: 13rem;
       font-size: 16px;
       padding: 10px 20px;
-      border: 2px solid #dc3545;
+
       border-radius: 18px;
       background: transparent;
       cursor: pointer;
       font-family: Calibri;
-      color: #dc3545;
+      animation: rainbowText 5s linear infinite, rainbowBorder 5s linear infinite;
+      text-decoration: none;
+      transition: background 0.3s ease-in-out, transform 0.3s ease-in-out, color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      color: rgba(255, 255, 255, 0.718);
       transition: background 0.3s ease-in-out, transform 0.3s ease-in-out, color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
       z-index: 1000;
     }
 
     .clear-button:hover {
-      background: #dc3545;
-      transform: scale(1.05);
-      color: white;
-      box-shadow: 0 0 20px rgba(220, 53, 69, 0.3);
+      background: linear-gradient(45deg, #582c2c7c, #c74e4e67);
+      transform: scale(1.1);
+      color: rgb(255, 255, 255);
+      box-shadow: 0 0 20px rgba(255, 124, 124, 0.121);
     }
 
     /* Collapsible content */
@@ -909,7 +914,7 @@
 
     // Image database - organized by folder structure
     const imageDatabase = {
-      "  Game pixel art": {
+       "- Game pixel art": {
         subfolders: {
           "Armor": {
             images: [],
