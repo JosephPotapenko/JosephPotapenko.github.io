@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=0.5, maximum-scale=3.0">
   <title>Game Pixel Art Survey - potapenko.dev</title>
   <link rel="icon" type="image/png" href="/favicons2/favicon-48x48.png" sizes="48x48" />
   <link rel="icon" type="image/svg+xml" href="/favicons2/favicon.svg" />
@@ -214,6 +214,33 @@
       max-height: 8rem;
     }
 
+    /* Custom scrollbar styling for description textareas */
+    .description-input::-webkit-scrollbar {
+      width: 8px;
+      background: transparent;
+    }
+
+    .description-input::-webkit-scrollbar-track {
+      background: transparent;
+      border-radius: 10px;
+    }
+
+    .description-input::-webkit-scrollbar-thumb {
+      background: #1e3a8a;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .description-input::-webkit-scrollbar-thumb:hover {
+      background: #2563eb;
+    }
+
+    /* Firefox scrollbar styling */
+    .description-input {
+      scrollbar-width: thin;
+      scrollbar-color: #1e3a8a transparent;
+    }
+
     /* Fixed submit button with rainbow styling */
     .submit-button {
       position: fixed;
@@ -269,6 +296,42 @@
       box-shadow: 0 0 20px rgba(255, 124, 124, 0.121);
     }
 
+    /* Expand all button */
+    .expand-all-button {
+      position: fixed;
+      top: 4rem;
+      right: 20px;
+      font-size: 18px;
+      padding: 12px 24px;
+      border: 2px solid;
+      border-radius: 18px;
+      background: transparent;
+      cursor: pointer;
+      font-family: Calibri;
+      animation: rainbowText 5s linear infinite, rainbowBorder 5s linear infinite;
+      text-decoration: none;
+      transition: background 0.3s ease-in-out, transform 0.3s ease-in-out, color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      color: rgba(255, 255, 255, 0.718);
+      z-index: 1001;
+    }
+
+    .expand-all-button:hover {
+      background: linear-gradient(45deg, #4a1a4a7c, #7a4a7a86);
+      transform: scale(1.1);
+      color: white;
+      box-shadow: 0 0 20px rgba(147, 0, 211, 0.3);
+    }
+
+    /* Mobile responsiveness for expand button */
+    @media (max-width: 768px) {
+      .expand-all-button {
+        top: 3.5rem;
+        right: 15px;
+        padding: 10px 20px;
+        font-size: 14px;
+      }
+    }
+
     /* Collapsible content */
     .collapsible-content {
       display: none;
@@ -287,8 +350,96 @@
     /* Mobile responsiveness */
     @media (max-width: 768px) {
       .images-grid {
-        grid-template-columns: 1fr;
-        padding-left: 1rem;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+      }
+
+      .image-survey-card {
+        flex-direction: column;
+        padding: 0.5rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .image-survey-card.zoomed {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1.5);
+        z-index: 2000;
+        background: rgba(128, 128, 128, 0.95);
+        backdrop-filter: blur(10px);
+        max-width: 90vw;
+        max-height: 90vh;
+        overflow: auto;
+      }
+
+      .image-container {
+        flex: none;
+        width: 100%;
+      }
+
+      .image-container img {
+        width: 100%;
+        height: auto;
+        max-height: 120px;
+        object-fit: cover;
+      }
+
+      .zoomed .image-container img {
+        max-height: none;
+        height: auto;
+      }
+
+      .card-content {
+        flex: 1;
+        min-height: 80px;
+      }
+
+      .card-content h3 {
+        font-size: 12px;
+        margin: 0.3rem 0;
+      }
+
+      .card-content .description {
+        font-size: 10px;
+        line-height: 1.2;
+      }
+
+      .name-input, .description-input {
+        font-size: 10px;
+        padding: 0.3rem;
+      }
+
+      .zoomed .card-content h3 {
+        font-size: 18px;
+      }
+
+      .zoomed .card-content .description {
+        font-size: 14px;
+      }
+
+      .zoomed .name-input, .zoomed .description-input {
+        font-size: 14px;
+        padding: 0.5rem;
+      }
+
+      /* Overlay for zoomed images */
+      .zoom-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 1999;
+        display: none;
+      }
+
+      .zoom-overlay.active {
+        display: block;
       }
       
       .survey-container {
@@ -347,6 +498,9 @@
   <main class="survey-container">
     <h1 class="survey-title">Game Pixel Art Survey</h1>
     
+    <!-- Expand/Collapse All Button -->
+    <button class="expand-all-button" onclick="toggleAllSections()">Expand All</button>
+    
     <div id="survey-content">
       <!-- Content will be dynamically generated by JavaScript -->
     </div>
@@ -354,6 +508,9 @@
 
   <button class="submit-button" onclick="submitSurvey()">Submit Survey</button>
   <button class="clear-button" onclick="clearAllFields()">Clear All</button>
+  
+  <!-- Zoom overlay for mobile -->
+  <div class="zoom-overlay" onclick="closeZoom()"></div>
 
   <footer class="footer">
     <button class="icon-button" id="btnGit" aria-label="Go to GitHub">
@@ -514,6 +671,7 @@
       "Hebrew_Plate": "A broad clay dish used to hold bread or fruit. Decorated with family patterns and shared during gatherings.",
       "Hebrew_Pot": "A standard vessel for cooking or storage. Found in most households, often blackened by fire.",
       "Hebrew_Smoking_Pot": "A clay pot used to burn incense or dry herbs. The smoke is used in cleansing and ritual settings.",
+      "Incense_Burner": "A bronze or clay vessel designed to burn fragrant resins and herbs. Hung on walls or placed on stands, it fills rooms with sacred smoke during prayer and purification rituals.",
       "Hebrew_Urn": "An urn for storing grain, oil, or ashes. Sometimes kept in homes of priests or elders.",
       "Hebrew_Vase": "A decorative vessel often presented at weddings. It carries oil, water, or offerings.",
       "Hebrew_Water_Bason": "A shallow bowl placed near doors for handwashing. Used before meals and communal worship.",
@@ -542,6 +700,13 @@
       "Lobster": "Rare along inland trade routes, but occasionally brought from the Mediterranean coast, prepared by boiling in clay pots.",
       "Long_Sword": "A standard infantry weapon forged from iron. Found in battlegrounds and garrisons near fortified cities.",
       "Mackeral": "Caught in the Mediterranean, salted, and transported inland. Served in small portions alongside barley and bread.",
+      "Night_fish": "A nocturnal fish caught in deep waters during moonless nights. Known for its silvery scales and tender flesh.",
+      "Rainbow_Runner": "A colorful fish with vibrant stripes, found in warm coastal waters. Prized for its beauty and delicate flavor.",
+      "Crabs": "Hard-shelled creatures scuttling along the Mediterranean shoreline. Boiled and cracked open to access sweet meat within.",
+      "clown_fish": "A small, orange fish with white stripes. Occasionally caught near coral formations and kept as curiosities.",
+      "gold_fish": "A rare, golden-scaled fish considered a symbol of prosperity. Sometimes kept in temple pools or noble houses.",
+      "ocean_sunfish": "A large, flat fish found in deeper Mediterranean waters. Its unusual shape makes it memorable among fishermen.",
+      "seaweed": "Marine vegetation harvested from coastal waters. Dried and used as seasoning or wrapped around other foods.",
       "Man_s_Clay_sculpture_of_Babel": "A small clay figure, possibly representing men from ancient Babel. Found near old ziggurat ruins and cracked by time.",
       "Mandarines": "Bright citrus brought from warmer coastal regions. Peeled and eaten at feasts, especially during early spring.",
       "Mashed_Potatoes": "Boiled root vegetables pounded with oil and herbs. Served hot, especially in colder months in highland regions.",
@@ -600,25 +765,25 @@
       "Stone_Assyrian_Fish_God_Carving": "A relic from northern lands, depicting Dagon—part man, part fish. Evidence of foreign altars among ruins.",
       "Sun_Shell": "A bright-patterned shell with ridges like rays. Collected near the coast and kept as a keepsake.",
       "Table_grapes": "Fresh grapes served on platters at feasts. Common in vineyards around Hebron and enjoyed in late summer.",
-      "Tablet_1": "A clay tablet etched with early script. Found near desert settlements, possibly used in trade or land claims.",
-      "tablet_10": "Another clay tablet bearing tribal laws or land divisions. Found buried with sealed scroll jars.",
-      "tablet_11": "A record of grain storage carved by village scribes. Preserved in stone to endure long seasons.",
-      "Tablet_12": "A list of temple duties or offerings. Discovered in a priest's chamber beneath ash and rubble.",
-      "Tablet_13": "Contains family names and inheritance lines. Used in resolving disputes among clans.",
-      "tablet_14": "A list of debts and payments scratched in haste. Found near the ruins of a border town granary.",
-      "tablet_15": "A festival schedule with names of elders. Likely posted in public spaces or kept by officials.",
-      "Tablet_16": "A shipment record of oil and dates. Details the route between En Gedi and the Jordan valley.",
-      "Tablet_19": "A clay record of disputes over well rights. Marked with seal impressions from three households.",
-      "Tablet_2": "A list of livestock trades between tribes. Marked with symbols indicating regions and herds.",
-      "tablet_20": "Describes a building plan for a structure of worship. Uses cubit measurements and priestly inscriptions.",
-      "Tablet_3": "Early song lyrics carved with precision. Possibly recited during harvest or temple processions.",
-      "tablet_4": "A teacher's lesson in basic script. Likely used in village schooling for young boys.",
-      "Tablet_5": "A tribute record of goods given to a nearby kingdom. Details include weight, origin, and caravan routes.",
-      "Tablet_6": "Instructions for preparing incense mixtures. Recovered from a temple archive near the Dead Sea.",
-      "tablet_7": "An inventory list of clay vessels. Each line shows purpose—oil, water, or ritual use.",
-      "Tablet_8": "Fragment of a covenant inscription. Referenced during tribal agreements or oath ceremonies.",
-      "tablet_9": "A clay list of known wells and springs. Carried by scouts or traders traveling unfamiliar roads.",
-      "tablets_17___18": "A double-entry record bound with twine. Found in a collapsed house—still intact with burn marks.",
+      "Tablet_1": "An ancient tablet incribed with instructions on how to find a secret treasure- Ehud's Dagger. Perhaps striking without being seen may yield unexpected results.",
+      "tablet_10": "An ancient tablet incribed with instructions on how to find a secret treasure- Nehushtan (Moses' Bronze serpant). Perhaps it might still serve it's original purpose",
+      "tablet_11": "An ancient tablet incribed with instructions on how to find a secret treasure- Abraham's knife. If ever in a bind- divine intervention might turn the tide",
+      "Tablet_12": "An ancient tablet incribed with instructions on how to find a secret treasure- the Horn of Annointing. Oil is known to have some healing properties.",
+      "Tablet_13": "An ancient tablet incribed with instructions on how to find a secret treasure- the spear of Phinehas. Justice is served with a swift hand, just make sure to keep your distance.",
+      "tablet_14": "An ancient tablet incribed with instructions on how to find a secret treasure- Joseph's Coat. Why am I feeling so sleepy reading this?",
+      "tablet_15": "An ancient tablet incribed with instructions on how to find a secret treasure- The Rod of Moses. Something tells me this will be quite handy when it comes to travel.",
+      "Tablet_16": "An ancient tablet incribed with instructions on how to find a secret treasure- Miriam's timbrel- I wonder what good some music can do?",
+      "Tablet_19": "An ancient tablet incribed with instructions on how to find a secret treasure- Rahab's cord. May come in handy if you ever need a way out.",
+      "Tablet_2": "An ancient tablet incribed with instructions on how to find a secret treasure- Gideon's torch. Perhaps it may it's light may turn darkness into light.",
+      "tablet_20": "An ancient tablet incribed with instructions on how to find a secret treasure- The Sword of Eden- be carefull though. This treasure may have an unexpected surprise.",
+      "Tablet_3": "An ancient tablet incribed with instructions on how to find a secret treasure- Gideon's horn. This horn may be quite confusing to those who hear it.",
+      "tablet_4": "An ancient tablet incribed with instructions on how to find a secret treasure- Shamgar's ox goad. This tool may prove useful in the right hands- for plowing and for more.",
+      "Tablet_5": "An ancient tablet incribed with instructions on how to find a secret treasure- Samson's jawbone. Its time to thin down the crowd.",
+      "Tablet_6": "An ancient tablet incribed with instructions on how to find a secret treasure- Samson's hair- if anything can bring down the house- this is it.",
+      "tablet_7": "An ancient tablet incribed with instructions on how to find a secret treasure- Jael's tent peg. If you thought all it took was strength to win a battle, think again.",
+      "Tablet_8": "An ancient tablet incribed with instructions on how to find a secret treasure- Cain's Cudgel. Revenge is a dish best served cold- or with a cudgel.",
+      "tablet_9": "An ancient tablet incribed with instructions on how to find a secret treasure- Horn of Jericho. If your looking to break some walls- you better have some inner gall",
+      "tablets_17___18": "An ancient tablet incribed with instructions on how to find a secret treasure- the Urim and Thummim. Perhaps this might prove useful in finding hidden treasure.",
       "Tent_Spoke": "A long wooden rod used to support tent frames. Essential gear for travelers and herders.",
       "The_fiery_Pheonix": "A decorative carving of a bird in flames. Possibly symbolic or imported—linked to eastern legends.",
       "THe_Historical_Scrolls": "A bundled collection of written history. Preserved in a clay jar and passed between scribes.",
@@ -914,7 +1079,7 @@
 
     // Image database - organized by folder structure
     const imageDatabase = {
-      "- Game pixel art": {
+      "Game pixel art": {
         images: ["Untitled-cleaned.png"],
         subfolders: {
           "Armor": {
@@ -1327,7 +1492,26 @@
                   "32_by_32_pixel_art_inventory-style_items_including_shells__crabs__shrimp__squid__flounders__fish__octopuses__ores__armor__and_vegetables.png_3-removebg-preview.png",
                   "32_by_32_pixel_art_inventory-style_items_with_high_quality__inspired_by_Stardew_Valley_fish.png_2-removebg-preview (2).png",
                   "32_by_32_pixel_art_inventory-style_items_with_high_quality__inspired_by_Stardew_Valley_fish.png_3-removebg-preview.png",
-                  "32_by_32_pixel_art_inventory-style_items_with_high_quality__inspired_by_Stardew_Valley_fish.png_4-removebg-preview.png"
+                  "32_by_32_pixel_art_inventory-style_items_with_high_quality__inspired_by_Stardew_Valley_fish.png_4-removebg-preview.png",
+                  "32_by_32_pixel_art_inventory-style_items_with_high_quality__inspired_by_Stardew_Valley_fish.png_6-removebg-preview.png",
+                  "Ancient_Hebrew_Spoon.png",
+                  "Crabs.png",
+                  "Fish_1.png",
+                  "Fish_2.png",
+                  "Lobster.png",
+                  "Mackeral.png",
+                  "Night fish.png",
+                  "Rainbow Runner.png",
+                  "Shrimp.png",
+                  "clown fish.png",
+                  "gold fish.png",
+                  "ocean sunfish.png",
+                  "rotated_image (2).png",
+                  "rotated_image (3).png",
+                  "rotated_image (4).png",
+                  "rotated_image (5).png",
+                  "rotated_image (6).png",
+                  "seaweed.png"
                 ]
               },
               "ingredients": {
@@ -1581,6 +1765,17 @@
                       "asset_9 (8).png",
                       "jar of cranberries.png",
                       "outlined-image (1).png"
+                    ]
+                  },
+                  "On Wall": {
+                    images: [
+                      "Feather_Decor.png",
+                      "Incense Burner.png",
+                      "asset_3 (37)-cleaned.png",
+                      "asset_4 (16).png",
+                      "asset_7 (11).png",
+                      "asset_8 (10)-cleaned.png",
+                      "asset_9 (6)-cleaned.png"
                     ]
                   }
                 }
@@ -2509,7 +2704,6 @@
               },
               "shells": {
                 images: [
-                  ".png",
                   "1740102470996-removebg-preview.png",
                   "1740102569330-removebg-preview.png",
                   "32_by_32_pixel_art_inventory-style_items_including_shells__crabs__shrimp__squid__flounders__fish__octopuses__ores__armor__and_vegetables__high_quality.png_11-removebg-preview.png",
@@ -2704,22 +2898,24 @@
       const defaultDescription = matchedData ? matchedData.description : '';
       
       return `
-        <div class="image-survey-card">
+        <div class="image-survey-card" onclick="toggleZoom(this)">
           <div class="image-container">
             <img src="${imagePath}" alt="${displayName}" loading="lazy">
             <div class="image-filename">${displayName}</div>
           </div>
-          <div class="survey-controls">
-            <div class="checkbox-row">
-              <input type="checkbox" id="good_${imageId}" name="rating_${imageId}" value="good">
-              <label for="good_${imageId}">Looks good</label>
+          <div class="card-content">
+            <div class="survey-controls">
+              <div class="checkbox-row">
+                <input type="checkbox" id="good_${imageId}" name="rating_${imageId}" value="good" onclick="event.stopPropagation()">
+                <label for="good_${imageId}">Looks good</label>
+              </div>
+              <div class="checkbox-row">
+                <input type="checkbox" id="unsure_${imageId}" name="rating_${imageId}" value="unsure" onclick="event.stopPropagation()">
+                <label for="unsure_${imageId}">I'm not sure</label>
+              </div>
+              <input type="text" class="text-input name-input" placeholder="Name recommendation (20 chars max)" maxlength="20" name="name_${imageId}" data-image-id="${imageId}" value="${defaultName}" data-original-value="${defaultName}" onclick="event.stopPropagation()">
+              <textarea class="text-input description-input" placeholder="Description recommendation (40 words max)" name="description_${imageId}" data-image-id="${imageId}" data-original-value="${defaultDescription}" onclick="event.stopPropagation()">${defaultDescription}</textarea>
             </div>
-            <div class="checkbox-row">
-              <input type="checkbox" id="unsure_${imageId}" name="rating_${imageId}" value="unsure">
-              <label for="unsure_${imageId}">I'm not sure</label>
-            </div>
-            <input type="text" class="text-input name-input" placeholder="Name recommendation (20 chars max)" maxlength="20" name="name_${imageId}" data-image-id="${imageId}" value="${defaultName}" data-original-value="${defaultName}">
-            <textarea class="text-input description-input" placeholder="Description recommendation (40 words max)" name="description_${imageId}" data-image-id="${imageId}" data-original-value="${defaultDescription}">${defaultDescription}</textarea>
           </div>
         </div>
       `;
@@ -2738,7 +2934,7 @@
           
           folderHtml += `
             <div class="folder-section">
-              <${headingTag} class="folder-header bullet-point" onclick="toggleSection('${sectionId}')">${folderName}</${headingTag}>
+              <${headingTag} class="folder-header" onclick="toggleSection('${sectionId}')">${folderName}</${headingTag}>
               <div id="${sectionId}" class="collapsible-content">
           `;
         }
@@ -3161,7 +3357,7 @@
 
     // Send notification when data is cleared
     async function sendClearNotification() {
-      let notificationContent = `Survey Data Cleared\n\n`;
+      const notificationContent = `Survey Data Cleared\n\n`;
       notificationContent += `Time: ${new Date().toLocaleString()}\n`;
       notificationContent += `Action: User cleared all survey responses\n`;
       notificationContent += `User Agent: ${navigator.userAgent}\n`;
@@ -3301,6 +3497,54 @@
         }
       });
     });
+
+    // Toggle all sections expand/collapse
+    function toggleAllSections() {
+      const button = document.querySelector('.expand-all-button');
+      const allSections = document.querySelectorAll('.collapsible-content');
+      const isExpanding = button.textContent === 'Expand All';
+      
+      allSections.forEach(section => {
+        if (isExpanding) {
+          section.style.display = 'block';
+          section.classList.add('show');
+        } else {
+          section.style.display = 'none';
+          section.classList.remove('show');
+        }
+      });
+      
+      button.textContent = isExpanding ? 'Collapse All' : 'Expand All';
+    }
+
+    // Mobile zoom functionality
+    function toggleZoom(card) {
+      if (window.innerWidth <= 768) {
+        const overlay = document.querySelector('.zoom-overlay');
+        const isZoomed = card.classList.contains('zoomed');
+        
+        if (isZoomed) {
+          closeZoom();
+        } else {
+          // Close any other zoomed cards
+          document.querySelectorAll('.image-survey-card.zoomed').forEach(c => c.classList.remove('zoomed'));
+          
+          // Zoom this card
+          card.classList.add('zoomed');
+          overlay.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        }
+      }
+    }
+
+    function closeZoom() {
+      const overlay = document.querySelector('.zoom-overlay');
+      const zoomedCards = document.querySelectorAll('.image-survey-card.zoomed');
+      
+      zoomedCards.forEach(card => card.classList.remove('zoomed'));
+      overlay.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
   </script>
 </body>
 </html>
