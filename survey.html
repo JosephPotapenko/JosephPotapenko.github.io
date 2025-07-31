@@ -240,6 +240,30 @@
       box-shadow: 0 0 20px rgba(0, 123, 255, 0.3);
     }
 
+    /* Clear button styling */
+    .clear-button {
+      position: fixed;
+      bottom: 2rem;
+      right: 12rem;
+      font-size: 16px;
+      padding: 10px 20px;
+      border: 2px solid #dc3545;
+      border-radius: 18px;
+      background: transparent;
+      cursor: pointer;
+      font-family: Calibri;
+      color: #dc3545;
+      transition: background 0.3s ease-in-out, transform 0.3s ease-in-out, color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      z-index: 1000;
+    }
+
+    .clear-button:hover {
+      background: #dc3545;
+      transform: scale(1.05);
+      color: white;
+      box-shadow: 0 0 20px rgba(220, 53, 69, 0.3);
+    }
+
     /* Collapsible content */
     .collapsible-content {
       display: none;
@@ -272,6 +296,13 @@
         right: 1rem;
         font-size: 16px;
         padding: 10px 20px;
+      }
+
+      .clear-button {
+        bottom: 1rem;
+        right: 8rem;
+        font-size: 14px;
+        padding: 8px 16px;
       }
 
       .image-survey-card {
@@ -317,7 +348,7 @@
   </main>
 
   <button class="submit-button" onclick="submitSurvey()">Submit Survey</button>
-  <button class="clear-button" onclick="clearAllFields()" style="background: #dc3545; margin-top: 10px;">Clear All Fields</button>
+  <button class="clear-button" onclick="clearAllFields()">Clear All</button>
 
   <footer class="footer">
     <button class="icon-button" id="btnGit" aria-label="Go to GitHub">
@@ -2874,39 +2905,72 @@
         emailContent += '\n---\n\n';
       });
       
-      // Create and send email directly
-      const subject = encodeURIComponent('Game Pixel Art Survey Results');
-      const body = encodeURIComponent(emailContent);
-      const mailtoLink = `mailto:jopotapka@gmail.com?subject=${subject}&body=${body}`;
-      
-      // Store data for recovery in case email fails - only changed items
+      // Store data for recovery - keep the data after submission
       localStorage.setItem('latestSurveyData', JSON.stringify({
         timestamp: new Date().toISOString(),
         data: changedItems,
         emailContent: emailContent
       }));
       
-      // Try to open email client
-      try {
-        window.location.href = mailtoLink;
-        
-        // Clear work in progress data since we're submitting
-        localStorage.removeItem('surveyWorkInProgress');
-        localStorage.removeItem('hasPromptedSubmission');
-        
-        alert('Email client opened with survey results. Please send the email to complete submission.');
-      } catch (error) {
-        // Fallback: copy to clipboard if possible
-        if (navigator.clipboard) {
-          navigator.clipboard.writeText(emailContent).then(() => {
-            alert(`Email client failed to open. Survey results copied to clipboard.\n\nPlease paste into an email and send to: jopotapka@gmail.com`);
-          }).catch(() => {
+      // Send email automatically using EmailJS (if configured) or try alternative methods
+      sendEmailAutomatically(emailContent)
+        .then(() => {
+          alert('Survey submitted successfully! Your responses have been sent automatically.');
+        })
+        .catch((error) => {
+          console.error('Email sending failed:', error);
+          // Fallback: copy to clipboard if possible
+          if (navigator.clipboard) {
+            navigator.clipboard.writeText(emailContent).then(() => {
+              alert(`Survey data copied to clipboard. Please paste into an email and send to: jopotapka@gmail.com`);
+            }).catch(() => {
+              showManualEmailInstructions(emailContent);
+            });
+          } else {
             showManualEmailInstructions(emailContent);
+          }
+        });
+    }
+
+    // Function to send email automatically using various methods
+    async function sendEmailAutomatically(emailContent) {
+      // Try EmailJS first (if service ID is configured)
+      if (typeof emailjs !== 'undefined') {
+        try {
+          await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', {
+            to_email: 'jopotapka@gmail.com',
+            subject: 'Game Pixel Art Survey Results',
+            message: emailContent
           });
-        } else {
-          showManualEmailInstructions(emailContent);
+          return Promise.resolve();
+        } catch (error) {
+          console.log('EmailJS failed, trying alternative methods...');
         }
       }
+      
+      // Fallback: use fetch to send to a backend service (if available)
+      try {
+        const response = await fetch('/send-email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            to: 'jopotapka@gmail.com',
+            subject: 'Game Pixel Art Survey Results',
+            content: emailContent
+          })
+        });
+        
+        if (response.ok) {
+          return Promise.resolve();
+        }
+      } catch (error) {
+        console.log('Backend email service not available...');
+      }
+      
+      // If all else fails, throw error to trigger fallback
+      throw new Error('Automatic email sending not available');
     }
     
     function showManualEmailInstructions(emailContent) {
@@ -3060,7 +3124,7 @@
       }, 30000); // Save every 30 seconds
     }
 
-    // Clear all form fields
+    // Clear all form fields with notification
     function clearAllFields() {
       if (confirm('Are you sure you want to clear all survey responses? This action cannot be undone.')) {
         if (confirm('This will permanently delete all your current responses. Continue?')) {
@@ -3082,12 +3146,31 @@
           localStorage.removeItem('surveyWorkInProgress');
           localStorage.removeItem('hasPromptedSubmission');
           
+          // Send notification about clearing data
+          sendClearNotification();
+          
           alert('All survey responses have been cleared.');
         }
       }
     }
 
-    // Check for auto-saved data on page load and offer to recover/send
+    // Send notification when data is cleared
+    async function sendClearNotification() {
+      let notificationContent = `Survey Data Cleared\n\n`;
+      notificationContent += `Time: ${new Date().toLocaleString()}\n`;
+      notificationContent += `Action: User cleared all survey responses\n`;
+      notificationContent += `User Agent: ${navigator.userAgent}\n`;
+      
+      try {
+        // Try to send notification automatically
+        await sendEmailAutomatically(notificationContent);
+      } catch (error) {
+        // If automatic sending fails, store for manual sending
+        console.log('Clear notification could not be sent automatically');
+      }
+    }
+
+    // Check for auto-saved data on page load and automatically restore
     function checkForAutoSavedData() {
       // Check for work in progress
       const workInProgress = localStorage.getItem('surveyWorkInProgress');
@@ -3098,26 +3181,13 @@
           const hoursDiff = timeDiff / (1000 * 60 * 60);
           
           if (hoursDiff < 72) { // Keep work for up to 3 days
-            const shouldRestore = confirm(
-              `Found unsaved survey work from ${new Date(data.timestamp).toLocaleString()}.\n\n` +
-              `You have responses for ${data.data.length} items.\n\n` +
-              'Would you like to restore your previous work?'
-            );
-            
-            if (shouldRestore) {
-              // Wait for DOM to be ready, then restore
-              setTimeout(() => {
-                if (data.formData) {
-                  restoreFormFieldValues(data.formData);
-                  alert('Your previous work has been restored!');
-                }
-              }, 500);
-              return;
-            } else {
-              // User chose not to restore, clear the saved data
-              localStorage.removeItem('surveyWorkInProgress');
-              localStorage.removeItem('hasPromptedSubmission');
-            }
+            // Automatically restore previous work without asking
+            setTimeout(() => {
+              if (data.formData) {
+                restoreFormFieldValues(data.formData);
+              }
+            }, 500);
+            return;
           } else {
             // Remove old data
             localStorage.removeItem('surveyWorkInProgress');
@@ -3129,7 +3199,7 @@
         }
       }
 
-      // Check for old auto-saved data and clean it up
+      // Check for old auto-saved data and clean it up automatically
       const autoSaved = localStorage.getItem('autoSurveyData');
       if (autoSaved) {
         try {
@@ -3138,9 +3208,8 @@
           const hoursDiff = timeDiff / (1000 * 60 * 60);
           
           if (hoursDiff < 24) {
-            if (confirm(`Found unsent survey data from ${new Date(data.timestamp).toLocaleString()}.\n\nWould you like to send it now?`)) {
-              sendRecoveredData(data);
-            }
+            // Automatically send old unsent data without asking
+            sendRecoveredData(data);
           }
           localStorage.removeItem('autoSurveyData'); // Clean up old format
         } catch (error) {
