@@ -3120,15 +3120,16 @@
         })
         .catch((error) => {
           console.error('Email sending failed:', error);
-          // Fallback: copy to clipboard if possible
-          if (navigator.clipboard) {
-            navigator.clipboard.writeText(emailContent).then(() => {
-              alert(`Survey data copied to clipboard. Please paste into an email and send to: jopotapka@gmail.com`);
-            }).catch(() => {
-              showManualEmailInstructions(emailContent);
-            });
-          } else {
-            showManualEmailInstructions(emailContent);
+          // Fallback: open mailto link for both mobile and desktop
+          const subject = encodeURIComponent('Game Pixel Art Survey Results');
+          const body = encodeURIComponent(emailContent);
+          const mailtoLink = `mailto:jopotapka@gmail.com?subject=${subject}&body=${body}`;
+          
+          try {
+            window.location.href = mailtoLink;
+            alert('Survey data prepared! Your email client should open with the survey results ready to send.');
+          } catch (error) {
+            alert('Could not open email client. Please check your email settings or try again.');
           }
         });
     }
