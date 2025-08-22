@@ -180,38 +180,38 @@
         }
     </style>
 </head>
+
 <body>
+    <div id="header-placeholder"></div>
     <div class="header">
         <h1>🎮 Survey Change Management System</h1>
         <p>Approve or deny proposed changes to image names and descriptions</p>
     </div>
-    
     <div class="tabs">
         <button class="tab active" onclick="showTab('pending')">📋 Pending Changes</button>
         <button class="tab" onclick="showTab('denied')">❌ Denied Changes</button>
         <button class="tab" onclick="showTab('stats')">📊 Statistics</button>
     </div>
-    
     <div class="content">
         <div style="margin-bottom: 20px;">
             <button class="btn btn-refresh" onclick="refreshData()">🔄 Refresh Data</button>
         </div>
-        
         <div id="pending-content" class="tab-content">
             <h3>Pending Changes</h3>
             <div id="pending-changes" class="loading">Loading...</div>
         </div>
-        
         <div id="denied-content" class="tab-content" style="display: none;">
             <h3>Denied Changes</h3>
             <div id="denied-changes" class="loading">Loading...</div>
         </div>
-        
         <div id="stats-content" class="tab-content" style="display: none;">
             <h3>Statistics</h3>
             <div id="stats-display" class="loading">Loading...</div>
         </div>
     </div>
+</body>
+    <div id="footer-placeholder"></div>
+    <script src="include.js"></script>
 
     <script>
         let pendingChanges = {};

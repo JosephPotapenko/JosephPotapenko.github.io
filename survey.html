@@ -2,13 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=0.5, maximum-scale=3.0">
-  <title>Game Pixel Art Survey - potapenko.dev</title>
-  <link rel="icon" type="image/png" href="/favicons2/favicon-48x48.png" sizes="48x48" />
-  <link rel="icon" type="image/svg+xml" href="/favicons2/favicon.svg" />
-  <link rel="shortcut icon" href="/favicons2/favicon.ico" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/favicons2/apple-touch-icon.png" />
-  <link rel="manifest" href="/favicons2/site.webmanifest" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>potapenko.dev</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -474,26 +473,9 @@
 </head>
 
 <body>
-  <header class="title colorful-border">
-    <div>
-      <a href="/" class="titlelink">Home</a>
-      <a href="/page2.html" class="titlelink">About Me</a>
-      <a href="/projects.html" class="titlelink">Projects</a>
-      <a href="/contactpage.html" class="titlelink">Contact Info</a>
-    </div>
-  </header>
-
-  <div class="menu-container">
-    <button class="menu-button" aria-label="Open menu"></button>
-    <div class="menu-content">
-      <a href="/contactpage.html">Contact Me</a>
-      <a href="/index.html">Home Page</a>
-      <a href="/page2.html">About Me</a>
-      <a href="/projects.html">Projects</a>
-      <a href="/resume.html">Resume</a>
-      <a href="/page3.html">Secret Project</a>
-    </div>
-  </div>
+  <div id="header-placeholder"></div>
+  <div id="footer-placeholder"></div>
+  <script src="include.js"></script>
 
   <main class="survey-container">
     <h1 class="survey-title">Game Pixel Art Survey</h1>
@@ -3112,6 +3094,34 @@
         data: changedItems,
         emailContent: emailContent
       }));
+
+      // Send changes to change-management system for approval
+      const changesForApproval = changedItems.map(item => ({
+        filename: item.originalFilename,
+        displayName: item.displayName,
+        newName: item.nameRecommendation,
+        newDescription: item.descriptionRecommendation,
+        submittedAt: new Date().toISOString()
+      })).filter(item => item.newName || item.newDescription);
+
+      if (changesForApproval.length > 0) {
+        fetch('survey-api.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: `action=submit_changes&changes=${encodeURIComponent(JSON.stringify(changesForApproval))}`
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            console.log('Changes submitted for approval.');
+          } else {
+            alert('Failed to submit changes for approval: ' + data.message);
+          }
+        })
+        .catch(err => {
+          alert('Error submitting changes for approval: ' + err);
+        });
+      }
       
       // Send email automatically using EmailJS (if configured) or try alternative methods
       sendEmailAutomatically(emailContent)
