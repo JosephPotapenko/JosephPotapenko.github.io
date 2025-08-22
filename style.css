@@ -565,7 +565,7 @@ audio {
   .subtitle-text {
     position: absolute;
     left: 50%;
-    top: 38%;
+    top: 40%;
     font-size: 1.5em;
     width: 80%;
     transform: translateX(-50%);
