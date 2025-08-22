@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Survey Change Management</title>
+    <script src="auth-creds.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -182,38 +183,114 @@
 </head>
 
 <body>
-    <div id="header-placeholder"></div>
-    <div class="header">
-        <h1>🎮 Survey Change Management System</h1>
-        <p>Approve or deny proposed changes to image names and descriptions</p>
-    </div>
-    <div class="tabs">
-        <button class="tab active" onclick="showTab('pending')">📋 Pending Changes</button>
-        <button class="tab" onclick="showTab('denied')">❌ Denied Changes</button>
-        <button class="tab" onclick="showTab('stats')">📊 Statistics</button>
-    </div>
-    <div class="content">
-        <div style="margin-bottom: 20px;">
-            <button class="btn btn-refresh" onclick="refreshData()">🔄 Refresh Data</button>
+        <div id="login-wall" style="max-width:400px;margin:80px auto;padding:32px;background:#fff;border-radius:12px;box-shadow:0 2px 12px #0002;text-align:center;">
+            <h2>Login Required</h2>
+            <form id="login-form" autocomplete="off" style="margin-top:24px;">
+                <input type="text" id="username" placeholder="Email" style="width:90%;margin-bottom:12px;padding:8px;border-radius:6px;border:1px solid #ccc;" autofocus><br>
+                <input type="password" id="password" placeholder="Password" style="width:90%;margin-bottom:12px;padding:8px;border-radius:6px;border:1px solid #ccc;"><br>
+                <button type="submit" style="padding:10px 32px;border-radius:8px;background:#007bff;color:#fff;border:none;cursor:pointer;">Login</button>
+            </form>
+            <div style="margin-top:16px;color:#555;font-size:0.95em;">Hint: black laptop</div>
+            <div id="login-error" style="color:#c00;margin-top:12px;display:none;"></div>
         </div>
-        <div id="pending-content" class="tab-content">
-            <h3>Pending Changes</h3>
-            <div id="pending-changes" class="loading">Loading...</div>
+        <div id="protected-content" style="display:none;">
+            <div id="header-placeholder"></div>
+            <div class="header">
+                <h1>🎮 Survey Change Management System</h1>
+                <p>Approve or deny proposed changes to image names and descriptions</p>
+            </div>
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('pending')">📋 Pending Changes</button>
+                <button class="tab" onclick="showTab('denied')">❌ Denied Changes</button>
+                <button class="tab" onclick="showTab('stats')">📊 Statistics</button>
+            </div>
+            <div class="content">
+                <div style="margin-bottom: 20px;">
+                    <button class="btn btn-refresh" onclick="refreshData()">🔄 Refresh Data</button>
+                </div>
+                <div id="pending-content" class="tab-content">
+                    <h3>Pending Changes</h3>
+                    <div id="pending-changes" class="loading">Loading...</div>
+                </div>
+                <div id="denied-content" class="tab-content" style="display: none;">
+                    <h3>Denied Changes</h3>
+                    <div id="denied-changes" class="loading">Loading...</div>
+                </div>
+                <div id="stats-content" class="tab-content" style="display: none;">
+                    <h3>Statistics</h3>
+                    <div id="stats-display" class="loading">Loading...</div>
+                </div>
+            </div>
         </div>
-        <div id="denied-content" class="tab-content" style="display: none;">
-            <h3>Denied Changes</h3>
-            <div id="denied-changes" class="loading">Loading...</div>
-        </div>
-        <div id="stats-content" class="tab-content" style="display: none;">
-            <h3>Statistics</h3>
-            <div id="stats-display" class="loading">Loading...</div>
-        </div>
-    </div>
 </body>
     <div id="footer-placeholder"></div>
     <script src="include.js"></script>
 
     <script>
+            // Simple login wall with client-side cooldown
+            document.addEventListener('DOMContentLoaded', function() {
+                const loginForm = document.getElementById('login-form');
+                const cooldownKey = 'changeMgmtLoginCooldown';
+                const failCountKey = 'changeMgmtLoginFailCount';
+                const cooldownMinutes = 720;
+                function isCooldownActive() {
+                    const cooldownUntil = localStorage.getItem(cooldownKey);
+                    if (!cooldownUntil) return false;
+                    return Date.now() < parseInt(cooldownUntil, 10);
+                }
+                function setCooldown() {
+                    const until = Date.now() + cooldownMinutes * 60 * 1000;
+                    localStorage.setItem(cooldownKey, until);
+                }
+                function clearCooldown() {
+                    localStorage.removeItem(cooldownKey);
+                    localStorage.removeItem(failCountKey);
+                }
+                if (loginForm) {
+                    if (isCooldownActive()) {
+                        loginForm.querySelector('button[type="submit"]').disabled = true;
+                        document.getElementById('login-error').textContent = `Login blocked. Try again later.`;
+                        document.getElementById('login-error').style.display = 'block';
+                    }
+                    loginForm.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        if (isCooldownActive()) {
+                            document.getElementById('login-error').textContent = `Login blocked. Try again later.`;
+                            document.getElementById('login-error').style.display = 'block';
+                            return;
+                        }
+                        const username = document.getElementById('username').value.trim();
+                        const password = document.getElementById('password').value;
+                        const validUser = window.changeMgmtAuth?.user;
+                        const validPass = window.changeMgmtAuth?.pass;
+                        if (username === validUser && password === validPass) {
+                            clearCooldown();
+                            document.getElementById('login-wall').style.display = 'none';
+                            document.getElementById('protected-content').style.display = '';
+                        } else {
+                            let failCount = parseInt(localStorage.getItem(failCountKey) || '0', 10) + 1;
+                            localStorage.setItem(failCountKey, failCount);
+                            if (failCount >= 3) {
+                                setCooldown();
+                                loginForm.querySelector('button[type="submit"]').disabled = true;
+                                document.getElementById('login-error').textContent = `Too many failed attempts. Try again in ${cooldownMinutes} minutes.`;
+                                document.getElementById('login-error').style.display = 'block';
+                            } else {
+                                document.getElementById('login-error').textContent = `Invalid username or password. (${failCount}/3)`;
+                                document.getElementById('login-error').style.display = 'block';
+                            }
+                        }
+                    });
+                    // Re-enable button after cooldown
+                    setInterval(() => {
+                        if (!isCooldownActive()) {
+                            loginForm.querySelector('button[type="submit"]').disabled = false;
+                            document.getElementById('login-error').style.display = 'none';
+                            localStorage.setItem(failCountKey, '0');
+                        }
+                    }, 5000);
+                }
+            });
         let pendingChanges = {};
         let deniedChanges = {};
         
