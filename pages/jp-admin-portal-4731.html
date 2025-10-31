@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Review Portal</title>
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <script src="/assets/js/script.js" defer></script>
+  <style>
+    .admin-container { margin-top: 120px; padding: 1rem 2rem 4rem; min-height: calc(100vh - 200px); }
+    .card { background: rgba(0,0,0,0.6); border: 1px solid #333; border-radius: 12px; padding: 1rem; margin-bottom: 1rem; }
+    .muted { color: #aaa; font-size: 0.9rem; }
+    .row { display:flex; gap:1rem; flex-wrap: wrap; }
+    .row > div { flex: 1 1 280px; }
+    .controls { display:flex; gap:.5rem; margin-top:.5rem; }
+    .btn { border:1px solid #555; border-radius:10px; padding:.35rem .7rem; background: transparent; color: #fff; cursor: pointer; }
+    .btn:hover { box-shadow: 0 0 12px rgba(0,123,255,.25); }
+    .btn-approve { border-color:#2a8f2a; }
+    .btn-deny { border-color:#b13c3c; }
+    .hidden { display:none; }
+    input[type="email"], input[type="password"] { width: 320px; max-width: 100%; padding:.5rem .6rem; border-radius:8px; border:1px solid #555; background: rgba(0,0,0,.65); color:#fff; }
+    .login-card { max-width: 520px; margin: 0 auto; }
+    .status { margin:.5rem 0; color:#ccc; }
+    .pill { display:inline-block; padding:.15rem .5rem; border-radius:999px; font-size:.8rem; border:1px solid #555; color:#ccc; }
+    table { width:100%; border-collapse: collapse; }
+    th, td { text-align:left; padding:.35rem .5rem; border-bottom:1px solid #333; color:#ddd; }
+    th { color:#fff; }
+    code { color:#9ed1ff; }
+  </style>
+</head>
+<body>
+  <div id="header-placeholder"></div>
+
+  <main class="admin-container">
+    <h1 class="survey-title" style="text-align:left">Review Portal</h1>
+
+    <!-- Login -->
+    <section id="loginSection" class="card login-card">
+      <h2 style="margin-top:0">Sign in</h2>
+      <p class="muted">Authorized email required.</p>
+      <div class="row">
+        <div>
+          <label for="email">Email</label><br>
+          <input id="email" type="email" placeholder="name@example.com" autocomplete="email">
+        </div>
+      </div>
+      <div class="controls">
+        <button class="btn" id="btnLogin">Login</button>
+      </div>
+      <div id="loginStatus" class="status" role="status"></div>
+    </section>
+
+    <!-- Dashboard -->
+    <section id="dashboard" class="hidden">
+      <div class="card">
+        <h2 style="margin-top:0">Pending Changes <span id="pendingCount" class="pill">0</span></h2>
+        <div id="pendingList"></div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0">Denied Changes <span id="deniedCount" class="pill">0</span></h3>
+        <div id="deniedList"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-placeholder"></div>
+  <script src="/assets/js/include.js"></script>
+
+  <script>
+    const AUTH_EMAIL = 'joepotap@gmail.com';
+
+    function isAuthed() {
+      return sessionStorage.getItem('authEmail') === AUTH_EMAIL;
+    }
+
+    function setAuthed() {
+      sessionStorage.setItem('authEmail', AUTH_EMAIL);
+    }
+
+    function show(el, on=true) { el.classList.toggle('hidden', !on); }
+
+    async function fetchJSON(path) {
+      try {
+        const res = await fetch(path, {cache:'no-store'});
+        if (!res.ok) return null;
+        return await res.json();
+      } catch(e) { return null; }
+    }
+
+    function renderTable(items, actions=false) {
+      if (!items || Object.keys(items).length === 0) {
+        return '<p class="muted">None</p>';
+      }
+      const rows = Object.values(items).map(ch => {
+        return `
+          <tr>
+            <td><code>${(ch.displayName||'').replace(/</g,'&lt;')}</code><br><span class="muted">${(ch.filename||'').replace(/</g,'&lt;')}</span></td>
+            <td>${(ch.newName||'').replace(/</g,'&lt;')}</td>
+            <td>${(ch.newDescription||'').replace(/</g,'&lt;')}</td>
+            <td class="muted">${ch.submittedAt||ch.deniedAt||''}</td>
+            <td>${actions ? `
+              <div class="controls">
+                <button class="btn btn-approve" data-action="approve" data-id="${ch.id}">Approve</button>
+                <button class="btn btn-deny" data-action="deny" data-id="${ch.id}">Deny</button>
+              </div>` : ''}
+            </td>
+          </tr>
+        `;
+      }).join('');
+      return `<div style="overflow:auto"><table>
+        <thead><tr><th>Item</th><th>New Name</th><th>Description</th><th>When</th><th>Action</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table></div>`;
+    }
+
+    async function loadData() {
+      const [pending, denied] = await Promise.all([
+        fetchJSON('/api/pending_changes.json'),
+        fetchJSON('/api/denied_changes.json')
+      ]);
+      document.getElementById('pendingCount').textContent = pending ? Object.keys(pending).length : 0;
+      document.getElementById('deniedCount').textContent = denied ? Object.keys(denied).length : 0;
+      document.getElementById('pendingList').innerHTML = renderTable(pending, true);
+      document.getElementById('deniedList').innerHTML = renderTable(denied, false);
+
+      // Wire action buttons
+      document.querySelectorAll('[data-action][data-id]').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const action = btn.getAttribute('data-action');
+          const id = btn.getAttribute('data-id');
+          await actOnChange(action, id);
+          await loadData();
+        });
+      });
+    }
+
+    async function actOnChange(action, id) {
+      const params = new URLSearchParams();
+      params.set('action', action === 'approve' ? 'approve_change' : 'deny_change');
+      params.set('changeId', id);
+      try {
+        const res = await fetch('/api/survey-api.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: params.toString()
+        });
+        const data = await res.json();
+        if (!data.success) alert('Action failed: ' + (data.message||'unknown'));
+      } catch (e) {
+        alert('Network error performing action');
+      }
+    }
+
+    function boot() {
+      const loginSection = document.getElementById('loginSection');
+      const dashboard = document.getElementById('dashboard');
+      const status = document.getElementById('loginStatus');
+      const btnLogin = document.getElementById('btnLogin');
+      const email = document.getElementById('email');
+
+      function enter() {
+        show(loginSection, false);
+        show(dashboard, true);
+        loadData();
+      }
+
+      if (isAuthed()) {
+        enter();
+      } else {
+        btnLogin.addEventListener('click', () => {
+          const value = (email.value||'').trim().toLowerCase();
+          if (value === AUTH_EMAIL) {
+            setAuthed();
+            enter();
+          } else {
+            status.textContent = 'Unauthorized email';
+          }
+        });
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', boot);
+  </script>
+</body>
+</html>
