@@ -5,10 +5,12 @@ console.log('JS Connected');
 // create anchor link for each item
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-      const response = await fetch('data.json');
+      const response = await fetch('/data.json');
+      if (!response.ok) return; // quietly exit if not found
       const data = await response.json();
       
       const myLinks = document.getElementById('myLinks');
+      if (!myLinks) return;
       const fragment = document.createDocumentFragment();
   
       data.myLinks.forEach(({ url, name }) => {

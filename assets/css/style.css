@@ -53,7 +53,7 @@
   z-index: 1000; /* Ensures the menu hovers over every other container */
 }
 .menu-button {
-  background: url('images/menu.png') no-repeat center center;
+  background: url('/images/menu.png') no-repeat center center;
   background-size: contain;
   width: 40px;
   height: 40px;
@@ -115,7 +115,7 @@ h1 {
 
 /* body formatting */
 body {
-  background-image: url("images/back.jpg");
+  background-image: url("/images/back.jpg");
   background-size: 110% auto;
   background-position: center top;
   background-color: rgb(0, 0, 0);
@@ -708,5 +708,3 @@ audio {
     height: 500px; /* Adjust this value to add more space */
   }
 }
-
-

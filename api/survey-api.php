@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // Configuration
-$SURVEY_FILE_PATH = __DIR__ . '/survey.html';
+$SURVEY_FILE_PATH = __DIR__ . '/../pages/survey.html';
 $PENDING_CHANGES_FILE = __DIR__ . '/pending_changes.json';
 $DENIED_CHANGES_FILE = __DIR__ . '/denied_changes.json';
 

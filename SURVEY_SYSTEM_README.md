@@ -25,11 +25,11 @@ This system provides a comprehensive solution for managing survey changes with i
 ## 📁 System Files
 
 ```
-/survey.html              - Main survey page with enhanced functionality
-/survey-api.php           - Backend API for processing changes
-/change-management.html   - Web interface for managing changes
-/pending_changes.json     - Stores pending changes awaiting approval
-/denied_changes.json      - Stores permanently denied changes
+/pages/survey.html        - Main survey page with enhanced functionality
+/api/survey-api.php       - Backend API for processing changes
+/change-management.html   - Web interface for managing changes (optional, not included here)
+/api/pending_changes.json - Stores pending changes awaiting approval
+/api/denied_changes.json  - Stores permanently denied changes
 ```
 
 ## 🔧 How It Works
@@ -48,7 +48,7 @@ This system provides a comprehensive solution for managing survey changes with i
 
 ### 3. Automatic Code Updates
 When you approve a change:
-1. The system automatically updates `survey.html`
+1. The system automatically updates `pages/survey.html`
 2. New descriptions are added to the `descriptionsDatabase`
 3. Future survey users will see the updated auto-populated content
 4. The change is removed from pending list
@@ -62,7 +62,7 @@ When you deny a change:
 ## 🚀 Quick Start
 
 ### Setup Requirements
-1. **Web Server**: Requires PHP for the API functionality
+1. **Web Server**: Requires PHP for the API functionality (e.g., `php -S 0.0.0.0:8080`)
 2. **File Permissions**: API needs write access to survey.html and JSON files
 3. **Email Client**: HTML email support recommended for best experience
 
@@ -80,7 +80,7 @@ When you deny a change:
 
 ## 📊 Management Interface
 
-Access the change management system at:
+Access the change management system at (if implemented):
 ```
 https://yoursite.com/change-management.html
 ```
@@ -114,12 +114,12 @@ https://yoursite.com/change-management.html
 ### Common Issues
 
 **Email buttons not working:**
-- Ensure survey-api.php is accessible
+- Ensure `/api/survey-api.php` is accessible
 - Check PHP error logs
 - Verify file permissions
 
 **Changes not applying:**
-- Check write permissions on survey.html
+- Check write permissions on `pages/survey.html`
 - Verify JSON files are writable
 - Review PHP error logs
 
@@ -130,9 +130,9 @@ https://yoursite.com/change-management.html
 
 ### File Permissions
 ```bash
-chmod 644 *.html
-chmod 644 *.json
-chmod 755 survey-api.php
+chmod 644 pages/survey.html
+chmod 644 api/*.json
+chmod 755 api/survey-api.php
 ```
 
 ## 🎯 Advanced Configuration
@@ -145,7 +145,7 @@ Edit the `createEnhancedEmailHTML()` function in survey.html to customize:
 - Additional metadata
 
 ### API Endpoints
-The survey-api.php supports these actions:
+The `/api/survey-api.php` supports these actions:
 - `submit_changes`: Process new survey submissions
 - `approve_change`: Apply approved changes to survey
 - `deny_change`: Permanently reject changes
