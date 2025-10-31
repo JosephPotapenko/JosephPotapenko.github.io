@@ -807,6 +807,10 @@
 
   function createImageCard(imagePath, displayName, imageId) {
       const filename = imagePath.split('/').pop();
+      const encodedPath = imagePath
+        .split('/')
+        .map(segment => encodeURIComponent(segment))
+        .join('/');
       const matchedData = findMatchingDescription(filename);
       
       // Pre-populate name and description if found
@@ -816,7 +820,7 @@
       return `
         <div class="image-survey-card" onclick="toggleZoom(this)">
           <div class="image-container">
-            <img src="/${imagePath}" alt="${displayName}" loading="lazy">
+            <img src="/${encodedPath}" alt="${displayName}" loading="lazy">
             <div class="image-filename">${displayName}</div>
           </div>
           <div class="card-content">
@@ -1404,43 +1408,54 @@
     document.addEventListener('DOMContentLoaded', function() {
       // Check for auto-saved data first
       checkForAutoSavedData();
-      
-      // Generate the folder structure
+
       const surveyContent = document.getElementById('survey-content');
-      surveyContent.innerHTML = generateFolderStructure(imageDatabase);
-      
-      // Setup form validation and interactions
-      validateDescriptions();
-      setupCheckboxExclusivity();
-      
-      // Start auto-save functionality
-      startAutoSave();
-      
-      // Add event listeners for real-time saving when user interacts with form
-      setTimeout(() => {
-        const inputs = document.querySelectorAll('input[type="checkbox"], input.name-input, textarea.description-input');
-        inputs.forEach(input => {
-          input.addEventListener('change', () => {
-            saveCurrentWork();
+
+      function afterRender() {
+        // Setup form validation and interactions
+        validateDescriptions();
+        setupCheckboxExclusivity();
+        // Start auto-save functionality
+        startAutoSave();
+        // Add event listeners for real-time saving when user interacts with form
+        setTimeout(() => {
+          const inputs = document.querySelectorAll('input[type="checkbox"], input.name-input, textarea.description-input');
+          inputs.forEach(input => {
+            input.addEventListener('change', () => saveCurrentWork());
+            if (input.type === 'text' || input.tagName === 'TEXTAREA') {
+              input.addEventListener('blur', () => saveCurrentWork());
+            }
           });
-          
-          // For text inputs, also save on blur (when they finish typing)
-          if (input.type === 'text' || input.tagName === 'TEXTAREA') {
-            input.addEventListener('blur', () => {
-              saveCurrentWork();
-            });
+        }, 500);
+        // Show root level by default
+        const rootSections = document.querySelectorAll('[id^="section_Game_pixel_art"]');
+        rootSections.forEach(section => {
+          if (section.id === 'section_Game_pixel_art') {
+            section.style.display = 'block';
+            section.classList.add('show');
           }
         });
-      }, 1000);
-      
-      // Show root level by default
-      const rootSections = document.querySelectorAll('[id^="section_Game_pixel_art"]');
-      rootSections.forEach(section => {
-        if (section.id === 'section_Game_pixel_art') {
-          section.style.display = 'block';
-          section.classList.add('show');
-        }
-      });
+      }
+
+      // Prefer generated JSON of actual files; fall back to bundled database
+      fetch('/assets/data/game-pixel-art.json')
+        .then(r => r.ok ? r.json() : Promise.reject(new Error('No JSON')))
+        .then(db => {
+          surveyContent.innerHTML = generateFolderStructure(db);
+          afterRender();
+        })
+        .catch(() => {
+          try {
+            if (typeof imageDatabase !== 'undefined') {
+              surveyContent.innerHTML = generateFolderStructure(imageDatabase);
+            } else {
+              surveyContent.innerHTML = '<p style="color:white">No image database available.</p>';
+            }
+          } catch (e) {
+            surveyContent.innerHTML = '<p style="color:white">Failed to load images.</p>';
+          }
+          afterRender();
+        });
     });
 
     // Toggle all sections expand/collapse
