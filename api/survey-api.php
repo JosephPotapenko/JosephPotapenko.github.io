@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET
             break;
             
         case 'submit_changes':
-            $raw = $_POST['changes'] ?? '';
+            $raw = $_POST['changes'] ?? $_GET['changes'] ?? '';
             $changesData = json_decode($raw, true);
             if (!$changesData || !is_array($changesData) || count($changesData) === 0) {
                 echo json_encode(['success' => false, 'message' => 'No valid changes provided']);

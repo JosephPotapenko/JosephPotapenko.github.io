@@ -1017,6 +1017,37 @@
       }
     }
 
+    async function attemptSubmitViaGet(changesForApproval) {
+      try {
+        const qs = `action=submit_changes&changes=${encodeURIComponent(JSON.stringify(changesForApproval))}`;
+        const full = `/api/survey-api.php?${qs}`;
+        if (full.length > 1900) {
+          throw new Error('Payload too large for GET fallback. Please run on PHP server to use POST.');
+        }
+        const res = await fetch(full, { cache: 'no-store' });
+        if (!res.ok) {
+          const txt = await res.text();
+          throw new Error(`GET fallback failed: HTTP ${res.status}. ${txt.slice(0,200)}`);
+        }
+        const ct = (res.headers.get('content-type') || '').toLowerCase();
+        if (!ct.includes('application/json')) {
+          const txt = await res.text();
+          throw new Error(`GET fallback non-JSON: ${txt.slice(0,200)}`);
+        }
+        const data = await res.json();
+        if (data && data.success) {
+          setStatus('Submitted via GET fallback. Open the admin portal to approve/deny.', 'success');
+          alert('Submitted for review (GET fallback). Your proposed changes are now pending in the admin portal.');
+          return true;
+        } else {
+          throw new Error(data && data.message ? data.message : 'Unknown error');
+        }
+      } catch (e) {
+        setStatus('Submission failed via GET fallback: ' + e.message, 'error');
+        return false;
+      }
+    }
+
     function submitSurvey() {
       const surveyData = collectSurveyData();
       
@@ -1088,9 +1119,19 @@
             alert('Failed to submit changes for review: ' + data.message);
           }
         })
-        .catch(err => {
-          setStatus('Network/API error: ' + err + '. Are you running PHP backend?', 'error');
-          alert('Network error submitting changes for review: ' + err);
+        .catch(async err => {
+          const msg = String(err || '');
+          // Try GET fallback if POST not allowed or blocked
+          if (msg.includes('HTTP 405') || msg.includes('HTTP 404') || msg.includes('Non-JSON')) {
+            setStatus('POST failed (' + msg + '). Trying GET fallback…', 'warn');
+            const ok = await attemptSubmitViaGet(changesForApproval);
+            if (!ok) {
+              alert('Network error submitting changes for review: ' + msg);
+            }
+          } else {
+            setStatus('Network/API error: ' + msg + '. Are you running PHP backend?', 'error');
+            alert('Network error submitting changes for review: ' + msg);
+          }
         });
       } else {
         setStatus('No name or description changes to submit.', 'warn');
