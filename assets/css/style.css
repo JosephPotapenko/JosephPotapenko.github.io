@@ -301,6 +301,10 @@ audio {
   box-shadow: 0 0 20px rgba(0, 123, 255, 0.3); /* Blue hue glow */
 }
 
+/* Specific positioning for index page buttons to avoid overlap */
+#btnContact { top: 56%; }
+#btnResume { top: 65%; }
+
 /* cool button */
 .cool-button {
   font-size: 20px;
@@ -590,6 +594,9 @@ audio {
     transform: translateX(-50%);
     margin-top: 20px;
   }
+  /* Stack contact above resume on mobile */
+  #btnContact { top: 58%; }
+  #btnResume { top: 66%; }
   .image-cards-container {
     position: absolute;
     left: 50%;
@@ -669,6 +676,9 @@ audio {
     transform: translateX(-50%);
     margin-top: 15px;
   }
+  /* Stack contact above resume in landscape */
+  #btnContact { top: 120%; }
+  #btnResume { top: 130%; }
   .image-cards-container {
     position: absolute;
     left: 75%;
