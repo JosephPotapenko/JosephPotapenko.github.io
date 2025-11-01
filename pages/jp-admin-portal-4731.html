@@ -35,6 +35,9 @@
 
   <main class="admin-container">
     <h1 class="survey-title" style="text-align:left">Review Portal</h1>
+    <p class="muted" style="margin-top:-.5rem;margin-bottom:1rem">
+      Note: New entries appear here only after they are submitted from the survey page at <a href="/pages/survey.html">/pages/survey.html</a> with a name and/or description recommendation. Ratings alone are not stored.
+    </p>
 
     <!-- Login -->
     <section id="loginSection" class="card login-card">
@@ -93,13 +96,27 @@
       } catch(e) { return null; }
     }
 
+    async function fetchViaAPI(which) {
+      try {
+        const url = `/api/survey-api.php?action=${which==="pending"?"list_pending":"list_denied"}`;
+        const res = await fetch(url, {cache:'no-store'});
+        if (!res.ok) return null;
+        const data = await res.json();
+        if (data && data.success) return data.data || {};
+        return null;
+      } catch(e) { return null; }
+    }
+
     function renderTable(items, actions=false) {
       if (!items || Object.keys(items).length === 0) {
         return '<p class="muted">None</p>';
       }
       const rows = Object.values(items).map(ch => {
+        const img = (ch.imagePath||'');
+        const imgTag = img ? `<img src="${img.replace(/"/g,'&quot;')}" alt="${(ch.displayName||'').replace(/</g,'&lt;')}" style="width:72px;height:72px;object-fit:contain;background:#111;border-radius:8px">` : '';
         return `
           <tr>
+            <td>${imgTag}</td>
             <td><code>${(ch.displayName||'').replace(/</g,'&lt;')}</code><br><span class="muted">${(ch.filename||'').replace(/</g,'&lt;')}</span></td>
             <td>${(ch.newName||'').replace(/</g,'&lt;')}</td>
             <td>${(ch.newDescription||'').replace(/</g,'&lt;')}</td>
@@ -114,16 +131,21 @@
         `;
       }).join('');
       return `<div style="overflow:auto"><table>
-        <thead><tr><th>Item</th><th>New Name</th><th>Description</th><th>When</th><th>Action</th></tr></thead>
+        <thead><tr><th>Image</th><th>Item</th><th>New Name</th><th>Description</th><th>When</th><th>Action</th></tr></thead>
         <tbody>${rows}</tbody>
       </table></div>`;
     }
 
     async function loadData() {
-      const [pending, denied] = await Promise.all([
-        fetchJSON('/api/pending_changes.json'),
-        fetchJSON('/api/denied_changes.json')
+      // Prefer API endpoints; fallback to direct JSON files if needed
+      let [pending, denied] = await Promise.all([
+        fetchViaAPI('pending'),
+        fetchViaAPI('denied')
       ]);
+      if (!pending) pending = await fetchJSON('/api/pending_changes.json');
+      if (!denied) denied = await fetchJSON('/api/denied_changes.json');
+      pending = pending || {};
+      denied = denied || {};
       document.getElementById('pendingCount').textContent = pending ? Object.keys(pending).length : 0;
       document.getElementById('deniedCount').textContent = denied ? Object.keys(denied).length : 0;
       document.getElementById('pendingList').innerHTML = renderTable(pending, true);

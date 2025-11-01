@@ -120,12 +120,18 @@ body {
   background-position: center top;
   background-color: rgb(0, 0, 0);
   background-attachment: fixed; 
+  padding-bottom: 500px; /* Default bottom padding for most pages */
 }
 body::after {
   content: "";
   display: block;
-  height: 200px; /* Adjust this value to add more space */
+  height: 0; /* Spacer disabled; use padding-bottom per page */
 }
+
+/* Page-specific bottom padding overrides */
+body.page-projects { padding-bottom: 900px; }
+body.page-resume { padding-bottom: 2300px; }
+body.page-about { padding-bottom: 100px; }
 
 
 /* profile pic format */
@@ -622,8 +628,6 @@ audio {
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: scroll;
-    height: 100vh;
-    padding-bottom:200px;
     background-color: black; /* Change background color to black */
   }
 }
@@ -700,12 +704,9 @@ audio {
     text-align: center;
   }
   body {
-    
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: scroll;
-    height: 100vh;
-    padding-bottom: 300px;
     background-color: black;
   }
   .bio-box{
