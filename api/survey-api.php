@@ -57,6 +57,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET
             }
             echo json_encode($result);
             break;
+        case 'ping':
+            echo json_encode(['success' => true, 'message' => 'pong']);
+            break;
+        case 'create_test_entry':
+            // Create a safe non-destructive test pending entry
+            $testId = 'test_' . preg_replace('/[^0-9]/', '', microtime(true));
+            $item = [
+                'filename' => 'TEST_IMAGE.png',
+                'displayName' => 'TEST IMAGE',
+                'newName' => 'Test Name',
+                'newDescription' => 'This is a test pending entry created from the admin diagnostics panel.',
+                'submittedAt' => date('Y-m-d H:i:s'),
+                'id' => $testId,
+                'imagePath' => '/images/test-placeholder.png'
+            ];
+            $pendingChanges[$testId] = $item;
+            if (file_put_contents($PENDING_CHANGES_FILE, json_encode($pendingChanges, JSON_PRETTY_PRINT)) === false) {
+                echo json_encode(['success' => false, 'message' => 'Failed to write pending changes file']);
+            } else {
+                echo json_encode(['success' => true, 'message' => 'Test entry created', 'item' => $item]);
+            }
+            break;
+        case 'check_writes':
+            $probe = __DIR__ . '/.probe_' . uniqid() . '.tmp';
+            $apiWritable = false;
+            $surveyWritable = is_writable($SURVEY_FILE_PATH);
+            $messages = [];
+            try {
+                $ok = @file_put_contents($probe, "probe");
+                if ($ok !== false) {
+                    $apiWritable = true;
+                    @unlink($probe);
+                } else {
+                    $messages[] = 'Unable to create probe file in api/';
+                }
+            } catch (Exception $e) {
+                $messages[] = 'Probe write exception: ' . $e->getMessage();
+            }
+            $pendingWritable = is_writable($PENDING_CHANGES_FILE) || @touch($PENDING_CHANGES_FILE);
+            $deniedWritable = is_writable($DENIED_CHANGES_FILE) || @touch($DENIED_CHANGES_FILE);
+            echo json_encode(['success' => true, 'apiWritable' => $apiWritable, 'pendingWritable' => $pendingWritable, 'deniedWritable' => $deniedWritable, 'surveyWritable' => $surveyWritable, 'messages' => $messages]);
+            break;
             
         default:
             echo json_encode(['success' => false, 'message' => 'Invalid action']);

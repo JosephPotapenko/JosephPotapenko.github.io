@@ -63,6 +63,17 @@
       </div>
 
       <div class="card">
+        <h3 style="margin-top:0">Diagnostics</h3>
+        <p class="muted">Quick checks to validate the API and server permissions. Actions are only available when logged in.</p>
+        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:.5rem">
+          <button class="btn" id="btnPing">Ping API</button>
+          <button class="btn" id="btnCheckWrites">Check Write Permissions</button>
+          <button class="btn" id="btnCreateTest">Create Test Pending Entry</button>
+        </div>
+        <div id="diagResults" style="margin-top:.75rem;color:#ddd;white-space:pre-wrap;font-size:0.95rem"></div>
+      </div>
+
+      <div class="card">
         <h3 style="margin-top:0">Denied Changes <span id="deniedCount" class="pill">0</span></h3>
         <div id="deniedList"></div>
       </div>
@@ -160,6 +171,35 @@
           await loadData();
         });
       });
+
+      // Wire diagnostics buttons (if present)
+      const btnPing = document.getElementById('btnPing');
+      const btnCheckWrites = document.getElementById('btnCheckWrites');
+      const btnCreateTest = document.getElementById('btnCreateTest');
+      const diagResults = document.getElementById('diagResults');
+      if (btnPing) {
+        btnPing.onclick = async () => {
+          diagResults.textContent = 'Pinging API...';
+          const res = await fetch('/api/survey-api.php?action=ping', {cache:'no-store'}).then(r=>r.json()).catch(e=>({success:false,message:String(e)}));
+          diagResults.textContent = JSON.stringify(res, null, 2);
+        };
+      }
+      if (btnCheckWrites) {
+        btnCheckWrites.onclick = async () => {
+          diagResults.textContent = 'Checking writes...';
+          const res = await fetch('/api/survey-api.php?action=check_writes', {cache:'no-store'}).then(r=>r.json()).catch(e=>({success:false,message:String(e)}));
+          diagResults.textContent = JSON.stringify(res, null, 2);
+        };
+      }
+      if (btnCreateTest) {
+        btnCreateTest.onclick = async () => {
+          if (!confirm('Create a test pending entry? This will write to api/pending_changes.json.')) return;
+          diagResults.textContent = 'Creating test entry...';
+          const res = await fetch('/api/survey-api.php?action=create_test_entry', {cache:'no-store'}).then(r=>r.json()).catch(e=>({success:false,message:String(e)}));
+          diagResults.textContent = JSON.stringify(res, null, 2);
+          if (res && res.success) await loadData();
+        };
+      }
     }
 
     async function actOnChange(action, id) {

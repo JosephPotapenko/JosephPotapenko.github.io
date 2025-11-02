@@ -1,0 +1,457 @@
+/* Survey specific styles extending your existing theme */
+.survey-container {
+  margin-top: 120px;
+  padding: 2rem;
+  min-height: calc(100vh - 200px);
+}
+
+.survey-title {
+  color: rgb(228, 228, 228);
+  font-family: Calibri;
+  margin: 1;
+  padding: 1;
+  font-size: 2.5rem;
+  text-shadow: 
+   -2px -2px 0 rgb(23, 39, 39), 
+    2px -2px 0 rgb(23, 39, 39),
+   -2px 2px 0 rgb(23, 39, 39), 
+    2px 2px 0 rgb(23, 39, 39);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* Hierarchical folder structure */
+.folder-section {
+  margin-bottom: 1rem;
+}
+
+.folder-header {
+  color: rgb(228, 228, 228);
+  font-family: Calibri;
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.folder-header:hover {
+  background: rgba(0, 123, 255, 0.2);
+  transform: translateX(10px);
+}
+
+/* Bullet point system */
+.bullet-point {
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.bullet-point::before {
+  content: "●";
+  color: #007bff;
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 1.2em;
+}
+
+/* Hierarchical headings */
+h1.folder-header {
+  font-size: 2rem;
+  padding-left: 0.5rem;
+}
+
+h2.folder-header {
+  font-size: 1.7rem;
+  padding-left: 2rem;
+}
+
+h3.folder-header {
+  font-size: 1.4rem;
+  padding-left: 4rem;
+}
+
+h4.folder-header {
+  font-size: 1.2rem;
+  padding-left: 6rem;
+}
+
+/* Image grid layout */
+.images-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+  gap: 2rem;
+  margin: 1rem 0;
+  padding-left: 2rem;
+}
+
+/* Image survey cards with light gray transparent background */
+.image-survey-card {
+  background: rgba(128, 128, 128, 0.5); /* Light gray 50% transparent */
+  border-radius: 15px;
+  padding: 1rem;
+  border: 2px solid transparent;
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+/* Rainbow border from your styles */
+.image-survey-card {
+  animation: borderColorChange 5s infinite;
+  animation-fill-mode: forwards;
+  border: 2px solid;
+}
+
+.image-survey-card:hover {
+  transform: scale(1.02);
+}
+
+.image-container {
+  flex: 0 0 200px;
+}
+
+.image-survey-card img {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.image-filename {
+  color: white;
+  font-family: Calibri;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  word-break: break-word;
+  text-align: center;
+}
+
+/* Survey controls on the right side */
+.survey-controls {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  justify-content: flex-start;
+  padding-top: 1rem;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.checkbox-row input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #007bff;
+}
+
+.checkbox-row label {
+  color: white;
+  font-family: Calibri;
+  font-size: 0.9rem;
+}
+
+/* Text inputs with black transparent background and rounded edges */
+.text-input {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid #555;
+  border-radius: 8px;
+  padding: 0.5rem;
+  color: white;
+  font-family: Calibri;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  transition: border-color 0.3s ease;
+}
+
+.text-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+.text-input::placeholder {
+  color: #aaa;
+}
+
+/* Name textbox - one line, 20 characters */
+.name-input {
+  height: 2rem;
+  width: 100%;
+  max-width: 300px;
+}
+
+/* Description textbox - same width, 40 words max */
+.description-input {
+  height: 4rem;
+  width: 100%;
+  max-width: 300px;
+  resize: vertical;
+  max-height: 8rem;
+}
+
+/* Custom scrollbar styling for description textareas */
+.description-input::-webkit-scrollbar {
+  width: 8px;
+  background: transparent;
+}
+
+.description-input::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+.description-input::-webkit-scrollbar-thumb {
+  background: #1e3a8a;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.description-input::-webkit-scrollbar-thumb:hover {
+  background: #2563eb;
+}
+
+/* Firefox scrollbar styling */
+.description-input {
+  scrollbar-width: thin;
+  scrollbar-color: #1e3a8a transparent;
+}
+
+/* Fixed submit button with rainbow styling */
+.submit-button {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  font-size: 18px;
+  padding: 12px 24px;
+  border: 2px solid;
+  border-radius: 18px;
+  background: transparent;
+  cursor: pointer;
+  font-family: Calibri;
+  animation: rainbowText 5s linear infinite, rainbowBorder 5s linear infinite;
+  text-decoration: none;
+  transition: background 0.3s ease-in-out, transform 0.3s ease-in-out, color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  color: rgba(255, 255, 255, 0.718);
+  z-index: 1000;
+}
+
+.submit-button:hover {
+  background: linear-gradient(45deg, #1118537c, #29687c86);
+  transform: scale(1.1);
+  color: white;
+  box-shadow: 0 0 20px rgba(0, 123, 255, 0.3);
+}
+
+/* Clear button styling */
+
+/* Clear button styling */
+.clear-button {
+  position: fixed;
+  bottom: 2rem;
+  right: 13rem;
+  font-size: 16px;
+  padding: 10px 20px;
+
+  border-radius: 18px;
+  background: transparent;
+  cursor: pointer;
+  font-family: Calibri;
+  animation: rainbowText 5s linear infinite, rainbowBorder 5s linear infinite;
+  text-decoration: none;
+  transition: background 0.3s ease-in-out, transform 0.3s ease-in-out, color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  color: rgba(255, 255, 255, 0.718);
+  transition: background 0.3s ease-in-out, transform 0.3s ease-in-out, color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  z-index: 1000;
+}
+
+.clear-button:hover {
+  background: linear-gradient(45deg, #582c2c7c, #c74e4e67);
+  transform: scale(1.1);
+  color: rgb(255, 255, 255);
+  box-shadow: 0 0 20px rgba(255, 124, 124, 0.121);
+}
+
+/* Expand all button */
+.expand-all-button {
+  position: fixed;
+  top: 4rem;
+  right: 20px;
+  font-size: 18px;
+  padding: 12px 24px;
+  border: 2px solid;
+  border-radius: 18px;
+  background: transparent;
+  cursor: pointer;
+  font-family: Calibri;
+  animation: rainbowText 5s linear infinite, rainbowBorder 5s linear infinite;
+  text-decoration: none;
+  transition: background 0.3s ease-in-out, transform 0.3s ease-in-out, color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  color: rgba(255, 255, 255, 0.718);
+  z-index: 1001;
+}
+
+.expand-all-button:hover {
+  background: linear-gradient(45deg, #4a1a4a7c, #7a4a7a86);
+  transform: scale(1.1);
+  color: white;
+  box-shadow: 0 0 20px rgba(147, 0, 211, 0.3);
+}
+
+/* Mobile responsiveness for expand button */
+@media (max-width: 768px) {
+  .expand-all-button {
+    top: 3.5rem;
+    right: 15px;
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}
+
+/* Collapsible content */
+.collapsible-content {
+  display: none;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.collapsible-content.show {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .images-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  .image-survey-card {
+    flex-direction: column;
+    padding: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .image-survey-card.zoomed {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1.5);
+    z-index: 2000;
+    background: rgba(128, 128, 128, 0.95);
+    backdrop-filter: blur(10px);
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow: auto;
+  }
+
+  .image-container {
+    flex: none;
+    width: 100%;
+  }
+
+  .image-container img {
+    width: 100%;
+    height: auto;
+    max-height: 120px;
+    object-fit: cover;
+  }
+
+  .zoomed .image-container img {
+    max-height: none;
+    height: auto;
+  }
+
+  .card-content {
+    flex: 1;
+    min-height: 80px;
+  }
+
+  .card-content h3 {
+    font-size: 12px;
+    margin: 0.3rem 0;
+  }
+
+  .card-content .description {
+    font-size: 10px;
+    line-height: 1.2;
+  }
+
+  .name-input, .description-input {
+    font-size: 10px;
+    padding: 0.3rem;
+  }
+
+  .zoomed .card-content h3 {
+    font-size: 18px;
+  }
+
+  .zoomed .card-content .description {
+    font-size: 14px;
+  }
+
+  .zoomed .name-input, .zoomed .description-input {
+    font-size: 14px;
+    padding: 0.5rem;
+  }
+
+  /* Overlay for zoomed images */
+  .zoom-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1999;
+    display: none;
+  }
+
+  .zoom-overlay.active {
+    display: block;
+  }
+  
+  .survey-container {
+    padding: 1rem;
+    margin-top: 80px;
+  }
+  
+  .submit-button {
+    bottom: 1rem;
+    right: 1rem;
+    font-size: 16px;
+    padding: 10px 20px;
+  }
+
+  .clear-button {
+    bottom: 1rem;
+    right: 8rem;
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+
+  .image-survey-card {
+    flex-direction: column;
+  }
+
+  .image-container {
+    flex: none;
+    align-self: center;
+  }
+}

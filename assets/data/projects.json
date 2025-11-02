@@ -1,0 +1,40 @@
+{
+  "sections": [
+    {
+      "title": "HTML & CSS",
+      "titleClass": "image-text-1",
+      "containerClass": "image-cards-container-horizontal",
+      "items": [
+        { "href": "https://clock-coral-nine.vercel.app/", "img": "/images/Clock.png", "alt": "Clock", "label": "Clock Project" },
+        { "href": "https://image-color-pallet-swap.vercel.app/", "alt": "Image Color Palette Swap", "label": "Image Color Palette Swap" },
+        { "href": "https://sprite-sheet-clothing-color-changer.vercel.app/", "alt": "Sprite Sheet Color Changer", "label": "Sprite Sheet Color Changer" },
+        { "href": "https://sprite-sheet-composition.vercel.app/", "alt": "Sprite Sheet Composition", "label": "Sprite Sheet Composition" },
+        { "href": "https://re-ordering-images.vercel.app/", "alt": "Re-Ordering Images", "label": "Re-Ordering Images" }
+      ]
+    },
+    {
+      "title": "JAVA/JAVAScript",
+      "titleClass": "image-text-3",
+      "containerClass": "image-cards-container-horizontal-3",
+      "items": [
+        { "href": "https://cscd-210-lab6.vercel.app/", "img": "/images/number manipulation.png", "alt": "Java Number Manipulation Program", "label": "Number Manipulation" },
+        { "href": "https://cscd-210-lab5.vercel.app/", "img": "/images/number manipulation 2.png", "alt": "Java Number Manipulation Program 2", "label": "Number Manipulation 2" },
+        { "href": "https://cscd-210-lab10.vercel.app/", "img": "/images/author website.png", "alt": "Author Sorting Program", "label": "Author List Sorting" },
+        { "href": "https://example.com", "img": "/images/Code.webp", "alt": "Future Project", "label": "Future Project" },
+        { "href": "https://example.com", "img": "/images/Code.webp", "alt": "Future Project", "label": "Future Project" }
+      ]
+    },
+    {
+      "title": "Ruby on Rails",
+      "titleClass": "image-text-2",
+      "containerClass": "image-cards-container-horizontal-2",
+      "items": [
+        { "href": "https://example.com", "img": "/images/Code.webp", "alt": "Future Project", "label": "Future Project" },
+        { "href": "https://example.com", "img": "/images/Code.webp", "alt": "Future Project", "label": "Future Project" },
+        { "href": "https://example.com", "img": "/images/Code.webp", "alt": "Future Project", "label": "Future Project" },
+        { "href": "https://example.com", "img": "/images/Code.webp", "alt": "Future Project", "label": "Future Project" },
+        { "href": "https://example.com", "img": "/images/Code.webp", "alt": "Future Project", "label": "Future Project" }
+      ]
+    }
+  ]
+}
