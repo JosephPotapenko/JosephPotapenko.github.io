@@ -1,7 +1,7 @@
 {
   "sections": [
     {
-      "title": "HTML & CSS",
+      "title": "HTML/CSS/JavaScript",
       "titleClass": "image-text-1",
       "containerClass": "image-cards-container-horizontal",
       "items": [
@@ -25,7 +25,7 @@
       ]
     },
     {
-      "title": "Ruby on Rails",
+      "title": "Cybersecurity/SCAPY",
       "titleClass": "image-text-2",
       "containerClass": "image-cards-container-horizontal-2",
       "items": [

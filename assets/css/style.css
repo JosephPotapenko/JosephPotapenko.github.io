@@ -426,7 +426,7 @@ section.bio-box audio {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 20px;
+  gap: 36px; /* increased spacing between cards */
   position: absolute;
   left: 50%;
   top: 29%;
@@ -435,16 +435,17 @@ section.bio-box audio {
   overflow-x: auto;
   overflow-y: hidden;
   scroll-behavior: smooth;
-  padding-bottom: 13px;
+  padding-bottom: 4px; /* extra space so scrollbar doesn't overlap text */
   padding-top: 10px;
   padding-left: 10px;
   padding-right: 10px;
+  scrollbar-gutter: stable both-edges; /* reserve space for scrollbar */
 }
 .image-cards-container-horizontal-2 {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 20px;
+  gap: 36px; /* increased spacing between cards */
   position: absolute;
   left: 50%;
   top: 61%;
@@ -453,10 +454,11 @@ section.bio-box audio {
   overflow-x: auto;
   overflow-y: hidden;
   scroll-behavior: smooth;
-  padding-bottom: 13px;
+  padding-bottom: 4px; /* extra space so scrollbar doesn't overlap text */
   padding-top: 10px;
   padding-left: 10px;
   padding-right: 10px;
+  scrollbar-gutter: stable both-edges; /* reserve space for scrollbar */
 }
 .image-cards-container-horizontal-2::-webkit-scrollbar {
   height: 5px;
@@ -472,7 +474,7 @@ section.bio-box audio {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 20px;
+  gap: 36px; /* increased spacing between cards */
   position: absolute;
   left: 50%;
   top: 92.5%;
@@ -481,10 +483,11 @@ section.bio-box audio {
   overflow-x: auto;
   overflow-y: hidden;
   scroll-behavior: smooth;
-  padding-bottom: 13px;
+  padding-bottom: 4px; /* extra space so scrollbar doesn't overlap text */
   padding-top: 10px;
   padding-left: 10px;
   padding-right: 10px;
+  scrollbar-gutter: stable both-edges; /* reserve space for scrollbar */
 }
 .image-cards-container-horizontal-3::-webkit-scrollbar {
   height: 5px;
@@ -529,6 +532,40 @@ section.bio-box audio {
   object-fit: contain;
   background: #000;
 }
+.scroll-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;   /* thinner */
+  height: 72px;  /* taller */
+  display: none; /* toggled via .show */
+  align-items: center;
+  justify-content: center;
+  font-size: 18px; /* smaller arrow glyph */
+  line-height: 1;
+  color: rgba(255,255,255,0.9);
+  background: rgba(0, 0, 0, 0.18);
+  border: none;
+  border-radius: 6px;
+  z-index: 20;
+  cursor: pointer;
+  user-select: none;
+}
+.scroll-arrow.left { left: 6px; }
+.scroll-arrow.right { right: 6px; }
+.scroll-arrow.show { display: flex; }
+.scroll-arrow:focus { outline: 2px solid #00a2ff; outline-offset: 2px; }
+@media (hover:hover) {
+  .scroll-arrow:hover { background: rgba(0, 0, 0, 0.3); }
+}
+
+/* Overlay container that anchors arrows over the scroll row without moving */
+.scroll-arrows-overlay {
+  position: fixed;
+  pointer-events: none; /* allow clicks to pass through except on arrows */
+  z-index: 19;
+}
+.scroll-arrows-overlay .scroll-arrow { pointer-events: auto; }
 .text-box {
   margin: 0 auto;
   display: block;

@@ -47,7 +47,7 @@
       return {
         sections: [
           {
-            title: 'HTML & CSS',
+            title: 'HTML/CSS/JavaScript',
             titleClass: 'image-text-1',
             containerClass: 'image-cards-container-horizontal',
             items: [
@@ -71,7 +71,7 @@
             ]
           },
           {
-            title: 'Ruby on Rails',
+            title: 'Cybersecurity/SCAPY',
             titleClass: 'image-text-2',
             containerClass: 'image-cards-container-horizontal-2',
             items: [
@@ -99,7 +99,8 @@
     };
 
     // Helper to create one card with optional auto image resolution
-    const createCard = ({ href, img, alt, label }) => {
+    const createCard = ({ href, img, alt, label }, opts = {}) => {
+      const { forceAuto = false, preferScreenshot = false } = opts;
       const card = document.createElement('div');
       card.className = 'image-card colorful-border';
 
@@ -136,61 +137,74 @@
 
       // If no explicit image or a placeholder was provided, try to resolve og:image via our API
       // Only attempt auto-resolve when not an example/future placeholder
-      if (href && isPlaceholder && !cached && !ignoreAuto) {
+      if (href && !ignoreAuto && (forceAuto || (isPlaceholder && !cached))) {
         const apiPaths = [
           `/api/og-image.php?url=${encodeURIComponent(href)}`,
           `../api/og-image.php?url=${encodeURIComponent(href)}`
         ];
 
         (async () => {
-          // 1) Try our local PHP endpoints (works on PHP-capable hosting)
-          for (const apiUrl of apiPaths) {
+          const tryScreenshot = async () => {
             try {
-              const r = await fetch(apiUrl, { cache: 'no-store' });
-              if (!r.ok) continue;
-              const data = await r.json();
-              if (data && data.ok && data.image) {
-                image.src = data.image;
-                setCachedImage(href, data.image);
-                return;
+              const sUrl = `https://api.microlink.io/?url=${encodeURIComponent(href)}&screenshot=true&meta=false`;
+              const sr = await fetch(sUrl, { cache: 'no-store' });
+              if (sr.ok) {
+                const s = await sr.json();
+                const shot = s && s.status === 'success' && s.data && s.data.screenshot ? (s.data.screenshot.url || s.data.screenshot) : null;
+                if (shot) {
+                  image.src = shot;
+                  setCachedImage(href, shot);
+                  return true;
+                }
               }
-            } catch (e) {
-              // try next path
-            }
-          }
+            } catch (e) {}
+            return false;
+          };
 
-          // 2) Fallback to Microlink metadata (works on static hosting); try image then logo
-          try {
-            const mUrl = `https://api.microlink.io/?url=${encodeURIComponent(href)}&audio=false&video=false&page=false`;
-            const mr = await fetch(mUrl, { cache: 'no-store' });
-            if (mr.ok) {
-              const m = await mr.json();
-              const data = m && m.status === 'success' && m.data ? m.data : null;
-              const ogImg = data && data.image ? (data.image.url || data.image) : null;
-              const logo = data && data.logo ? (data.logo.url || data.logo) : null;
-              const picked = ogImg || logo;
-              if (picked) {
-                image.src = picked;
-                setCachedImage(href, picked);
-                return;
-              }
+          const tryPhp = async () => {
+            for (const apiUrl of apiPaths) {
+              try {
+                const r = await fetch(apiUrl, { cache: 'no-store' });
+                if (!r.ok) continue;
+                const data = await r.json();
+                if (data && data.ok && data.image) {
+                  image.src = data.image;
+                  setCachedImage(href, data.image);
+                  return true;
+                }
+              } catch (e) {}
             }
-          } catch (e) { /* proceed to screenshot */ }
+            return false;
+          };
 
-          // 3) Last resort: Microlink screenshot
-          try {
-            const sUrl = `https://api.microlink.io/?url=${encodeURIComponent(href)}&screenshot=true&meta=false`;
-            const sr = await fetch(sUrl, { cache: 'no-store' });
-            if (sr.ok) {
-              const s = await sr.json();
-              const shot = s && s.status === 'success' && s.data && s.data.screenshot ? (s.data.screenshot.url || s.data.screenshot) : null;
-              if (shot) {
-                image.src = shot;
-                setCachedImage(href, shot);
+          const tryMeta = async () => {
+            try {
+              const mUrl = `https://api.microlink.io/?url=${encodeURIComponent(href)}&audio=false&video=false&page=false`;
+              const mr = await fetch(mUrl, { cache: 'no-store' });
+              if (mr.ok) {
+                const m = await mr.json();
+                const data = m && m.status === 'success' && m.data ? m.data : null;
+                const ogImg = data && data.image ? (data.image.url || data.image) : null;
+                const logo = data && data.logo ? (data.logo.url || data.logo) : null;
+                const picked = ogImg || logo;
+                if (picked) {
+                  image.src = picked;
+                  setCachedImage(href, picked);
+                  return true;
+                }
               }
-            }
-          } catch (e) {
-            // keep placeholder
+            } catch (e) {}
+            return false;
+          };
+
+          if (preferScreenshot) {
+            if (await tryScreenshot()) return;
+            if (await tryPhp()) return;
+            await tryMeta();
+          } else {
+            if (await tryPhp()) return;
+            if (await tryMeta()) return;
+            await tryScreenshot();
           }
         })();
       }
@@ -214,7 +228,117 @@
       const row = document.createElement('div');
       row.className = section.containerClass;
 
-      section.items.forEach(item => row.appendChild(createCard(item)));
+  const preferScreenshot = section.containerClass === 'image-cards-container-horizontal-3';
+  section.items.forEach(item => row.appendChild(createCard(item, { forceAuto: preferScreenshot, preferScreenshot })));
+
+      // Arrow clickers in a fixed overlay so they don't move with scrolling
+      const createArrowsOverlay = (el) => {
+        const overlay = document.createElement('div');
+        overlay.className = 'scroll-arrows-overlay';
+        const left = document.createElement('div');
+        left.className = 'scroll-arrow left';
+        left.setAttribute('role', 'button');
+        left.setAttribute('aria-label', 'Scroll left');
+        left.setAttribute('tabindex', '0');
+        left.textContent = '<';
+        const right = document.createElement('div');
+        right.className = 'scroll-arrow right';
+        right.setAttribute('role', 'button');
+        right.setAttribute('aria-label', 'Scroll right');
+        right.setAttribute('tabindex', '0');
+        right.textContent = '>';
+        overlay.appendChild(left);
+        overlay.appendChild(right);
+        document.body.appendChild(overlay);
+
+        const scrollAmount = () => {
+          const card = el.querySelector('.image-card');
+          if (card) {
+            const rect = card.getBoundingClientRect();
+            const gap = parseFloat(getComputedStyle(el).gap) || 0;
+            return Math.round(rect.width + gap);
+          }
+          return Math.round(el.clientWidth * 0.8);
+        };
+        left.addEventListener('click', () => el.scrollBy({ left: -scrollAmount(), behavior: 'smooth' }));
+        right.addEventListener('click', () => el.scrollBy({ left: scrollAmount(), behavior: 'smooth' }));
+        left.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.scrollBy({ left: -scrollAmount(), behavior: 'smooth' }); } });
+        right.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.scrollBy({ left: scrollAmount(), behavior: 'smooth' }); } });
+
+        const positionOverlay = () => {
+          const rect = el.getBoundingClientRect();
+          overlay.style.top = `${rect.top}px`;
+          overlay.style.left = `${rect.left}px`;
+          overlay.style.width = `${rect.width}px`;
+          overlay.style.height = `${rect.height}px`;
+        };
+
+        const updateVisibility = () => {
+          const canScroll = el.scrollWidth > el.clientWidth + 1;
+          const atLeft = el.scrollLeft <= 0;
+          const atRight = el.scrollLeft + el.clientWidth >= el.scrollWidth - 1;
+          left.classList.toggle('show', canScroll && !atLeft);
+          right.classList.toggle('show', canScroll && !atRight);
+        };
+
+        const kickoff = () => {
+          positionOverlay();
+          updateVisibility();
+          requestAnimationFrame(() => { positionOverlay(); updateVisibility(); });
+          setTimeout(() => { positionOverlay(); updateVisibility(); }, 150);
+        };
+
+        if (typeof ResizeObserver !== 'undefined') {
+          const ro = new ResizeObserver(kickoff);
+          ro.observe(el);
+        }
+        window.addEventListener('scroll', positionOverlay, { passive: true });
+        window.addEventListener('resize', kickoff, { passive: true });
+        el.addEventListener('scroll', updateVisibility, { passive: true });
+        kickoff();
+
+        return { overlay, leftArrow: left, rightArrow: right, positionOverlay, updateVisibility };
+      };
+
+      // Edge fade on horizontal rows + dynamic arrow visibility (mask + overlay arrows)
+      const setupEdgeUI = (el, arrows) => {
+        const FADE = 18; // subtle px
+        const apply = () => {
+          const canScroll = el.scrollWidth > el.clientWidth + 1;
+          const atLeft = el.scrollLeft <= 0;
+          const atRight = el.scrollLeft + el.clientWidth >= el.scrollWidth - 1;
+
+          // mask fade
+          const stops = [];
+          if (atLeft) { stops.push('black 0', `black ${FADE}px`); } else { stops.push('rgba(0,0,0,0) 0', `black ${FADE}px`); }
+          if (atRight) { stops.push('black 100%', 'black 100%'); } else { stops.push(`black calc(100% - ${FADE}px)`, 'rgba(0,0,0,0) 100%'); }
+          const gradient = `linear-gradient(to right, ${stops.join(', ')})`;
+          el.style.webkitMaskImage = gradient;
+          el.style.maskImage = gradient;
+
+          // arrows
+          if (arrows) {
+            arrows.leftArrow.classList.toggle('show', canScroll && !atLeft);
+            arrows.rightArrow.classList.toggle('show', canScroll && !atRight);
+            arrows.positionOverlay();
+          }
+        };
+        const kickoff = () => {
+          apply();
+          requestAnimationFrame(apply);
+          setTimeout(apply, 150);
+        };
+        if (typeof ResizeObserver !== 'undefined') {
+          const ro = new ResizeObserver(kickoff);
+          ro.observe(el);
+        }
+        el.addEventListener('scroll', apply, { passive: true });
+        window.addEventListener('resize', kickoff, { passive: true });
+        kickoff();
+      };
+      const arrows = createArrowsOverlay(row);
+      setupEdgeUI(row, arrows);
+
       mainEl.appendChild(row);
       frag.appendChild(mainEl);
     });

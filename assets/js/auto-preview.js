@@ -40,10 +40,14 @@
       );
     };
 
+    const toAbsolute = (u) => {
+      try { return new URL(u, window.location.href).href; } catch { return u; }
+    };
     const resolvePreview = async (href) => {
+      const target = toAbsolute(href);
       // Prefer a real page preview (screenshot) first
       try {
-        const sUrl = `https://api.microlink.io/?url=${encodeURIComponent(href)}&screenshot=true&meta=false`;
+        const sUrl = `https://api.microlink.io/?url=${encodeURIComponent(target)}&screenshot=true&meta=false`;
         const sr = await fetch(sUrl, { cache: 'no-store' });
         if (sr.ok) {
           const s = await sr.json();
@@ -69,7 +73,7 @@
       }
       // Finally Microlink metadata
       try {
-        const mUrl = `https://api.microlink.io/?url=${encodeURIComponent(href)}&audio=false&video=false&page=false`;
+        const mUrl = `https://api.microlink.io/?url=${encodeURIComponent(target)}&audio=false&video=false&page=false`;
         const mr = await fetch(mUrl, { cache: 'no-store' });
         if (mr.ok) {
           const m = await mr.json();
