@@ -1,24 +1,27 @@
 /* title bar*/
 .title {
-  height: 4.2em;
+  height: 3em; /* thinner bar */
   display: flex;
   justify-content: left;
   align-items: center;
   font-family: Calibri;
   width: 100%;
-  background-color: rgb(17, 17, 17);
+  background-color: rgb(10, 10, 10);
   position: absolute; /* Changed from fixed to absolute */
   top: 0;
   left: 0;
   right: 0;
-  box-shadow: 0 0 100px rgba(6, 60, 255, 0.308);
+  box-shadow: 0 0 80px rgba(6, 60, 255, 0.25);
+  padding: 0 0.4em; /* slight horizontal breathing room */
 }
 .titlelink {
   text-decoration: none;
   font-weight: lighter;
   color: azure;
-  font-size: 1.45em;
-  margin-left: 1em;
+  font-size: 1.25em; /* smaller text */
+  margin-left: 0.85em; /* tighten spacing */
+  line-height: 1; /* keep compact vertically */
+  padding: 0.35em 0 0.2em; /* ensure click target despite thinner bar */
   transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 .titlelink:hover {
@@ -41,27 +44,29 @@
   bottom: 0;
   left: 0;
   right: 0;
+  gap: 4px; /* tighter spacing between buttons */
+  padding: 0 8px; /* slightly reduced horizontal padding */
 }
 
 
 /* dropdown menu */
 .menu-container {
   position: absolute;
-  right: 1em;
-  top: 5%;
+  right: 0.7em;
+  top: 3.75%;
   transform: translateY(-50%);
   z-index: 1000; /* Ensures the menu hovers over every other container */
 }
 .menu-button {
   background: url('/images/menu.png') no-repeat center center;
   background-size: contain;
-  width: 40px;
-  height: 40px;
+  width: 30px; /* smaller */
+  height: 30px; /* smaller */
   border: none;
   cursor: pointer;
   transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
-  border-radius: 10%; /* Makes the corners of the image rounded */
-  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.718); /* Drop shadow to the bottom and right */
+  border-radius: 12%; /* subtle rounding */
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.65); /* scaled shadow */
 }
 .menu-button:hover {
   box-shadow: 0 0 10px #00aeffa9;
@@ -120,7 +125,7 @@ body {
   background-position: center top;
   background-color: rgb(0, 0, 0);
   background-attachment: fixed; 
-  padding-bottom: 500px; /* Default bottom padding for most pages */
+  padding-bottom: 475px; /* Default bottom padding for most pages */
 }
 body::after {
   content: "";
@@ -137,12 +142,12 @@ body.page-about { padding-bottom: 100px; }
 /* profile pic format */
 .center {
   position: absolute;
-  top: 22%; 
-  left: 22%;
+  top: 17%; 
+  left: 13%;
   transform: translateX(-50%);
-  width: 22%;
+  width: 13%;
   height: auto;
-  border-radius: 70%;
+  border-radius: 20%;
   object-fit: cover;
 }
 
@@ -199,30 +204,41 @@ section.bio-box audio {
 
 
 /* button formatting for bottom left*/
-.icon-button {
-  padding: 0px;
-  margin: 4px;
-  border: 1px solid darkslategray;
-  background: rgb(39, 39, 39);
-  border-radius: 0;
+/* Unified footer button style (matches Spotify toggle look) */
+/* Moved up a bit using relative bottom offset */
+.footer .footer-btn {
+  position: relative;
+  bottom: 6px; /* move the button up a little */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px; /* unify to Spotify original toggle size */
+  height: 54px;
+  margin: 4px 6px; /* tighter outer margin */
+  padding: 6px; /* match toggle padding */
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
 }
-.icon-button img {
-  width: 50px;
-  height: 50px;
+.footer .footer-btn:hover {
+  background: rgba(0,0,0,0.7);
+  box-shadow: 0 0 12px rgba(0,0,0,0.6);
 }
-.icon-button:hover {
-  box-shadow: 0 0 20px #3cceffd7;
-  transform: translateY(-5px);
+.footer .footer-btn:active {
+  transform: translateY(-4px) scale(0.98);
 }
-.icon-button a {
-  color: white;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
+.footer .footer-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 4px rgba(0,0,0,0.6));
+  border-radius: 6px; /* slight rounding for images inside buttons */
 }
-.icon-button a:hover {
-  background-color: #575757;
-}
+
 
 
 /* glowing border for face icon, icon cards, and bottom of */
@@ -251,48 +267,77 @@ section.bio-box audio {
 .subtitle-text {
   font-size: 32px;
   position: absolute;
-  left: 35%;
+  left: 45%;
   top: 29%;
-  text-shadow: 1px 1px 2px grey;
+  text-shadow: 1px 1px 2px rgb(51, 51, 51);
+}
+.subtitle-bar {
+  position: absolute;
+  left: 46.5%;
+  top: 18%;
+  width: 45%;
+  transform: translateX(-50%);
+  padding: 8px 16px;
+  background: rgba(0,0,0,0.8);
+  color: #eaeaea;
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 28px; /* slightly larger */
+  font-weight: 350;
+  letter-spacing: 0.2px;
+  border-radius: 10px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.66), 0 0 0 1px rgba(0, 0, 0, 0.146) inset;
 }
 .bio-textbox {
   font-family: 'Calibri';
-  width: 20%;
   position: absolute;
-  left: 45%;
-  top: 36%;
+  left: 46.5%;
+  top: 16%;
   transform: translateX(-50%);
-  font-weight: lighter;
-  font-size: 20px;
+  width: 45%;
+  height: 60%; /* 70% of viewport height */
+  padding: 16px 18px;
+  font-weight: 250;
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.92);
+  background: rgba(0, 0, 0, 0.45); /* slightly darker overlay */
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.417), 0 0 0 1px rgba(0, 0, 0, 0.06) inset;
+  overflow: auto; /* scrollable */
+  z-index: 2;
 }
+.bio-textbox::-webkit-scrollbar { width: 8px; }
+.bio-textbox::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.22); border-radius: 8px; }
+.bio-textbox::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.32); }
 
 
 /* rainbow button for resume*/
 @keyframes rainbowBorder {
-  0% { border-color: rgba(255, 0, 0, 0.4); }
-  14% { border-color: rgba(255, 166, 0, 0.4); }
-  28% { border-color: rgba(255, 255, 0, 0.4); }
-  42% { border-color: rgba(0, 128, 0, 0.4); }
-  57% { border-color: rgba(0, 0, 255, 0.4); }
-  71% { border-color: rgba(76, 0, 130, 0.4); }
-  85% { border-color: rgba(238, 130, 238, 0.4); }
-  100% { border-color: rgba(255, 0, 0, 0.4); }
+  0% { border-color: rgba(255, 0, 0, 0.09); }
+  14% { border-color: rgba(255, 166, 0, 0.09); }
+  28% { border-color: rgba(255, 255, 0, 0.09); }
+  42% { border-color: rgba(0, 128, 0, 0.09); }
+  57% { border-color: rgba(0, 0, 255, 0.09); }
+  71% { border-color: rgba(76, 0, 130, 0.09); }
+  85% { border-color: rgba(238, 130, 238, 0.09); }
+  100% { border-color: rgba(255, 0, 0, 0.09); }
 }
 @keyframes rainbowText {
-  0% { text-shadow: 0 0 5px rgba(255, 0, 0, 0.4); }
-  14% { text-shadow: 0 0 5px rgba(255, 166, 0, 0.4); }
-  28% { text-shadow: 0 0 5px rgba(255, 255, 0, 0.4); }
-  42% { text-shadow: 0 0 5px rgba(0, 128, 0, 0.4); }
-  57% { text-shadow: 0 0 5px rgba(0, 0, 255, 0.4); }
-  71% { text-shadow: 0 0 5px rgba(76, 0, 130, 0.4); }
-  85% { text-shadow: 0 0 5px rgba(238, 130, 238, 0.4); }
-  100% { text-shadow: 0 0 5px rgba(255, 0, 0, 0.4); }
+  0% { text-shadow: 0 0 3px rgba(255, 0, 0, 0.25); }
+  14% { text-shadow: 0 0 3px rgba(255, 166, 0, 0.25); }
+  28% { text-shadow: 0 0 3px rgba(255, 255, 0, 0.25); }
+  42% { text-shadow: 0 0 3px rgba(0, 128, 0, 0.25); }
+  57% { text-shadow: 0 0 3px rgba(0, 0, 255, 0.25); }
+  71% { text-shadow: 0 0 3px rgba(76, 0, 130, 0.25); }
+  85% { text-shadow: 0 0 3px rgba(238, 130, 238, 0.25); }
+  100% { text-shadow: 0 0 3px rgba(255, 0, 0, 0.25); }
 }
 .rainbow-button {
   font-size: 20px;
   padding: 10px 20px;
-  border: 2px solid;
-  border-radius: 18px;
+  border: 1.5px solid; /* slightly thinner border */
+  border-radius: 8px;  /* less rounded */
   background: transparent;
   cursor: pointer;
   font-family: Calibri;
@@ -311,17 +356,66 @@ section.bio-box audio {
   animation: rainbowText 5s linear infinite, rainbowBorder 5s linear infinite; /* Continue animation on hover */
   box-shadow: 0 0 20px rgba(0, 123, 255, 0.3); /* Blue hue glow */
 }
+/* Stack buttons vertically and make them size to their text */
+.bio-actions {
+  position: absolute;
+  left: 11%;
+  transform: translateX(-50%);
+  top: 50%;
+  display: flex;
+  flex-direction: column; /* vertical stack */
+  gap: 10px; /* tighter spacing */
+  justify-content: flex-start;
+  width: auto;
+  z-index: 2;
+}
 
-/* Specific positioning for index page buttons to avoid overlap */
-#btnContact { top: 56%; }
-#btnResume { top: 65%; }
+/* Ensure buttons inside .bio-actions shrink to their text width */
+.bio-actions .rainbow-button,
+.bio-actions .cool-button {
+  border: 2px solid rgba(35, 35, 35, 0.262);
+  width: auto !important;
+  display: inline-flex;
+  align-self: flex-start;
+  box-sizing: border-box;
+  padding: 8px 12px; /* maintain a comfortable click target */
+}
+
+/* Let the buttons participate in the flex column and scale down */
+.bio-actions .rainbow-button {
+  position: static; /* participate in flex layout */
+  left: auto;
+  top: auto;
+  width: 100%; /* full width of the column */
+  font-size: 16px; /* a bit smaller */
+  padding: 8px 14px; /* slightly smaller padding */
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.197);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  box-sizing: border-box;
+}
+
+/* Slightly reduced hover scale to match smaller size */
+.bio-actions .rainbow-button:hover {
+  background: rgba(249, 249, 249, 0.204);
+  transform: scale(1.05);
+}
+
+/* Ensure any ID-based top offsets don't override the stacked layout when inside .bio-actions */
+.bio-actions #btnContact,
+.bio-actions #btnResume {
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+}
 
 /* cool button */
 .cool-button {
   font-size: 20px;
   padding: 10px 20px;
-  border: 2px solid;
-  border-radius: 18px;
+  border: 1.5px solid;
+  border-radius: 8px;
   background: transparent;
   cursor: pointer;
   font-family: Calibri;
@@ -414,8 +508,8 @@ section.bio-box audio {
   align-items: center;
   gap: 20px;
   position: absolute;
-  left: 75%;
-  top: 19%;
+  left: 85%;
+  top: 15%;
   transform: translateX(-50%);
   padding-bottom: 13px;
   padding-top: 10px;
@@ -511,7 +605,7 @@ section.bio-box audio {
 }
 .image-card {
   position: relative;
-  border: 2px solid white;
+  border: 2px solid rgba(77, 77, 77, 0.44);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 4px 0 8px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s, box-shadow 0.3s;
   width: fit-content;
@@ -568,19 +662,21 @@ section.bio-box audio {
 .scroll-arrows-overlay .scroll-arrow { pointer-events: auto; }
 .text-box {
   margin: 0 auto;
-  display: block;
+  display: flex; /* center contents vertically */
+  align-items: center;
   position: absolute;
   bottom: 0;
   background: rgba(5, 5, 5, 0.71);
   width: 93%;
-  height: 40px;
+  height: 34px; /* thicker by ~10px */
   font-family: "Calibri";
-  font-size: 1.3em;
+  font-size: 1.1em; /* slightly smaller to fit comfortably */
   color: rgba(255, 255, 255, 0.594);
-  padding: 10px;
+  padding: 0 8px; /* horizontal padding only to keep text centered */
   text-align: left;
   transition: color 0.3s;
 }
+.text-box p { margin: 0; line-height: 1; }
 .image-card:hover .text-box {
   color: rgba(255, 255, 255, 1);
 }
@@ -596,10 +692,69 @@ section.bio-box audio {
   bottom:10%; 
   left:50%; 
 }
+/* Bottom-left Spotify embed container */
+.spotify-embed {
+  position: fixed;
+  bottom: 14px;
+  right: 14px; /* open next to right-aligned button */
+  width: 300px; /* iframe uses width:100% */
+  z-index: 50;
+  padding: 6px 8px 4px;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.07) inset;
+  opacity: 1;
+  transform: translateY(0) translateX(0);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.spotify-embed iframe { display: block; width: 100%; border: 0; }
+/* Hidden state */
+.spotify-embed.is-hidden { opacity: 0; pointer-events: none; transform: translateY(12px) translateX(12px); }
+
+/* Toggle button */
+.spotify-toggle-btn {
+  position: fixed;
+  bottom: 14px;
+  right: 14px; /* move button to right */
+  width: 54px;
+  height: 54px;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 14px;
+  cursor: pointer;
+  z-index: 51;
+  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+.spotify-toggle-btn img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 4px rgba(0,0,0,0.6)); }
+.spotify-toggle-btn:hover { background: rgba(0,0,0,0.7); box-shadow: 0 0 12px rgba(0,0,0,0.6); }
+.spotify-toggle-btn:active { transform: scale(0.92); }
+
+/* When embed visible, raise button a bit so it doesn't overlap shadow too harshly */
+.spotify-embed:not(.is-hidden) + .spotify-toggle-btn { transform: translateY(-4px); }
+@media (max-width: 700px) {
+  .spotify-embed { width: 240px; bottom: 10px; right: 10px; left: auto; }
+  .spotify-toggle-btn { bottom: 10px; right: 10px; left: auto; width: 48px; height: 48px; }
+  .spotify-embed iframe { height: 140px; }
+}
+@media (max-width: 480px) {
+  .spotify-embed { width: 200px; }
+  .spotify-toggle-btn { width: 44px; height: 44px; }
+  .spotify-embed iframe { height: 120px; }
+}
 
 
 /* Phone Friendly Style Vertical */
 @media (max-width: 500px) {
+  /* Add top padding so content clears the profile image on phones */
+  .layout-home { position: relative; padding-top: 270px; }
   .title {
     font-size: 12px;
     font-weight: bolder;
@@ -615,48 +770,47 @@ section.bio-box audio {
   .center {
     position: absolute;
     left: 50%;
-    top: 10%;
+    top: 5%;
     width: 200px;
     height: auto;
     transform: translateX(-50%);
   }
-  .subtitle-text {
-    position: absolute;
-    left: 50%;
-    top: 40%;
-    font-size: 1.5em;
-    width: 80%;
-    transform: translateX(-50%);
-    text-align: center;
-    text-align: black 2px 2px 3px 3px;
-  }
+  /* Home layout: stack bio box and actions, center them, avoid absolute positioning where possible */
+  .layout-home { position: relative; }
   .bio-textbox {
-    position: absolute;
+    position: relative;
     left: 50%;
-    top: 47%;
-    width: 350px;
-    margin: 0 auto;
-    display: block;
-    text-align:center;
-    text-shadow: black 2px 2px 3px 3px;
+    top: auto;
     transform: translateX(-50%);
-    font-weight: 400;
+    width: min(92vw, 380px);
+    height: auto;
+    max-height: 52vh;
+    text-align: left;
+    margin-top: 15px;
   }
-  .rainbow-button {
-    position: absolute;
-    left: 50%;
-    top: 58%;
+  /* Keep buttons in a neat column below the bio box */
+  .bio-actions {
+    position: relative;
+    left: 80%; /* center container horizontally */
+    top: auto;
     transform: translateX(-50%);
-    margin-top: 20px;
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
   }
-  /* Stack contact above resume on mobile */
-  #btnContact { top: 58%; }
-  #btnResume { top: 66%; }
+  .bio-actions .rainbow-button { width: 100%; font-size: 16px; }
+  /* Cards area below buttons */
   .image-cards-container {
-    position: absolute;
+    position: relative;
     left: 50%;
-    top: 72%;
+    top: auto;
+    transform: translateX(-50%);
+    margin-top: 16px;
   }
+  /* Make cards a bit taller and allow full-width image fit on small screens */
+  .image-card img { width: 90vw; max-width: 360px; height: 180px; }
   .resume {
     border-radius: 20px;
     width: 375px;
@@ -681,6 +835,8 @@ section.bio-box audio {
   }
 }
 @media (max-width: 900px) and (orientation: landscape) {
+  /* Ensure content clears the profile image in small landscape */
+  .layout-home { padding-top: 220px; }
   .title {
     font-weight: bolder;
   }
@@ -700,43 +856,12 @@ section.bio-box audio {
     height: auto;
     transform: translateX(-50%);
   }
-  .subtitle-text {
-    position: absolute;
-    left: 30%;
-    top: 80%;
-    font-size: 1.2em;
-    width: 70%;
-    transform: translateX(-50%);
-    text-align: center;
-    text-shadow: black 2px 2px 3px 3px;
-  }
-  .bio-textbox {
-    position: absolute;
-    left: 30%;
-    top: 95%;
-    width: 300px;
-    margin: 0 auto;
-    display: block;
-    text-align: center;
-    text-shadow: black 2px 2px 3px 3px;
-    transform: translateX(-50%);
-    font-weight: 400;
-  }
-  .rainbow-button {
-    position: absolute;
-    left: 30%;
-    top: 130%;
-    transform: translateX(-50%);
-    margin-top: 15px;
-  }
-  /* Stack contact above resume in landscape */
-  #btnContact { top: 120%; }
-  #btnResume { top: 130%; }
-  .image-cards-container {
-    position: absolute;
-    left: 75%;
-    top: 20%;
-  }
+  /* Landscape on small widths: keep centered column layout */
+  .bio-textbox { position: relative; left: 50%; top: auto; transform: translateX(-50%); width: min(92vw, 460px); max-height: 56vh; text-align: left; }
+  .bio-actions { position: relative; left: 50%; top: auto; transform: translateX(-50%); margin-top: 12px; flex-direction: column; align-items: stretch; }
+  .bio-actions .rainbow-button { width: 100%; font-size: 16px; }
+  .image-cards-container { position: relative; left: 50%; top: auto; transform: translateX(-50%); margin-top: 16px; }
+  .image-card img { width: 88vw; max-width: 520px; height: 190px; }
   .resume {
     border-radius: 20px;
     width: 800px;

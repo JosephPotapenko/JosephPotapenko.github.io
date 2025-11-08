@@ -14,36 +14,47 @@
   <div id="header-placeholder"></div>
 
   <main>
-    <div class="mt-150">
+  <div class="mt-150 layout-home">
   <img src="/images/me.JPG" alt="My Gorgeous Face" class="center colorful-border profile-image">
       <div>
-        <h1 class="subtitle-text">Joe Potapenko</h1>
-    <h3 class="bio-textbox text-white">I'm a programming student at Eastern Washington University studying programming and cybersecurity</h3>
-    <a href="https://vcard.link/card/DQzZ" class="rainbow-button" id="btnContact">My Contact</a>
-    <a href="/pages/resume.html" class="rainbow-button" id="btnResume">Resume</a>
+    <section class="bio-textbox text-white">
+    <h2>Joseph Potapenko</h2>
+    <h3>About Me</h3>
+    <p>Dedicated Computer Science student at Eastern Washington University with a foundation in software development and a diverse set of skills in Python, Java, C, SQL, and Assembly. Seeking to leverage my knowledge and experience in algorithms, data structures, networking, cybersecurity, and design patterns to contribute to computer-related technologies.</p>
+    
+    <h3>Skills</h3>
+    <ul>
+      <li>Front end Development Internship (HTML, CSS, JavaScript, ReactJS, Tailwind CSS)</li>
+      <li>Retail Management Experience (Opperational Assistant Store Manager)</li>
+      <li>3+ years of Customer Retention and Experience Services</li>
+      <li>2+ years of Teaching and Tutoring Experience</li>
+      <li>Bilingual: Fluent in Russian, Intermediate in Ukrainian</li>
+      <li>Event Organization (2 years of volunteer at a local nonprofit)</li>
+      <li>4 years of experience in Programming (Python, Java, C, SQL, Assembly)</li>
+      <li>3 years of Computer-Related Skills (Algorithms, Software Development with Agile, Data Structures, Networking, Cybersecurity, Design Patterns, Hardware Interfacing, Github, Linux, Ubuntu and Virtual Machines, Command Line Experience)</li>
+      <li>Websight and Application Development and Deployment</li>
+    </ul>
+    
+  </section>
+      <div class="bio-actions">
+      <a href="https://vcard.link/card/DQzZ" class="rainbow-button" id="btnContact">My Contact</a>
+      <a href="/pages/resume.html" class="rainbow-button" id="btnResume">Resume</a>
+    </div>
       </div>
     </div>
     
     <div class="image-cards-container">
       <div class="image-card colorful-border">
-        <a href="https://github.com/JosephPotapenko">
-          <img src="/images/profile.png" alt="Image 1">
+        <a href="https://github.com/JosephPotapenko" data-no-auto-preview>
+          <img src="/images/github.png" alt="Image 1">
           <div class="text-box">
             <p>Github</p>
           </div>
         </a>
       </div>
-      <div class="image-card colorful-border">
-        <a href="https://clock-coral-nine.vercel.app/">
-          <img src="/images/Clock.png" alt="Seasons Clock Project">
-          <div class="text-box">
-            <p>Seasons Clock Project</p>
-          </div>
-        </a>
-      </div>
         <div class="image-card colorful-border">
-          <a href="pages/projects.html">
-            <img src="" alt="Projects">
+          <a href="pages/projects.html" data-no-auto-preview>
+            <img src="/images/Code.webp" alt="Projects" class="no-auto-preview">
             <div class="text-box">
               <p>Projects</p>
             </div>
@@ -52,10 +63,43 @@
     </div>
   </main>
 
-  <div id="footer-placeholder"></div>
+  <!-- Bottom-left Spotify embed -->
+    <div class="spotify-embed colorful-border is-hidden" id="spotifyEmbed">
+      <iframe data-testid="embed-iframe" style="border-radius:12px"
+        src="https://open.spotify.com/embed/playlist/2Fny8q2IsL1AH52QYvoAaZ?utm_source=generator&theme=0"
+        width="100%" height="152" frameborder="0" allowfullscreen=""
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
+      </iframe>
+    </div>
+    <!-- Toggle button moved into footer -->
 
+  <div id="footer-placeholder"></div>
   <script src="/assets/js/include.js"></script>
   <script src="/assets/js/auto-preview.js"></script>
+    <script>
+      // Simple toggle behavior with localStorage persistence
+      (function(){
+        const embed = document.getElementById('spotifyEmbed');
+        if (!embed) return;
+        const STORAGE_KEY = 'ui_spotifyEmbed_visible_v1';
+        const apply = (v) => {
+          if (v) embed.classList.remove('is-hidden');
+          else embed.classList.add('is-hidden');
+        };
+        // Restore previous state
+        try {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          apply(saved === '1');
+        } catch {}
+        // Delegate toggle click so it also works when the footer is injected later
+        document.addEventListener('click', (e) => {
+          const btn = e.target.closest('#spotifyToggle');
+          if (!btn) return;
+          const visible = embed.classList.toggle('is-hidden') === false;
+          try { localStorage.setItem(STORAGE_KEY, visible ? '1' : '0'); } catch {}
+        });
+      })();
+    </script>
 </body>
 
 </html>
