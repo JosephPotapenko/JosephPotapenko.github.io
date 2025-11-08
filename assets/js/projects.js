@@ -230,7 +230,7 @@
 
   const preferScreenshot = section.containerClass === 'image-cards-container-horizontal-3';
   section.items.forEach(item => {
-    const itemPreferScreenshot = preferScreenshot || /cyber-mitm-attack-lab\.vercel\.app/i.test(item.href || '');
+  const itemPreferScreenshot = preferScreenshot || /cyber-mitm-attack-lab\.vercel\.app|rsa-key-cracking\.vercel\.app/i.test(item.href || '');
     row.appendChild(createCard(item, { forceAuto: itemPreferScreenshot, preferScreenshot: itemPreferScreenshot }));
   });
 
