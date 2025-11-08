@@ -239,6 +239,11 @@ section.bio-box audio {
   border-radius: 6px; /* slight rounding for images inside buttons */
 }
 
+/* YouTube button: use a solid white tile behind the red app icon */
+.footer .footer-btn#btnYouTube {
+  background: #ffffff;
+}
+
 
 
 /* glowing border for face icon, icon cards, and bottom of */
