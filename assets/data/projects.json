@@ -29,6 +29,7 @@
       "titleClass": "image-text-2",
       "containerClass": "image-cards-container-horizontal-2",
       "items": [
+        { "href": "https://cyber-mitm-attack-lab.vercel.app/", "alt": "MITM Attack Lab", "label": "MITM Attack Lab" },
         { "href": "https://example.com", "img": "/images/Code.webp", "alt": "Future Project", "label": "Future Project" },
         { "href": "https://example.com", "img": "/images/Code.webp", "alt": "Future Project", "label": "Future Project" },
         { "href": "https://example.com", "img": "/images/Code.webp", "alt": "Future Project", "label": "Future Project" },

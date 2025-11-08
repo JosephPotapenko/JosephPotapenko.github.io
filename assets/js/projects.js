@@ -229,7 +229,10 @@
       row.className = section.containerClass;
 
   const preferScreenshot = section.containerClass === 'image-cards-container-horizontal-3';
-  section.items.forEach(item => row.appendChild(createCard(item, { forceAuto: preferScreenshot, preferScreenshot })));
+  section.items.forEach(item => {
+    const itemPreferScreenshot = preferScreenshot || /cyber-mitm-attack-lab\.vercel\.app/i.test(item.href || '');
+    row.appendChild(createCard(item, { forceAuto: itemPreferScreenshot, preferScreenshot: itemPreferScreenshot }));
+  });
 
       // Arrow clickers in a fixed overlay so they don't move with scrolling
       const createArrowsOverlay = (el) => {
