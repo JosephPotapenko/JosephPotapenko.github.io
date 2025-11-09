@@ -5,7 +5,7 @@
       "titleClass": "image-text-1",
       "containerClass": "image-cards-container-horizontal",
       "items": [
-        { "href": "https://clock-coral-nine.vercel.app/", "img": "/images/Clock.png", "alt": "Clock", "label": "Clock Project" },
+  { "href": "https://clock-coral-nine.vercel.app/", "alt": "Clock", "label": "Clock Project" },
         { "href": "https://image-color-pallet-swap.vercel.app/", "alt": "Image Color Palette Swap", "label": "Image Color Palette Swap" },
         { "href": "https://sprite-sheet-clothing-color-changer.vercel.app/", "alt": "Sprite Sheet Color Changer", "label": "Sprite Sheet Color Changer" },
         { "href": "https://sprite-sheet-composition.vercel.app/", "alt": "Sprite Sheet Composition", "label": "Sprite Sheet Composition" },
