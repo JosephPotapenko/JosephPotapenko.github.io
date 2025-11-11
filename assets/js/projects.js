@@ -232,7 +232,7 @@
   section.items.forEach(item => {
     const itemPreferScreenshot = (
       preferScreenshot ||
-      /cyber-mitm-attack-lab\.vercel\.app|rsa-key-cracking\.vercel\.app|clock-coral-nine\.vercel\.app/i.test(item.href || '')
+      /cyber-mitm-attack-lab\.vercel\.app|rsa-key-cracking\.vercel\.app|clock-coral-nine\.vercel\.app|free-pdf-reader\.netlify\.app/i.test(item.href || '')
     );
     row.appendChild(createCard(item, { forceAuto: itemPreferScreenshot, preferScreenshot: itemPreferScreenshot }));
   });
