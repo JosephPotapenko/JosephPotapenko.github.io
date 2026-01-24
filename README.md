@@ -11,7 +11,8 @@ Static website for showcasing content, hosted on GitHub Pages. It uses shared he
 ## Quick start (local)
 - Serve the site:
   - python3 -m http.server 8000
-  - or install PHP and run: sudo apt-get update && sudo apt-get install -y php && php -S 0.0.0.0:8080
+  - or Node: npm install && npm run serve (uses http-server on :8080)
+  - or install PHP (for API testing) and run: sudo apt-get update && sudo apt-get install -y php && php -S 0.0.0.0:8080
 - Open in browser:
   - $BROWSER http://localhost:8000
   - or $BROWSER http://localhost:8080
@@ -60,6 +61,14 @@ Notes:
 - Backend: `api/survey-api.php` (only works when served with PHP; not available on static GitHub Pages)
 - Pending/Denied change JSON files are stored in `api/` alongside the PHP script.
 
+Game asset data lives in `assets/data/game-pixel-art.json` and maps to the root-level `Game pixel art/` directory. Do not rename this directory or its subfolders without updating the JSON and survey code.
+
+You can verify the JSON paths with:
+
+```bash
+npm run verify:game-assets
+```
+
 ## Deployment
 - Push to your repository’s default branch
 - Enable GitHub Pages in repository settings
@@ -68,6 +77,26 @@ Notes:
 If you need the survey API locally, serve with PHP:
 - php -S 0.0.0.0:8080
 - Then open http://localhost:8080/pages/survey.html
+
+## Development tooling
+- Code style: Prettier (`.prettierrc.json`) — run `npm run format`
+- Linting: ESLint (Standard config) — run `npm run lint`
+- Editor config: `.editorconfig` for consistent indentation/newlines
+- Static server: `npm run serve` (http-server on port 8080)
+
+### Clean build output
+- Build a clean, organized dist:
+  - `npm run build`
+- Serve the dist build:
+  - `npm run serve:dist`
+- What it does:
+  - Rewrites references from `/images`, `/audio`, `/videos` to `/assets/images`, `/assets/audio`, `/assets/videos`
+  - Copies media into `dist/assets/*`
+  - Keeps `Game pixel art/` at the dist root to preserve survey behavior
+
+## Organization decisions
+- Keep `images/`, `audio/`, and `Game pixel art/` at the repository root because the site uses root-absolute paths (e.g., `/images/...`) and the survey expects `Game pixel art/` specifically.
+- Future migration to `assets/images/` and normalized names is possible via a build step that rewrites references; for now, avoiding disruptive renames keeps the site stable.
 
 ## Cleanup and legacy stubs
 
@@ -82,3 +111,5 @@ This repository has been reorganized to use `/assets`, `/partials`, `/pages`, an
 - survey-api.php → use `/api/survey-api.php`
 
 Additionally, `site.webmanifest` was added to satisfy existing page references.
+
+This repository now includes non-disruptive tooling and documentation to keep the structure professional without breaking current paths.

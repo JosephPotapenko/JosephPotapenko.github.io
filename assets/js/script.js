@@ -23,6 +23,55 @@ console.log('JS Connected');
       });
     }
     if (!hasManifest) {
+
+    // Global Spotify embed toggle with localStorage persistence
+    (function setupSpotifyEmbed() {
+      const STORAGE_KEY = 'ui_spotifyEmbed_visible_v1';
+
+      function applySavedVisibility() {
+        const embed = document.getElementById('spotifyEmbed');
+        if (!embed) return;
+        let visible = true;
+        try {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          visible = saved === null ? true : saved === '1';
+        } catch {}
+        if (visible) embed.classList.remove('is-hidden');
+        else embed.classList.add('is-hidden');
+      }
+
+      // Delegate clicks for the toggle button (works regardless of injection timing)
+      document.addEventListener('click', (e) => {
+        const btn = e.target.closest('#spotifyToggle');
+        if (!btn) return;
+        const embed = document.getElementById('spotifyEmbed');
+        if (!embed) return;
+        const visible = embed.classList.toggle('is-hidden') === false;
+        try { localStorage.setItem(STORAGE_KEY, visible ? '1' : '0'); } catch {}
+      });
+
+      // Apply state on DOM ready and when footer is injected
+      document.addEventListener('DOMContentLoaded', () => {
+        applySavedVisibility();
+        // Observe for footer injection and apply once embed appears
+        const obs = new MutationObserver((mutations) => {
+          for (const m of mutations) {
+            for (const n of m.addedNodes) {
+              if (n.nodeType === 1) {
+                if (n.id === 'spotifyEmbed' || (n.querySelector && n.querySelector('#spotifyEmbed'))) {
+                  applySavedVisibility();
+                  return;
+                }
+              }
+            }
+          }
+        });
+        try {
+          obs.observe(document.body, { childList: true, subtree: true });
+          setTimeout(() => obs.disconnect(), 5000);
+        } catch {}
+      });
+    })();
       const manifest = document.createElement('link');
       manifest.setAttribute('rel', 'manifest');
       manifest.setAttribute('href', '/site.webmanifest');
