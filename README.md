@@ -112,4 +112,4 @@ This repository has been reorganized to use `/assets`, `/partials`, `/pages`, an
 
 Additionally, `site.webmanifest` was added to satisfy existing page references.
 
-This repository now includes non-disruptive tooling and documentation to keep the structure professional without breaking current paths.
+
