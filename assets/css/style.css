@@ -241,7 +241,7 @@ section.bio-box audio {
 
 /* YouTube button: use a solid white tile behind the red app icon */
 .footer .footer-btn#btnYouTube {
-  background: #ffffff;
+  background: rgba(0, 0, 0, 0.5); /* semi-transparent black */
 }
 
 
