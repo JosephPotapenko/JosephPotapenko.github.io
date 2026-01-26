@@ -1,0 +1,297 @@
+:root{
+  --jp-top:#4b4b4b;
+  --jp-paper:#ffffff;
+  --jp-border:#e6e6e6;
+  --jp-ink:#111827;
+  --jp-muted:#4b5563;
+  --jp-right-bg:#f3f3f3;
+}
+
+.jp-resume{
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--jp-ink);
+  margin-top: 6em;
+  margin-bottom: 6em;
+}
+
+.jp-resume__actions{
+  width: min(1100px, 100%);
+  margin: 0 auto 8px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.jp-btn{
+  appearance: none;
+  border: 1px solid var(--jp-border);
+  background: #374151;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.jp-btn:hover{ background: #1f2937; }
+
+/* PDF-only scaling to reduce height to ~1.5 pages */
+.jp-resume__sheet.pdf-export{ transform: scale(0.65); transform-origin: top center; }
+.jp-resume__sheet.pdf-export .jp-resume__top{ padding: 18px 16px 16px; }
+.jp-resume__sheet.pdf-export .jp-resume__name{ font-size: 30px; }
+.jp-resume__sheet.pdf-export .jp-resume__underline{ width: 140px; margin: 10px auto 12px; }
+.jp-resume__sheet.pdf-export .jp-resume__role{ font-size: 13px; }
+.jp-resume__sheet.pdf-export .jp-resume__grid{ grid-template-columns: 1fr 300px; min-height: auto; }
+.jp-resume__sheet.pdf-export .jp-resume__left{ padding: 18px 18px 16px; }
+.jp-resume__sheet.pdf-export .jp-resume__right{ padding: 18px 16px 16px; }
+.jp-resume__sheet.pdf-export .jp-resume__h2{ font-size: 14px; letter-spacing: .12em; margin: 0 0 10px; }
+.jp-resume__sheet.pdf-export .jp-resume__job-title{ font-size: 16px; }
+.jp-resume__sheet.pdf-export .jp-resume__p,
+.jp-resume__sheet.pdf-export .jp-resume__bullets li,
+.jp-resume__sheet.pdf-export .jp-resume__contact-text,
+.jp-resume__sheet.pdf-export .jp-resume__edu-meta{ font-size: 12.5px; }
+.jp-resume__sheet.pdf-export .jp-resume__bullets li{ margin: 4px 0; line-height: 1.45; }
+.jp-resume__sheet.pdf-export .jp-resume__section--spaced{ margin-top: 12px; }
+.jp-resume__sheet.pdf-export .jp-resume__job--spaced{ margin-top: 10px; }
+
+.jp-resume__sheet{
+  background: var(--jp-paper);
+  border: 1px solid var(--jp-border);
+  width: min(1100px, 100%);
+  margin: 0 auto;
+}
+
+/* Image container for on-page rasterized contact section */
+.jp-contact-image{ display: none; }
+.jp-contact-image img{ width: 100%; height: auto; display: block; }
+.contact-rasterized #jp-contact-section{ display: none; }
+.contact-rasterized .jp-contact-image{ display: block; }
+
+.jp-resume__top{
+  background: var(--jp-top);
+  color: #fff;
+  padding: 42px 24px 26px;
+  text-align: center;
+}
+
+.jp-resume__name{
+  font-family: Montserrat, Inter, system-ui, sans-serif;
+  letter-spacing: .08em;
+  font-size: 44px;
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+.jp-resume__underline{
+  width: 165px;
+  height: 2px;
+  background: rgba(255,255,255,.85);
+  margin: 14px auto 16px;
+}
+
+.jp-resume__role{
+  font-family: Montserrat, Inter, system-ui, sans-serif;
+  letter-spacing: .22em;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.jp-resume__grid{
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  min-height: 680px;
+}
+
+.jp-resume__left{
+  padding: 34px 34px 30px;
+  border-right: 1px solid var(--jp-border);
+}
+
+.jp-resume__right{
+  padding: 34px 28px 30px;
+  background: var(--jp-right-bg);
+}
+
+.jp-resume__section--spaced{ margin-top: 26px; }
+
+.jp-resume__h2{
+  font-family: Montserrat, Inter, system-ui, sans-serif;
+  font-size: 18px;
+  letter-spacing: .14em;
+  font-weight: 700;
+  margin: 0 0 14px;
+  color: #1f2937;
+}
+
+.jp-resume__h2--right{ margin-bottom: 18px; }
+
+.jp-resume__p{
+  margin: 0;
+  max-width: 690px;
+  font-size: 15.5px;
+  line-height: 1.75;
+  color: #111827;
+}
+
+.jp-resume__job{ margin-top: 14px; }
+.jp-resume__job--spaced{ margin-top: 20px; }
+
+.jp-resume__job-title{
+  font-weight: 800;
+  font-size: 20px;
+  margin: 0 0 4px;
+}
+
+.jp-resume__job-meta{
+  margin: 0 0 10px;
+  color: var(--jp-muted);
+  font-size: 14.5px;
+}
+
+.jp-resume__bullets{
+  margin: 0 0 0 22px;
+  padding: 0;
+}
+
+.jp-resume__bullets li{
+  margin: 10px 0;
+  line-height: 1.6;
+  font-size: 15.5px;
+}
+
+.jp-resume__contact-row{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 14px 0;
+}
+
+.jp-resume__icon{
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: #e0e0e0;
+  display: grid;
+  place-items: center;
+  flex: 0 0 36px;
+}
+
+.jp-resume__icon svg{
+  width: 18px;
+  height: 18px;
+  fill: #404040;
+}
+
+.jp-resume__contact-text{
+  font-size: 15.5px;
+  color: #111827;
+  line-height: 1.3;
+}
+
+.jp-resume__skills{
+  margin: 0 0 0 22px;
+  padding: 0;
+}
+
+.jp-resume__skills li{
+  margin: 12px 0;
+  line-height: 1.55;
+  font-size: 15.5px;
+}
+
+.jp-resume__edu{ margin-top: 6px; }
+.jp-resume__edu--spaced{ margin-top: 18px; }
+
+.jp-resume__edu-title{
+  font-weight: 800;
+  font-size: 16.5px;
+  margin: 0 0 4px;
+}
+
+.jp-resume__edu-meta{
+  color: #111827;
+  font-size: 14.5px;
+  line-height: 1.35;
+}
+
+@media (max-width: 920px){
+  .jp-resume__grid{ grid-template-columns: 1fr; }
+  .jp-resume__left{ border-right: none; border-bottom: 1px solid var(--jp-border); }
+  .jp-resume__name{ font-size: 34px; }
+}
+
+/* Print: preserve selectable text and fit layout nicely */
+@media print {
+  @page { size: Letter; margin: 0.15in; }
+
+  body.page-resume { margin: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  /* Ensure no extra space/backgrounds that could cause a blank page */
+  body.page-resume { padding-bottom: 0 !important; background: #ffffff !important; background-image: none !important; }
+  #header-placeholder, #footer-placeholder, .jp-resume__actions { display: none !important; }
+
+  .jp-resume { margin-top: 0; margin-bottom: 0; }
+  .jp-resume__sheet { border: none; width: 100%; display: block !important; page-break-inside: avoid; break-inside: avoid; page-break-after: avoid; overflow: hidden; }
+  .jp-contact-image{ display: none !important; } /* print as text, not image */
+  #jp-contact-section{ display: block !important; }
+  .jp-resume__top {
+    padding: 7px 7px 5px; /* thinner title bar for print */
+    page-break-before: avoid;
+    page-break-after: avoid;
+    break-inside: avoid;
+    break-after: avoid-page;
+    margin-bottom: 0;
+  }
+  .jp-resume__name { font-size: 22px; }
+  .jp-resume__underline { display: none; }
+  .jp-resume__role { font-size: 10.2px; letter-spacing: .10em; }
+
+  .jp-resume__grid {
+    grid-template-columns: 1fr 140px; /* thinner right column in print */
+    min-height: auto; /* unset screen min-height to avoid pushing to page 2 */
+    page-break-before: avoid;
+    page-break-inside: avoid;
+    break-inside: avoid-page;
+  }
+  .jp-resume__left { padding: 12px 12px 10px; }
+  .jp-resume__right { padding: 5px 3px 5px; }
+
+  /* Contact icons much smaller in print */
+  .jp-resume__contact-row { gap: 8px; margin: 8px 0; }
+  /* Hide decorative icons for a purely text-focused PDF */
+  .jp-resume__icon { display: none !important; }
+
+  /* Hyphenate long text for clean breaks in print */
+  .jp-resume__contact-text,
+  .jp-resume__p,
+  .jp-resume__bullets li,
+  .jp-resume__edu-title,
+  .jp-resume__edu-meta,
+  .jp-resume__skills li {
+    -webkit-hyphens: auto;
+    hyphens: auto;
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
+  .jp-resume__h2 { font-size: 11.8px; margin-bottom: 5px; letter-spacing: .11em; }
+  .jp-resume__job-title { font-size: 11px; }
+  .jp-resume__edu-title { font-size: 11px; line-height: 1.28; }
+  .jp-resume__job-meta { font-size: 11px; line-height: 1.28; color: #222; }
+  .jp-resume__skills li { font-size: 11px; line-height: 1.28; }
+  .jp-resume__h2 { font-size: 11px; margin-bottom: 5px; letter-spacing: .11em; }
+  /* Make CONTACT and SKILLS titles smaller in print */
+  .jp-resume__h2--right { font-size: 9.5px; letter-spacing: .10em; margin-bottom: 4px; }
+  .jp-resume__p,
+  .jp-resume__bullets li,
+  .jp-resume__contact-text,
+  .jp-resume__edu-meta { font-size: 11px; line-height: 1.28; }
+  .jp-resume__p, .jp-resume__bullets li { orphans: 3; widows: 3; }
+  .jp-resume__bullets li { margin: 1px 0; }
+  .jp-resume__section--spaced { margin-top: 6px; }
+  .jp-resume__job--spaced { margin-top: 5px; }
+
+  /* Make contact and skills smaller text in print */
+  .jp-resume__contact-text,
+  .jp-resume__skills li { font-size: 10px; line-height: 1.25; }
+}

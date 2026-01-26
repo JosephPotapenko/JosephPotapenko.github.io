@@ -20,7 +20,61 @@ async function includeHTML() {
         '../partials/header.html',
         'partials/header.html'
       ]);
-      if (html) headerPlaceholder.innerHTML = html;
+      if (html) {
+        headerPlaceholder.innerHTML = html;
+        // Setup menu interactions for persistent open and forgiving hover
+        try {
+          const headerRoot = headerPlaceholder;
+          const menuContainer = headerRoot.querySelector('.menu-container');
+          const menuButton = headerRoot.querySelector('.menu-button');
+          const menuContent = headerRoot.querySelector('.menu-content');
+          if (menuContainer && menuButton && menuContent) {
+            let isStickyOpen = false;
+            let hoverCloseTimer = null;
+
+            function openMenuSticky() {
+              isStickyOpen = true;
+              menuContainer.classList.add('open');
+              menuButton.setAttribute('aria-expanded', 'true');
+            }
+            function closeMenuSticky() {
+              isStickyOpen = false;
+              menuContainer.classList.remove('open');
+              menuButton.setAttribute('aria-expanded', 'false');
+            }
+
+            // Toggle on button click to persist open/close
+            menuButton.addEventListener('click', (e) => {
+              e.stopPropagation();
+              if (isStickyOpen) closeMenuSticky();
+              else openMenuSticky();
+            });
+
+            // Forgiving hover: keep open briefly after mouse leaves
+            menuContainer.addEventListener('mouseenter', () => {
+              if (!isStickyOpen) menuContainer.classList.add('hover-open');
+              if (hoverCloseTimer) { clearTimeout(hoverCloseTimer); hoverCloseTimer = null; }
+            });
+            menuContainer.addEventListener('mouseleave', () => {
+              if (hoverCloseTimer) clearTimeout(hoverCloseTimer);
+              hoverCloseTimer = setTimeout(() => {
+                if (!isStickyOpen) menuContainer.classList.remove('hover-open');
+              }, 300); // brief delay for forgiving hover
+            });
+
+            // Clicking outside closes only sticky-open menus
+            document.addEventListener('click', (evt) => {
+              if (!isStickyOpen) return;
+              const t = evt.target;
+              if (t instanceof Node && !menuContainer.contains(t)) {
+                closeMenuSticky();
+              }
+            });
+          }
+        } catch (e) {
+          console.warn('Header menu setup skipped:', e);
+        }
+      }
     }
 
     if (footerPlaceholder) {

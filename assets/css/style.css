@@ -44,7 +44,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  gap: 4px; /* tighter spacing between buttons */
+  gap: 10px; /* add more space between footer buttons */
   padding: 0 8px; /* slightly reduced horizontal padding */
 }
 
@@ -102,6 +102,13 @@
   animation: stayVisible 5s forwards;
 }
 
+/* Keep menu open when toggled and make hover more forgiving */
+.menu-container.open .menu-content,
+.menu-container.hover-open .menu-content {
+  display: block;
+  opacity: 1;
+}
+
 
 /* text formatting */
 h1 {
@@ -135,7 +142,7 @@ body::after {
 
 /* Page-specific bottom padding overrides */
 body.page-projects { padding-bottom: 900px; }
-body.page-resume { padding-bottom: 2300px; }
+body.page-resume { padding-bottom: 100px; }
 body.page-about { padding-bottom: 100px; }
 
 
@@ -227,9 +234,10 @@ section.bio-box audio {
 .footer .footer-btn:hover {
   background: rgba(0,0,0,0.7);
   box-shadow: 0 0 12px rgba(0,0,0,0.6);
+  transform: translateY(-4px) scale(1.03); /* pop up on hover */
 }
 .footer .footer-btn:active {
-  transform: translateY(-4px) scale(0.98);
+  transform: translateY(2px) scale(0.98); /* press down on click */
 }
 .footer .footer-btn img {
   width: 100%;
@@ -242,6 +250,20 @@ section.bio-box audio {
 /* YouTube button: use a solid white tile behind the red app icon */
 .footer .footer-btn#btnYouTube {
   background: rgba(0, 0, 0, 0.5); /* semi-transparent black */
+  box-shadow: none; /* remove button-level glow */
+  padding: 0px; /* maximize icon size within the tile */
+  margin-right: 14px; /* extra space before Spotify button */
+}
+/* Prevent generic hover glow on the button tile */
+.footer .footer-btn#btnYouTube:hover { box-shadow: none; }
+
+/* Move glow to the YouTube icon image itself */
+.footer .footer-btn#btnYouTube img {
+  /* Restore original icon colors and keep dark grey glow */
+  filter: drop-shadow(0 0 9px rgba(60, 60, 60, 0.6));
+}
+.footer .footer-btn#btnYouTube:hover img {
+  filter: drop-shadow(0 0 12px rgba(45, 45, 45, 0.8));
 }
 
 
