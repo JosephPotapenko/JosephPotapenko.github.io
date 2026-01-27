@@ -21,6 +21,7 @@
         { "href": "https://cscd-210-lab6.vercel.app/", "img": "/images/number manipulation.png", "alt": "Java Number Manipulation Program", "label": "Number Manipulation" },
         { "href": "https://cscd-210-lab5.vercel.app/", "img": "/images/number manipulation 2.png", "alt": "Java Number Manipulation Program 2", "label": "Number Manipulation 2" },
         { "href": "https://cscd-210-lab10.vercel.app/", "img": "/images/author website.png", "alt": "Author Sorting Program", "label": "Author List Sorting" },
+        { "href": "https://cscd-210-lab9.vercel.app/", "alt": "OOP, Comparable, Selection Sort — Fish Model", "label": "Fish Records Sorting - OOP & Selection Sort" },
         { "href": "https://example.com", "img": "/images/Code.webp", "alt": "Future Project", "label": "Future Project" },
         { "href": "https://example.com", "img": "/images/Code.webp", "alt": "Future Project", "label": "Future Project" }
       ]
