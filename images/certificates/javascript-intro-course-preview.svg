@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">JavaScript Intro Course Certification PDF Preview</title>
+  <desc id="desc">Document-style preview card for the JavaScript Intro Course certification PDF.</desc>
+  <defs>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f5f0e2"/>
+      <stop offset="100%" stop-color="#d9ccb0"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#193055"/>
+      <stop offset="100%" stop-color="#355ea8"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="900" fill="#101318"/>
+  <g filter="url(#shadow)">
+    <rect x="86" y="76" width="1028" height="748" rx="34" fill="url(#paper)" stroke="#7d6645" stroke-width="10"/>
+    <rect x="120" y="110" width="960" height="680" rx="24" fill="none" stroke="#8e764f" stroke-width="5" stroke-dasharray="16 14" opacity="0.65"/>
+  </g>
+
+  <rect x="120" y="110" width="960" height="96" rx="24" fill="url(#accent)"/>
+  <text x="600" y="173" text-anchor="middle" font-family="Calibri, Arial, sans-serif" font-size="36" fill="#f7f4eb" letter-spacing="5">CERTIFICATE PDF</text>
+
+  <g transform="translate(600 350)">
+    <rect x="-210" y="-150" width="420" height="300" rx="24" fill="#fff8e7" stroke="#8b6e42" stroke-width="6"/>
+    <path d="M120 -150h90v90" fill="none" stroke="#8b6e42" stroke-width="8" stroke-linejoin="round"/>
+    <path d="M210 -60h-90v-90" fill="none" stroke="#8b6e42" stroke-width="8" stroke-linejoin="round"/>
+    <rect x="-175" y="-110" width="350" height="44" rx="22" fill="#203969"/>
+    <text x="0" y="-79" text-anchor="middle" font-family="Calibri, Arial, sans-serif" font-size="26" fill="#ffffff" letter-spacing="4">PDF DOCUMENT</text>
+    <text x="0" y="-8" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="42" fill="#1f1a14" font-weight="700">JavaScript Intro Course</text>
+    <text x="0" y="44" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="36" fill="#1f1a14" font-weight="700">Certification</text>
+    <text x="0" y="104" text-anchor="middle" font-family="Calibri, Arial, sans-serif" font-size="28" fill="#5c4a31">Click to open the real PDF</text>
+  </g>
+
+  <g transform="translate(210 640)">
+    <circle r="70" fill="#203969"/>
+    <text x="0" y="16" text-anchor="middle" font-family="Calibri, Arial, sans-serif" font-size="56" fill="#ffffff" font-weight="700">PDF</text>
+  </g>
+
+  <text x="600" y="742" text-anchor="middle" font-family="Calibri, Arial, sans-serif" font-size="30" fill="#504129">Javascript Intro Course Certification</text>
+</svg>

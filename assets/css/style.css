@@ -144,6 +144,7 @@ body::after {
 body.page-projects { padding-bottom: 900px; }
 body.page-resume { padding-bottom: 100px; }
 body.page-about { padding-bottom: 100px; }
+body.page-certificates { padding-bottom: 280px; }
 
 
 /* profile pic format */
@@ -653,6 +654,65 @@ section.bio-box audio {
   object-fit: contain;
   background: #000;
 }
+
+.certificate-gallery {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  position: absolute;
+  left: 50%;
+  top: 29%;
+  width: 88.5%;
+  transform: translateX(-50%);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  padding: 10px 10px 6px;
+  scrollbar-gutter: stable both-edges;
+}
+
+.certificate-gallery::-webkit-scrollbar {
+  height: 5px;
+}
+
+.certificate-gallery::-webkit-scrollbar-thumb {
+  background: #55555578;
+  border-radius: 1px;
+}
+
+.certificate-gallery::-webkit-scrollbar-thumb:hover {
+  background: #55555578;
+}
+
+.certificate-card {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 260px;
+  min-height: 72px;
+  padding: 14px 18px;
+  background: linear-gradient(180deg, #3d3d3d 0%, #2f2f2f 100%);
+  color: #f5f5f5;
+  text-decoration: none;
+  border-radius: 2px;
+  box-sizing: border-box;
+}
+
+.certificate-card__title {
+  display: block;
+  font-family: Calibri, Arial, sans-serif;
+  font-size: 1.02rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  color: inherit;
+}
+
+.certificate-card:hover {
+  box-shadow: 0 4px 16px #00a2ffef, 4px 0 16px rgba(34, 208, 231, 0.732);
+  transform: scale(1.03);
+}
 .scroll-arrow {
   position: absolute;
   top: 50%;
@@ -838,6 +898,22 @@ section.bio-box audio {
   }
   /* Make cards a bit taller and allow full-width image fit on small screens */
   .image-card img { width: 90vw; max-width: 360px; height: 180px; }
+  .certificate-gallery {
+    position: relative;
+    left: 50%;
+    top: auto;
+    transform: translateX(-50%);
+    width: min(92vw, 760px);
+    margin-top: 24px;
+  }
+  .certificate-card {
+    min-width: 220px;
+    min-height: 64px;
+    padding: 12px 14px;
+  }
+  .certificate-card__title {
+    font-size: 0.95rem;
+  }
   .resume {
     border-radius: 20px;
     width: 375px;
@@ -889,6 +965,9 @@ section.bio-box audio {
   .bio-actions .rainbow-button { width: 100%; font-size: 16px; }
   .image-cards-container { position: relative; left: 50%; top: auto; transform: translateX(-50%); margin-top: 16px; }
   .image-card img { width: 88vw; max-width: 520px; height: 190px; }
+  .certificate-gallery { position: relative; left: 50%; top: auto; transform: translateX(-50%); width: min(92vw, 760px); margin-top: 24px; }
+  .certificate-card { min-width: 210px; min-height: 60px; }
+  .certificate-card__title { font-size: 0.92rem; }
   .resume {
     border-radius: 20px;
     width: 800px;

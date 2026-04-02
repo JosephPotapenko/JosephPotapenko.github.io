@@ -223,7 +223,7 @@
 
 /* Print: preserve selectable text and fit layout nicely */
 @media print {
-  @page { size: Letter; margin: 0.15in; }
+  @page { size: Letter; margin: 0.12in; }
 
   body.page-resume { margin: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   /* Ensure no extra space/backgrounds that could cause a blank page */
@@ -235,16 +235,16 @@
   .jp-contact-image{ display: none !important; } /* print as text, not image */
   #jp-contact-section{ display: block !important; }
   .jp-resume__top {
-    padding: 7px 7px 5px; /* thinner title bar for print */
+    padding: 6px 7px 4px; /* thinner title bar for print */
     page-break-before: avoid;
     page-break-after: avoid;
     break-inside: avoid;
     break-after: avoid-page;
     margin-bottom: 0;
   }
-  .jp-resume__name { font-size: 22px; }
+  .jp-resume__name { font-size: 21px; }
   .jp-resume__underline { display: none; }
-  .jp-resume__role { font-size: 10.2px; letter-spacing: .10em; }
+  .jp-resume__role { font-size: 9.8px; letter-spacing: .10em; }
 
   .jp-resume__grid {
     grid-template-columns: 1fr 140px; /* thinner right column in print */
@@ -253,11 +253,11 @@
     page-break-inside: avoid;
     break-inside: avoid-page;
   }
-  .jp-resume__left { padding: 12px 12px 10px; }
-  .jp-resume__right { padding: 5px 3px 5px; }
+  .jp-resume__left { padding: 10px 11px 8px; }
+  .jp-resume__right { padding: 4px 3px 4px; }
 
   /* Contact icons much smaller in print */
-  .jp-resume__contact-row { gap: 8px; margin: 8px 0; }
+  .jp-resume__contact-row { gap: 8px; margin: 6px 0; }
   /* Hide decorative icons for a purely text-focused PDF */
   .jp-resume__icon { display: none !important; }
 
@@ -274,24 +274,23 @@
     word-break: normal;
   }
 
-  .jp-resume__h2 { font-size: 11.8px; margin-bottom: 5px; letter-spacing: .11em; }
-  .jp-resume__job-title { font-size: 11px; }
-  .jp-resume__edu-title { font-size: 11px; line-height: 1.28; }
-  .jp-resume__job-meta { font-size: 11px; line-height: 1.28; color: #222; }
-  .jp-resume__skills li { font-size: 11px; line-height: 1.28; }
-  .jp-resume__h2 { font-size: 11px; margin-bottom: 5px; letter-spacing: .11em; }
+  .jp-resume__h2 { font-size: 11px; margin-bottom: 4px; letter-spacing: .11em; }
+  .jp-resume__job-title { font-size: 10.6px; }
+  .jp-resume__edu-title { font-size: 10.6px; line-height: 1.24; }
+  .jp-resume__job-meta { font-size: 10.5px; line-height: 1.22; color: #222; }
+  .jp-resume__skills li { font-size: 9.6px; line-height: 1.18; }
   /* Make CONTACT and SKILLS titles smaller in print */
-  .jp-resume__h2--right { font-size: 9.5px; letter-spacing: .10em; margin-bottom: 4px; }
+  .jp-resume__h2--right { font-size: 9.2px; letter-spacing: .10em; margin-bottom: 3px; }
   .jp-resume__p,
   .jp-resume__bullets li,
   .jp-resume__contact-text,
   .jp-resume__edu-meta { font-size: 11px; line-height: 1.28; }
   .jp-resume__p, .jp-resume__bullets li { orphans: 3; widows: 3; }
   .jp-resume__bullets li { margin: 1px 0; }
-  .jp-resume__section--spaced { margin-top: 6px; }
-  .jp-resume__job--spaced { margin-top: 5px; }
+  .jp-resume__section--spaced { margin-top: 5px; }
+  .jp-resume__job--spaced { margin-top: 4px; }
 
   /* Make contact and skills smaller text in print */
   .jp-resume__contact-text,
-  .jp-resume__skills li { font-size: 10px; line-height: 1.25; }
+  .jp-resume__skills li { font-size: 9.5px; line-height: 1.16; }
 }
