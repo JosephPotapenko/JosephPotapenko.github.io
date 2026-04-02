@@ -31,10 +31,10 @@ console.log('JS Connected');
       function applySavedVisibility() {
         const embed = document.getElementById('spotifyEmbed');
         if (!embed) return;
-        let visible = true;
+        let visible = false;
         try {
           const saved = localStorage.getItem(STORAGE_KEY);
-          visible = saved === null ? true : saved === '1';
+          visible = saved === null ? false : saved === '1';
         } catch {}
         if (visible) embed.classList.remove('is-hidden');
         else embed.classList.add('is-hidden');
