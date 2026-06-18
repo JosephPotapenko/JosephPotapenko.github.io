@@ -3,6 +3,7 @@
 
   var RESUME = {
     name: 'JOSEPH POTAPENKO',
+    role: '',
     contact: {
       phone: '208-640-8653',
       email: 'joepotap@gmail.com',
