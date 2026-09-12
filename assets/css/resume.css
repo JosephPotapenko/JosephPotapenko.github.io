@@ -315,13 +315,13 @@
 
   /* Scale the complete two-column resume to the phone viewport. */
   .jp-resume__sheet{
-    width: 142.86%;
-    zoom: 0.7;
+    width: 181.82%;
+    zoom: 0.55;
     margin: 0;
   }
 
   .jp-resume__grid{
-    grid-template-columns: minmax(0, 1fr) 220px;
+    grid-template-columns: 1fr 360px;
     min-height: 0;
   }
 
