@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 220" role="img" aria-labelledby="title desc">
+  <title id="title">Spokane Falls Community College logo</title>
+  <desc id="desc">Logo-style mark for Spokane Falls Community College.</desc>
+  <rect width="320" height="220" fill="#005a70"/>
+  <path d="M160 43c-18 25-34 39-34 57a34 34 0 0 0 68 0c0-18-16-32-34-57z" fill="#f2c14e"/>
+  <path d="M141 99c11 6 26 6 38 0-3 13-10 19-19 19s-16-6-19-19z" fill="#005a70"/>
+  <text x="160" y="145" fill="#fff" font-family="Georgia,serif" font-size="16" font-weight="700" text-anchor="middle">SPOKANE FALLS</text>
+  <text x="160" y="169" fill="#f2c14e" font-family="Arial,sans-serif" font-size="12" letter-spacing="1.4" text-anchor="middle">COMMUNITY COLLEGE</text>
+</svg>

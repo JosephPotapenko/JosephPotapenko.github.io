@@ -294,3 +294,51 @@
   .jp-resume__contact-text,
   .jp-resume__skills li { font-size: 9.5px; line-height: 1.16; }
 }
+
+@media (max-width: 600px){
+  .jp-resume{
+    width: 100%;
+    margin: 22px 0 30px;
+  }
+
+  .jp-resume__actions{
+    width: calc(100% - 24px);
+    margin: 0 auto 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .jp-resume__actions .jp-btn{
+    flex: 1 1 140px;
+    min-height: 42px;
+  }
+
+  /* Scale the complete two-column resume to the phone viewport. */
+  .jp-resume__sheet{
+    width: 142.86%;
+    zoom: 0.7;
+    margin: 0;
+  }
+
+  .jp-resume__grid{
+    grid-template-columns: minmax(0, 1fr) 220px;
+    min-height: 0;
+  }
+
+  .jp-resume__top{
+    padding: 30px 18px 20px;
+  }
+
+  .jp-resume__name{
+    font-size: 38px;
+  }
+
+  .jp-resume__role{
+    font-size: 15px;
+  }
+
+  .jp-resume__left,
+  .jp-resume__right{
+    padding: 24px 22px;
+  }
+}

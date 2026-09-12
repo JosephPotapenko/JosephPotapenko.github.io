@@ -5,12 +5,138 @@
       "titleClass": "image-text-1",
       "containerClass": "image-cards-container-horizontal",
       "items": [
-  { "href": "https://clock-coral-nine.vercel.app/", "alt": "Clock", "label": "Clock Project" },
-        { "href": "https://image-color-pallet-swap.vercel.app/", "alt": "Image Color Palette Swap", "label": "Image Color Palette Swap" },
-        { "href": "https://sprite-sheet-clothing-color-changer.vercel.app/", "alt": "Sprite Sheet Color Changer", "label": "Sprite Sheet Color Changer" },
-        { "href": "https://sprite-sheet-composition.vercel.app/", "alt": "Sprite Sheet Composition", "label": "Sprite Sheet Composition" },
-        { "href": "https://re-ordering-images.vercel.app/", "alt": "Re-Ordering Images", "label": "Re-Ordering Images" },
-        { "href": "https://free-pdf-reader.netlify.app/", "alt": "Free PDF Reader", "label": "Free PDF Reader" }
+        {
+          "href": "https://clock-coral-nine.vercel.app/",
+          "alt": "Clock",
+          "label": "Clock Project",
+          "img": "/images/projects/screenshots/project-01.png"
+        },
+        {
+          "href": "https://image-color-pallet-swap.vercel.app/",
+          "alt": "Image Color Palette Swap",
+          "label": "Image Color Palette Swap",
+          "img": "/images/projects/screenshots/project-02.png"
+        },
+        {
+          "href": "https://sprite-sheet-clothing-color-changer.vercel.app/",
+          "alt": "Sprite Sheet Color Changer",
+          "label": "Sprite Sheet Color Changer",
+          "img": "/images/projects/screenshots/project-03.png"
+        },
+        {
+          "href": "https://sprite-sheet-composition.vercel.app/",
+          "alt": "Sprite Sheet Composition",
+          "label": "Sprite Sheet Composition",
+          "img": "/images/projects/screenshots/project-04.png"
+        },
+        {
+          "href": "https://re-ordering-images.vercel.app/",
+          "alt": "Re-Ordering Images",
+          "label": "Re-Ordering Images",
+          "img": "/images/projects/screenshots/project-05.png"
+        },
+        {
+          "href": "https://free-pdf-reader.netlify.app/",
+          "alt": "Free PDF Reader",
+          "label": "Free PDF Reader",
+          "img": "/images/projects/screenshots/project-06.png"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/Trivia-Wheel",
+          "alt": "Trivia Wheel repository",
+          "label": "Trivia Wheel",
+          "img": "/images/projects/screenshots/project-07.png"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/Background-remover-by-eyedropper-color",
+          "alt": "Background Remover by Eyedropper Color repository",
+          "label": "Background Remover by Eyedropper Color",
+          "img": "/images/projects/screenshots/project-08.png"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/Cutting-Off-Image-Borders-For-Multiple-Files-At-Once",
+          "alt": "Batch Image Border Cropper repository",
+          "label": "Batch Image Border Cropper",
+          "img": "/images/projects/screenshots/project-09.png"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/Image-reorder-tool",
+          "alt": "Image Reorder Tool repository",
+          "label": "Image Reorder Tool",
+          "img": "/images/projects/screenshots/project-10.png"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/Node-NPM-Practice",
+          "alt": "Node NPM Practice repository",
+          "label": "Node and NPM Practice",
+          "img": "/images/projects/screenshots/project-11.png"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/name-scraper",
+          "alt": "Name Scraper repository",
+          "label": "Name Scraper",
+          "img": "/images/projects/screenshots/project-12.png"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/Name-skimmer",
+          "alt": "Name Skimmer repository",
+          "label": "Name Skimmer",
+          "img": "/images/projects/screenshots/project-13.png"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/Name-changer",
+          "alt": "Name Changer repository",
+          "label": "Name Changer",
+          "img": "/images/projects/screenshots/project-14.png"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/Duplicate-line-remover-for-sorted-lists.-",
+          "alt": "Duplicate Line Remover repository",
+          "label": "Duplicate Line Remover",
+          "img": "/images/projects/screenshots/project-15.png"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/Line-sorter",
+          "alt": "Line Sorter repository",
+          "label": "Line Sorter",
+          "img": "/images/projects/screenshots/project-16.png"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/Web-Dev-Boiler-Plate",
+          "alt": "Web Development Boilerplate repository",
+          "label": "Web Development Boilerplate",
+          "img": "/images/projects/screenshots/project-17.png"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/Web-Dev-Elements",
+          "alt": "Web Development Elements repository",
+          "label": "Web Development Elements",
+          "img": "/images/projects/screenshots/project-18.png"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/Web-Dev-Starter",
+          "alt": "Web Development Starter repository",
+          "label": "Web Development Starter",
+          "img": "/images/projects/screenshots/project-19.png"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/Tailwind-Setup-Clock",
+          "alt": "Tailwind Clock Setup repository",
+          "label": "Tailwind Clock Setup",
+          "img": "/images/projects/screenshots/project-20.png"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/Tailwind-Astro-Integration-Blog",
+          "alt": "Tailwind Astro Integration Blog repository",
+          "label": "Tailwind Astro Integration Blog",
+          "img": "/images/projects/screenshots/project-21.png"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/gkpbt-css-circle",
+          "alt": "CSS Circle repository",
+          "label": "CSS Circle",
+          "img": "/images/projects/screenshots/project-22.png"
+        }
       ]
     },
     {
@@ -18,12 +144,102 @@
       "titleClass": "image-text-3",
       "containerClass": "image-cards-container-horizontal-3",
       "items": [
-        { "href": "https://cscd-210-lab6.vercel.app/", "img": "/images/number manipulation.png", "alt": "Java Number Manipulation Program", "label": "Number Manipulation" },
-        { "href": "https://cscd-210-lab5.vercel.app/", "img": "/images/number manipulation 2.png", "alt": "Java Number Manipulation Program 2", "label": "Number Manipulation 2" },
-        { "href": "https://cscd-210-lab10.vercel.app/", "img": "/images/author website.png", "alt": "Author Sorting Program", "label": "Author List Sorting" },
-        { "href": "https://cscd-210-lab9.vercel.app/", "alt": "OOP, Comparable, Selection Sort — Fish Model", "label": "Fish Records Sorting - OOP & Selection Sort" },
-        { "href": "https://example.com", "img": "/images/Code.webp", "alt": "Future Project", "label": "Future Project" },
-        { "href": "https://example.com", "img": "/images/Code.webp", "alt": "Future Project", "label": "Future Project" }
+        {
+          "href": "https://cscd-210-lab6.vercel.app/",
+          "img": "/images/projects/screenshots/project-23.png",
+          "alt": "Java Number Manipulation Program",
+          "label": "Number Manipulation"
+        },
+        {
+          "href": "https://cscd-210-lab5.vercel.app/",
+          "img": "https://image.thum.io/get/width/800/crop/600/https://cscd-210-lab5.vercel.app/",
+          "alt": "Java Number Manipulation Program 2",
+          "label": "Number Manipulation 2"
+        },
+        {
+          "href": "https://cscd-210-lab10.vercel.app/",
+          "img": "https://image.thum.io/get/width/800/crop/600/https://cscd-210-lab10.vercel.app/",
+          "alt": "Author Sorting Program",
+          "label": "Author List Sorting"
+        },
+        {
+          "href": "https://cscd-210-lab9.vercel.app/",
+          "alt": "OOP, Comparable, Selection Sort — Fish Model",
+          "label": "Fish Records Sorting - OOP & Selection Sort",
+          "img": "https://image.thum.io/get/width/800/crop/600/https://cscd-210-lab9.vercel.app/"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/CSCD210-Java-Practice",
+          "alt": "CSCD 210 Java Practice repository",
+          "label": "CSCD 210 Java Practice",
+          "img": "https://image.thum.io/get/width/800/crop/600/https://github.com/JosephPotapenko/CSCD210-Java-Practice"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/CSCD210-Lab1",
+          "alt": "CSCD 210 Lab 1 repository",
+          "label": "CSCD 210 Lab 1",
+          "img": "https://image.thum.io/get/width/800/crop/600/https://github.com/JosephPotapenko/CSCD210-Lab1"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/CSCD210-Lab2",
+          "alt": "CSCD 210 Lab 2 repository",
+          "label": "CSCD 210 Lab 2",
+          "img": "https://image.thum.io/get/width/800/crop/600/https://github.com/JosephPotapenko/CSCD210-Lab2"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/CSCD210-Lab3",
+          "alt": "CSCD 210 Lab 3 repository",
+          "label": "CSCD 210 Lab 3",
+          "img": "https://image.thum.io/get/width/800/crop/600/https://github.com/JosephPotapenko/CSCD210-Lab3"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/CSCD210-Lab4",
+          "alt": "CSCD 210 Lab 4 repository",
+          "label": "CSCD 210 Lab 4",
+          "img": "https://image.thum.io/get/width/800/crop/600/https://github.com/JosephPotapenko/CSCD210-Lab4"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/CSCD210-Lab7",
+          "alt": "CSCD 210 Lab 7 repository",
+          "label": "CSCD 210 Lab 7",
+          "img": "https://image.thum.io/get/width/800/crop/600/https://github.com/JosephPotapenko/CSCD210-Lab7"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/CSCD210-Lab8",
+          "alt": "CSCD 210 Lab 8 repository",
+          "label": "CSCD 210 Lab 8",
+          "img": "https://image.thum.io/get/width/800/crop/600/https://github.com/JosephPotapenko/CSCD210-Lab8"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/APE-File-Sorting-Practice",
+          "alt": "APE File Sorting Practice repository",
+          "label": "APE File Sorting Practice",
+          "img": "https://image.thum.io/get/width/800/crop/600/https://github.com/JosephPotapenko/APE-File-Sorting-Practice"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/APE-Linked-List-Practice",
+          "alt": "APE Linked List Practice repository",
+          "label": "APE Linked List Practice",
+          "img": "https://image.thum.io/get/width/800/crop/600/https://github.com/JosephPotapenko/APE-Linked-List-Practice"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/CSCD350-EHRProject",
+          "alt": "CSCD 350 EHR Project repository",
+          "label": "CSCD 350 EHR Project",
+          "img": "https://image.thum.io/get/width/800/crop/600/https://github.com/JosephPotapenko/CSCD350-EHRProject"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/EWU-CSCD371-2025-Fall",
+          "alt": "EWU CSCD 371 repository",
+          "label": "EWU CSCD 371",
+          "img": "https://image.thum.io/get/width/800/crop/600/https://github.com/JosephPotapenko/EWU-CSCD371-2025-Fall"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/cscd212_f23_setup",
+          "alt": "CSCD 212 setup repository",
+          "label": "CSCD 212 Setup",
+          "img": "https://image.thum.io/get/width/800/crop/600/https://github.com/JosephPotapenko/cscd212_f23_setup"
+        }
       ]
     },
     {
@@ -31,13 +247,79 @@
       "titleClass": "image-text-2",
       "containerClass": "image-cards-container-horizontal-2",
       "items": [
-        { "href": "https://cyber-mitm-attack-lab.vercel.app/", "alt": "MITM Attack Lab", "label": "MITM Attack Lab" },
-        { "href": "https://rsa-key-cracking.vercel.app/", "alt": "RSA Key Cracking Lab", "label": "RSA Key Cracking Lab" },
-        { "href": "https://example.com", "img": "/images/Code.webp", "alt": "Future Project", "label": "Future Project" },
-        { "href": "https://example.com", "img": "/images/Code.webp", "alt": "Future Project", "label": "Future Project" },
-        { "href": "https://example.com", "img": "/images/Code.webp", "alt": "Future Project", "label": "Future Project" },
-        { "href": "https://example.com", "img": "/images/Code.webp", "alt": "Future Project", "label": "Future Project" },
-        { "href": "https://example.com", "img": "/images/Code.webp", "alt": "Future Project", "label": "Future Project" }
+        {
+          "href": "https://cyber-mitm-attack-lab.vercel.app/",
+          "alt": "MITM Attack Lab",
+          "label": "MITM Attack Lab",
+          "img": "https://image.thum.io/get/width/800/crop/600/https://cyber-mitm-attack-lab.vercel.app/"
+        },
+        {
+          "href": "https://rsa-key-cracking.vercel.app/",
+          "alt": "RSA Key Cracking Lab",
+          "label": "RSA Key Cracking Lab",
+          "img": "https://image.thum.io/get/width/800/crop/600/https://rsa-key-cracking.vercel.app/"
+        }
+      ]
+    },
+    {
+      "title": "Image Processing & Pixel Art Tools",
+      "titleClass": "image-text-4",
+      "containerClass": "image-cards-container-horizontal-4",
+      "items": [
+        {
+          "href": "https://github.com/JosephPotapenko/Image-capture-no-background-centerer-and-outliner",
+          "alt": "Image Capture Background Centerer and Outliner repository",
+          "label": "Image Capture Centerer and Outliner",
+          "img": "https://image.thum.io/get/width/800/crop/600/https://github.com/JosephPotapenko/Image-capture-no-background-centerer-and-outliner"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/background-remover",
+          "alt": "Background Remover repository",
+          "label": "Background Remover",
+          "img": "https://image.thum.io/get/width/800/crop/600/https://github.com/JosephPotapenko/background-remover"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/Image-flip-tool",
+          "alt": "Image Flip Tool repository",
+          "label": "Image Flip Tool",
+          "img": "https://image.thum.io/get/width/800/crop/600/https://github.com/JosephPotapenko/Image-flip-tool"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/image-centerer-no-background",
+          "alt": "Image Centerer repository",
+          "label": "Image Centerer",
+          "img": "https://image.thum.io/get/width/800/crop/600/https://github.com/JosephPotapenko/image-centerer-no-background"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/Image-splitter",
+          "alt": "Image Splitter repository",
+          "label": "Image Splitter",
+          "img": "https://image.thum.io/get/width/800/crop/600/https://github.com/JosephPotapenko/Image-splitter"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/pixel-art-no-background-rotation",
+          "alt": "Pixel Art Rotation repository",
+          "label": "Pixel Art Rotation",
+          "img": "https://image.thum.io/get/width/800/crop/600/https://github.com/JosephPotapenko/pixel-art-no-background-rotation"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/Pixel-art-image-centerer",
+          "alt": "Pixel Art Image Centerer repository",
+          "label": "Pixel Art Image Centerer",
+          "img": "https://image.thum.io/get/width/800/crop/600/https://github.com/JosephPotapenko/Pixel-art-image-centerer"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/Add-3-pixels-around-an-image-border",
+          "alt": "Image Border Expander repository",
+          "label": "Image Border Expander",
+          "img": "https://image.thum.io/get/width/800/crop/600/https://github.com/JosephPotapenko/Add-3-pixels-around-an-image-border"
+        },
+        {
+          "href": "https://github.com/JosephPotapenko/sprite-animations",
+          "alt": "Sprite Animations repository",
+          "label": "Sprite Animations",
+          "img": "https://image.thum.io/get/width/800/crop/600/https://github.com/JosephPotapenko/sprite-animations"
+        }
       ]
     }
   ]

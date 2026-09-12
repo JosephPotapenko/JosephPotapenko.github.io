@@ -5,7 +5,7 @@
     if (!root) return; // Not on projects page
 
     // Simple localStorage cache for resolved preview images
-    const CACHE_KEY = 'ogImageCacheV1';
+    const CACHE_KEY = 'projectScreenshotCacheV2';
     const cache = (() => {
       try {
         return JSON.parse(localStorage.getItem(CACHE_KEY) || '{}');
@@ -18,6 +18,24 @@
         localStorage.setItem(CACHE_KEY, JSON.stringify(cache));
       } catch { /* ignore quota */ }
     };
+    const imageResolutionQueue = [];
+    let activeImageResolutions = 0;
+    const processImageResolutionQueue = () => {
+      while (activeImageResolutions < 3 && imageResolutionQueue.length) {
+        const { task, resolve, reject } = imageResolutionQueue.shift();
+        activeImageResolutions += 1;
+        task()
+          .then(resolve, reject)
+          .finally(() => {
+            activeImageResolutions -= 1;
+            processImageResolutionQueue();
+          });
+      }
+    };
+    const queueImageResolution = (task) => new Promise((resolve, reject) => {
+      imageResolutionQueue.push({ task, resolve, reject });
+      processImageResolutionQueue();
+    });
 
     // Helper: try multiple JSON paths to handle different hosting bases
     async function fetchJSONWithFallback(paths) {
@@ -66,8 +84,6 @@
               { href: 'https://cscd-210-lab6.vercel.app/', img: '/images/number manipulation.png', alt: 'Java Number Manipulation Program', label: 'Number Manipulation' },
               { href: 'https://cscd-210-lab5.vercel.app/', img: '/images/number manipulation 2.png', alt: 'Java Number Manipulation Program 2', label: 'Number Manipulation 2' },
               { href: 'https://cscd-210-lab10.vercel.app/', img: '/images/author website.png', alt: 'Author Sorting Program', label: 'Author List Sorting' },
-              { href: 'https://example.com', img: '/images/Code.webp', alt: 'Future Project', label: 'Future Project' },
-              { href: 'https://example.com', img: '/images/Code.webp', alt: 'Future Project', label: 'Future Project' }
             ]
           },
           {
@@ -75,11 +91,6 @@
             titleClass: 'image-text-2',
             containerClass: 'image-cards-container-horizontal-2',
             items: [
-              { href: 'https://example.com', img: '/images/Code.webp', alt: 'Future Project', label: 'Future Project' },
-              { href: 'https://example.com', img: '/images/Code.webp', alt: 'Future Project', label: 'Future Project' },
-              { href: 'https://example.com', img: '/images/Code.webp', alt: 'Future Project', label: 'Future Project' },
-              { href: 'https://example.com', img: '/images/Code.webp', alt: 'Future Project', label: 'Future Project' },
-              { href: 'https://example.com', img: '/images/Code.webp', alt: 'Future Project', label: 'Future Project' }
             ]
           }
         ]
@@ -91,7 +102,6 @@
       const text = `${alt || ''} ${label || ''}`.toLowerCase();
       const url = (href || '').toLowerCase();
       return (
-        text.includes('future project') ||
         text.includes('future code') ||
         url.includes('example.com') ||
         /(^|\/)example(\.html?)?$/.test(url)
@@ -109,6 +119,8 @@
 
       const image = document.createElement('img');
       image.alt = alt || label || 'Project';
+      image.loading = 'lazy';
+      image.dataset.destination = href || '';
       const cached = href ? getCachedImage(href) : null;
       const ignoreAuto = isFutureOrExample({ href, alt, label });
       const PLACEHOLDER = '/images/Code.webp';
@@ -135,15 +147,14 @@
       anchor.appendChild(textBox);
       card.appendChild(anchor);
 
-      // If no explicit image or a placeholder was provided, try to resolve og:image via our API
-      // Only attempt auto-resolve when not an example/future placeholder
-      if (href && !ignoreAuto && (forceAuto || (isPlaceholder && !cached))) {
+      // Resolve a screenshot of the destination page, keeping the local image as fallback.
+      if (href && !ignoreAuto && !img && (forceAuto || (isPlaceholder && !cached))) {
         const apiPaths = [
           `/api/og-image.php?url=${encodeURIComponent(href)}`,
           `../api/og-image.php?url=${encodeURIComponent(href)}`
         ];
 
-        (async () => {
+        queueImageResolution(async () => {
           const tryScreenshot = async () => {
             try {
               const sUrl = `https://api.microlink.io/?url=${encodeURIComponent(href)}&screenshot=true&meta=false`;
@@ -206,7 +217,7 @@
             if (await tryMeta()) return;
             await tryScreenshot();
           }
-        })();
+        });
       }
 
       return card;
@@ -228,12 +239,8 @@
       const row = document.createElement('div');
       row.className = section.containerClass;
 
-  const preferScreenshot = section.containerClass === 'image-cards-container-horizontal-3';
   section.items.forEach(item => {
-    const itemPreferScreenshot = (
-      preferScreenshot ||
-      /cyber-mitm-attack-lab\.vercel\.app|rsa-key-cracking\.vercel\.app|clock-coral-nine\.vercel\.app|free-pdf-reader\.netlify\.app/i.test(item.href || '')
-    );
+    const itemPreferScreenshot = Boolean(item.href);
     row.appendChild(createCard(item, { forceAuto: itemPreferScreenshot, preferScreenshot: itemPreferScreenshot }));
   });
 

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 220" role="img" aria-labelledby="title desc">
+  <title id="title">Eastern Washington University logo</title>
+  <desc id="desc">Logo-style mark for Eastern Washington University.</desc>
+  <rect width="320" height="220" fill="#a32035"/>
+  <circle cx="160" cy="78" r="39" fill="#fff"/>
+  <path d="M160 47l8 18 20 2-15 13 5 20-18-10-18 10 5-20-15-13 20-2z" fill="#a32035"/>
+  <text x="160" y="145" fill="#fff" font-family="Georgia,serif" font-size="19" font-weight="700" text-anchor="middle">EASTERN WASHINGTON</text>
+  <text x="160" y="169" fill="#fff" font-family="Arial,sans-serif" font-size="13" letter-spacing="2" text-anchor="middle">UNIVERSITY</text>
+</svg>
