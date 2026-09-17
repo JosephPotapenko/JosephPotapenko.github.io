@@ -112,3 +112,44 @@ async function includeHTML() {
 }
 
 document.addEventListener('DOMContentLoaded', includeHTML);
+
+// On phones, move through the four navbar pages and the unlisted personal projects page.
+document.addEventListener('DOMContentLoaded', () => {
+  if (!window.matchMedia('(max-width: 700px)').matches) return;
+
+  const pages = [
+    '/index.html',
+    '/pages/projects.html',
+    '/pages/certificates.html',
+    '/pages/resume.html',
+    '/pages/personal-projects.html'
+  ];
+  const currentPage = `${window.location.pathname.replace(/\/index\.html$/, '') || '/'}/`.replace('//', '/');
+  const pageIndex = pages.findIndex((page) => {
+    const normalized = page.replace(/\/index\.html$/, '/') || '/';
+    return normalized === currentPage || page === window.location.pathname;
+  });
+  let touchStartX = 0;
+  let touchStartY = 0;
+
+  document.addEventListener('touchstart', (event) => {
+    if (event.touches.length !== 1) return;
+    touchStartX = event.touches[0].clientX;
+    touchStartY = event.touches[0].clientY;
+  }, { passive: true });
+
+  document.addEventListener('touchend', (event) => {
+    if (pageIndex < 0 || event.changedTouches.length !== 1) return;
+    const target = event.target instanceof Element ? event.target : null;
+    if (target && (target.closest('a, button, input, textarea, select, [contenteditable="true"]') ||
+      target.closest('.image-cards-container-horizontal, .image-cards-container-horizontal-2, .image-cards-container-horizontal-3, .image-cards-container-horizontal-4'))) return;
+
+    const touch = event.changedTouches[0];
+    const deltaX = touch.clientX - touchStartX;
+    const deltaY = touch.clientY - touchStartY;
+    if (Math.abs(deltaX) < 60 || Math.abs(deltaX) <= Math.abs(deltaY) * 1.25) return;
+
+    const nextIndex = pageIndex + (deltaX < 0 ? 1 : -1);
+    if (nextIndex >= 0 && nextIndex < pages.length) window.location.href = pages[nextIndex];
+  }, { passive: true });
+});

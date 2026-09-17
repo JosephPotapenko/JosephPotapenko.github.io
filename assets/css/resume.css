@@ -313,15 +313,14 @@
     min-height: 42px;
   }
 
-  /* Scale the complete two-column resume to the phone viewport. */
+  /* Reflow the desktop rail below the main resume content on phones. */
   .jp-resume__sheet{
-    width: 181.82%;
-    zoom: 0.55;
-    margin: 0;
+    width: 100%;
+    margin: 0 auto;
   }
 
   .jp-resume__grid{
-    grid-template-columns: 1fr 360px;
+    grid-template-columns: 1fr;
     min-height: 0;
   }
 
@@ -330,7 +329,9 @@
   }
 
   .jp-resume__name{
-    font-size: 38px;
+    font-size: clamp(24px, 8vw, 34px);
+    letter-spacing: .04em;
+    overflow-wrap: anywhere;
   }
 
   .jp-resume__role{
@@ -340,5 +341,14 @@
   .jp-resume__left,
   .jp-resume__right{
     padding: 24px 22px;
+  }
+
+  .jp-resume__right{
+    border-top: 1px solid var(--jp-border);
+  }
+
+  .jp-resume__contact-text,
+  .jp-resume__skills li{
+    overflow-wrap: anywhere;
   }
 }

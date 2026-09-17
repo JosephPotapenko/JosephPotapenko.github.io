@@ -42,19 +42,19 @@
           "img": "/images/projects/screenshots/project-06.png"
         },
         {
-          "href": "https://github.com/JosephPotapenko/Trivia-Wheel",
+          "href": "https://trivia-wheel.vercel.app/",
           "alt": "Trivia Wheel repository",
           "label": "Trivia Wheel",
           "img": "/images/projects/screenshots/project-07.png"
         },
         {
-          "href": "https://github.com/JosephPotapenko/Background-remover-by-eyedropper-color",
+          "href": "https://background-remover-by-eyedropper-co.vercel.app/",
           "alt": "Background Remover by Eyedropper Color repository",
           "label": "Background Remover by Eyedropper Color",
           "img": "/images/projects/screenshots/project-08.png"
         },
         {
-          "href": "https://github.com/JosephPotapenko/Cutting-Off-Image-Borders-For-Multiple-Files-At-Once",
+          "href": "https://cutting-off-image-borders-for-multi.vercel.app/",
           "alt": "Batch Image Border Cropper repository",
           "label": "Batch Image Border Cropper",
           "img": "/images/projects/screenshots/project-09.png"
@@ -72,7 +72,7 @@
           "img": "/images/projects/screenshots/project-11.png"
         },
         {
-          "href": "https://github.com/JosephPotapenko/name-scraper",
+          "href": "https://name-scraper.vercel.app/",
           "alt": "Name Scraper repository",
           "label": "Name Scraper",
           "img": "/images/projects/screenshots/project-12.png"
@@ -84,19 +84,19 @@
           "img": "/images/projects/screenshots/project-13.png"
         },
         {
-          "href": "https://github.com/JosephPotapenko/Name-changer",
+          "href": "https://name-changer-two.vercel.app/",
           "alt": "Name Changer repository",
           "label": "Name Changer",
           "img": "/images/projects/screenshots/project-14.png"
         },
         {
-          "href": "https://github.com/JosephPotapenko/Duplicate-line-remover-for-sorted-lists.-",
+          "href": "https://duplicate-line-remover-for-sorted-l.vercel.app/",
           "alt": "Duplicate Line Remover repository",
           "label": "Duplicate Line Remover",
           "img": "/images/projects/screenshots/project-15.png"
         },
         {
-          "href": "https://github.com/JosephPotapenko/Line-sorter",
+          "href": "https://line-sorter.vercel.app/",
           "alt": "Line Sorter repository",
           "label": "Line Sorter",
           "img": "/images/projects/screenshots/project-16.png"
@@ -114,13 +114,13 @@
           "img": "/images/projects/screenshots/project-18.png"
         },
         {
-          "href": "https://github.com/JosephPotapenko/Web-Dev-Starter",
+          "href": "https://web-dev-starter-inky.vercel.app/",
           "alt": "Web Development Starter repository",
           "label": "Web Development Starter",
           "img": "/images/projects/screenshots/project-19.png"
         },
         {
-          "href": "https://github.com/JosephPotapenko/Tailwind-Setup-Clock",
+          "href": "https://tailwind-setup-clock.vercel.app/",
           "alt": "Tailwind Clock Setup repository",
           "label": "Tailwind Clock Setup",
           "img": "/images/projects/screenshots/project-20.png"
@@ -267,55 +267,55 @@
       "containerClass": "image-cards-container-horizontal-4",
       "items": [
         {
-          "href": "https://github.com/JosephPotapenko/Image-capture-no-background-centerer-and-outliner",
+          "href": "https://image-capture-no-background-centere.vercel.app/",
           "alt": "Image Capture Background Centerer and Outliner repository",
           "label": "Image Capture Centerer and Outliner",
           "img": "https://image.thum.io/get/width/800/crop/600/https://github.com/JosephPotapenko/Image-capture-no-background-centerer-and-outliner"
         },
         {
-          "href": "https://github.com/JosephPotapenko/background-remover",
+          "href": "https://background-remover-rust-seven.vercel.app/",
           "alt": "Background Remover repository",
           "label": "Background Remover",
           "img": "https://image.thum.io/get/width/800/crop/600/https://github.com/JosephPotapenko/background-remover"
         },
         {
-          "href": "https://github.com/JosephPotapenko/Image-flip-tool",
+          "href": "https://image-flip-tool.vercel.app/",
           "alt": "Image Flip Tool repository",
           "label": "Image Flip Tool",
           "img": "https://image.thum.io/get/width/800/crop/600/https://github.com/JosephPotapenko/Image-flip-tool"
         },
         {
-          "href": "https://github.com/JosephPotapenko/image-centerer-no-background",
+          "href": "https://image-centerer-no-background.vercel.app/",
           "alt": "Image Centerer repository",
           "label": "Image Centerer",
           "img": "https://image.thum.io/get/width/800/crop/600/https://github.com/JosephPotapenko/image-centerer-no-background"
         },
         {
-          "href": "https://github.com/JosephPotapenko/Image-splitter",
+          "href": "https://image-splitter-one.vercel.app/",
           "alt": "Image Splitter repository",
           "label": "Image Splitter",
           "img": "https://image.thum.io/get/width/800/crop/600/https://github.com/JosephPotapenko/Image-splitter"
         },
         {
-          "href": "https://github.com/JosephPotapenko/pixel-art-no-background-rotation",
+          "href": "https://pixel-art-no-background-rotation.vercel.app/",
           "alt": "Pixel Art Rotation repository",
           "label": "Pixel Art Rotation",
           "img": "https://image.thum.io/get/width/800/crop/600/https://github.com/JosephPotapenko/pixel-art-no-background-rotation"
         },
         {
-          "href": "https://github.com/JosephPotapenko/Pixel-art-image-centerer",
+          "href": "https://pixel-art-image-centerer.vercel.app/",
           "alt": "Pixel Art Image Centerer repository",
           "label": "Pixel Art Image Centerer",
           "img": "https://image.thum.io/get/width/800/crop/600/https://github.com/JosephPotapenko/Pixel-art-image-centerer"
         },
         {
-          "href": "https://github.com/JosephPotapenko/Add-3-pixels-around-an-image-border",
+          "href": "https://add-3-pixels-around-an-image-border.vercel.app/",
           "alt": "Image Border Expander repository",
           "label": "Image Border Expander",
           "img": "https://image.thum.io/get/width/800/crop/600/https://github.com/JosephPotapenko/Add-3-pixels-around-an-image-border"
         },
         {
-          "href": "https://github.com/JosephPotapenko/sprite-animations",
+          "href": "https://sprite-animations.vercel.app/",
           "alt": "Sprite Animations repository",
           "label": "Sprite Animations",
           "img": "https://image.thum.io/get/width/800/crop/600/https://github.com/JosephPotapenko/sprite-animations"

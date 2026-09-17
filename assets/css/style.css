@@ -995,7 +995,7 @@ section.bio-box audio {
   /* Keep buttons in a neat column below the bio box */
   .bio-actions {
     position: relative;
-    left: 80%; /* center container horizontally */
+    left: 50%;
     top: auto;
     transform: translateX(-50%);
     margin-top: 12px;
@@ -1012,6 +1012,7 @@ section.bio-box audio {
     top: auto;
     transform: translateX(-50%);
     margin-top: 16px;
+    align-items: center;
   }
   /* Make cards a bit taller and allow full-width image fit on small screens */
   .image-card img { width: 90vw; max-width: 360px; height: 180px; }
