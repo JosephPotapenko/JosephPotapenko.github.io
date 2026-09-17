@@ -124,11 +124,12 @@ document.addEventListener('DOMContentLoaded', () => {
     '/pages/resume.html',
     '/pages/personal-projects.html'
   ];
-  const currentPage = `${window.location.pathname.replace(/\/index\.html$/, '') || '/'}/`.replace('//', '/');
-  const pageIndex = pages.findIndex((page) => {
-    const normalized = page.replace(/\/index\.html$/, '/') || '/';
-    return normalized === currentPage || page === window.location.pathname;
-  });
+  const normalizePagePath = (page) => {
+    const normalized = page.replace(/\/index\.html$/, '').replace(/\/$/, '');
+    return normalized || '/';
+  };
+  const currentPage = normalizePagePath(window.location.pathname);
+  const pageIndex = pages.findIndex((page) => normalizePagePath(page) === currentPage);
   let touchStartX = 0;
   let touchStartY = 0;
 
@@ -141,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('touchend', (event) => {
     if (pageIndex < 0 || event.changedTouches.length !== 1) return;
     const target = event.target instanceof Element ? event.target : null;
-    if (target && (target.closest('a, button, input, textarea, select, [contenteditable="true"]') ||
+    if (target && (target.closest('input, textarea, select, [contenteditable="true"]') ||
       target.closest('.image-cards-container-horizontal, .image-cards-container-horizontal-2, .image-cards-container-horizontal-3, .image-cards-container-horizontal-4'))) return;
 
     const touch = event.changedTouches[0];
