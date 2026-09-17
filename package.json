@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "description": "Personal site static assets with survey tooling",
+  "engines": {
+    "node": "24.x"
+  },
   "scripts": {
     "serve": "http-server -p 8080 -c- .",
     "format": "prettier --write .",
@@ -12,7 +15,7 @@
     "serve:dist": "http-server -p 8080 -c- dist"
   },
   "devDependencies": {
-    "eslint": "^9.12.0",
+    "eslint": "^8.57.1",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-n": "^16.0.2",

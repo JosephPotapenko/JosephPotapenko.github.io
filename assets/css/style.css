@@ -1060,6 +1060,43 @@ section.bio-box audio {
     background-color: black; /* Change background color to black */
   }
 }
+
+@keyframes page-swipe-exit-left {
+  from { transform: translate3d(0, 0, 0); opacity: 1; }
+  to { transform: translate3d(-100%, 0, 0); opacity: 0.82; }
+}
+
+@keyframes page-swipe-exit-right {
+  from { transform: translate3d(0, 0, 0); opacity: 1; }
+  to { transform: translate3d(100%, 0, 0); opacity: 0.82; }
+}
+
+@keyframes page-swipe-enter-left {
+  from { transform: translate3d(-100%, 0, 0); opacity: 0.82; }
+  to { transform: translate3d(0, 0, 0); opacity: 1; }
+}
+
+@keyframes page-swipe-enter-right {
+  from { transform: translate3d(100%, 0, 0); opacity: 0.82; }
+  to { transform: translate3d(0, 0, 0); opacity: 1; }
+}
+
+@media (max-width: 700px) {
+  body.page-swipe-exit-left { animation: page-swipe-exit-left 320ms cubic-bezier(0.65, 0, 0.35, 1) forwards; }
+  body.page-swipe-exit-right { animation: page-swipe-exit-right 320ms cubic-bezier(0.65, 0, 0.35, 1) forwards; }
+  body.page-swipe-enter-left { animation: page-swipe-enter-left 420ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+  body.page-swipe-enter-right { animation: page-swipe-enter-right 420ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.page-swipe-exit-left,
+  body.page-swipe-exit-right,
+  body.page-swipe-enter-left,
+  body.page-swipe-enter-right {
+    animation: none;
+  }
+}
+
 @media (max-width: 900px) and (orientation: landscape) {
   /* Ensure content clears the profile image in small landscape */
   .layout-home { padding-top: 220px; }
@@ -1451,6 +1488,9 @@ section.bio-box audio {
     width: auto !important;
     align-self: center;
     text-align: center;
+    min-height: 44px;
+    padding: 10px 18px;
+    font-size: 17px;
   }
 
   .image-cards-container,
@@ -1494,6 +1534,11 @@ section.bio-box audio {
     width: 200px;
     height: 100px;
     object-fit: cover;
+  }
+
+  .image-cards-container .image-card img {
+    width: 230px;
+    height: 120px;
   }
 
   .image-text-1,

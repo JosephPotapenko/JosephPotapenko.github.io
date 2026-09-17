@@ -130,17 +130,24 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   const currentPage = normalizePagePath(window.location.pathname);
   const pageIndex = pages.findIndex((page) => normalizePagePath(page) === currentPage);
+  const enterDirection = sessionStorage.getItem('mobileSwipeEnterDirection');
+  if (enterDirection) {
+    document.body.classList.add(`page-swipe-enter-${enterDirection}`);
+    sessionStorage.removeItem('mobileSwipeEnterDirection');
+  }
+
   let touchStartX = 0;
   let touchStartY = 0;
+  let isNavigating = false;
 
   document.addEventListener('touchstart', (event) => {
-    if (event.touches.length !== 1) return;
+    if (event.touches.length !== 1 || isNavigating) return;
     touchStartX = event.touches[0].clientX;
     touchStartY = event.touches[0].clientY;
   }, { passive: true });
 
   document.addEventListener('touchend', (event) => {
-    if (pageIndex < 0 || event.changedTouches.length !== 1) return;
+    if (pageIndex < 0 || isNavigating || event.changedTouches.length !== 1) return;
     const target = event.target instanceof Element ? event.target : null;
     if (target && (target.closest('input, textarea, select, [contenteditable="true"]') ||
       target.closest('.image-cards-container-horizontal, .image-cards-container-horizontal-2, .image-cards-container-horizontal-3, .image-cards-container-horizontal-4'))) return;
@@ -151,6 +158,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (Math.abs(deltaX) < 60 || Math.abs(deltaX) <= Math.abs(deltaY) * 1.25) return;
 
     const nextIndex = pageIndex + (deltaX < 0 ? 1 : -1);
-    if (nextIndex >= 0 && nextIndex < pages.length) window.location.href = pages[nextIndex];
+    if (nextIndex >= 0 && nextIndex < pages.length) {
+      const direction = deltaX < 0 ? 'left' : 'right';
+      isNavigating = true;
+      document.body.classList.add(`page-swipe-exit-${direction}`);
+      sessionStorage.setItem('mobileSwipeEnterDirection', direction === 'left' ? 'right' : 'left');
+      window.setTimeout(() => {
+        window.location.href = pages[nextIndex];
+      }, 320);
+    }
   }, { passive: true });
 });
